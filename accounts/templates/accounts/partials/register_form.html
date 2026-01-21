@@ -1,0 +1,82 @@
+<form class="register-form"
+      method="post"
+      hx-post="{% url 'accounts:register_form' %}"
+      hx-target="#auth-form"
+      hx-swap="innerHTML">
+
+    {% csrf_token %}
+
+    {% if success %}
+        <p class="success">{{ success }}</p>
+    {% endif %}
+
+    <!-- Nombre -->
+    <div class="field">
+        <label>Nombre</label>
+        <input name="first_name" id="first_name"
+               placeholder="Ej: Ana"
+               value="{{ first_name|default:'' }}">
+        <span class="field-hint error" id="firstNameHint">{{ first_name_error|default:'' }}</span>
+    </div>
+
+    <!-- Apellido -->
+    <div class="field">
+        <label>Apellido</label>
+        <input name="last_name" id="last_name"
+               placeholder="Ej: González"
+               value="{{ last_name|default:'' }}">
+        <span class="field-hint error" id="lastNameHint">{{ last_name_error|default:'' }}</span>
+    </div>
+
+    <!-- Usuario -->
+    <div class="field">
+        <label>Usuario</label>
+        <input name="username" id="username"
+               placeholder="Ej: miguel_2025"
+               value="{{ username|default:'' }}">
+        <span class="field-hint error" id="usernameHint">{{ username_error|default:'' }}</span>
+    </div>
+
+    <!-- Email -->
+    <div class="field">
+        <label>Correo</label>
+        <input name="email" id="email"
+               placeholder="Ej: correo@dominio.com"
+               value="{{ email|default:'' }}">
+        <span class="field-hint error" id="emailHint">{{ email_error|default:'' }}</span>
+    </div>
+
+    <!-- Password -->
+    <div class="field">
+        <label>Contraseña</label>
+        <div class="password-wrapper">
+            <input type="password"
+                   name="password1"
+                   id="password1"
+                   placeholder="Mín. 8 caracteres">
+            <span class="toggle-pass">
+                <i class="bi bi-eye-slash-fill"></i>
+            </span>
+        </div>
+        <span class="field-hint error" id="passwordHint">{{ password1_error|default:'' }}</span>
+    </div>
+
+    <!-- Confirmar -->
+    <div class="field">
+        <label>Confirmar</label>
+        <div class="password-wrapper">
+            <input type="password"
+                   name="password2"
+                   id="password2"
+                   placeholder="Repite la contraseña">
+            <span class="toggle-pass">
+                <i class="bi bi-eye-slash-fill"></i>
+            </span>
+        </div>
+        <span class="field-hint error" id="password2Hint">{{ password2_error|default:'' }}</span>
+    </div>
+
+    <button id="submit-btn" disabled>
+        Registrarse
+    </button>
+</form>

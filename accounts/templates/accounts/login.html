@@ -1,0 +1,20 @@
+{% extends "auth/auth.html" %}
+{% load static %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<div class="login-header">
+    <img src="{% static 'img/logoV.svg' %}" alt="Logo" class="logo">
+    <h1>Login</h1>
+</div>
+
+<div id="auth-form">
+    {% include "accounts/partials/login_form.html" %}
+</div>
+
+<div class="auth-links">
+    <div class="link-item"><a href="{% url 'accounts:register_page' %}">Crear cuenta</a></div>
+    <div class="link-item recovery"><a href="{% url 'accounts:register_page' %}">Recuperar contraseña</a></div>
+</div>
+{% endblock %}

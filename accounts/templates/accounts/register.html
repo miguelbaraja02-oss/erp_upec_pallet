@@ -1,0 +1,15 @@
+{% extends "auth/auth.html" %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block content %}
+<h1>Registro</h1>
+
+<div id="auth-form">
+    {% include "accounts/partials/register_form.html" %}
+</div>
+
+<div class="auth-links">
+    <a href="{% url 'accounts:login_page' %}">¿Ya tienes cuenta? Inicia sesión</a>
+</div>
+{% endblock %}

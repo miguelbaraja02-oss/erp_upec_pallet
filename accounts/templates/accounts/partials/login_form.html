@@ -1,0 +1,41 @@
+<form class="login-form"
+      method="post"
+      hx-post="{% url 'accounts:login_form' %}"
+      hx-target="#auth-form"
+      hx-swap="innerHTML">
+
+    {% csrf_token %}
+
+    <div class="field">
+        <input
+            type="text"
+            name="username"
+            placeholder="Usuario o correo"
+            value="{{ username_value|default:'' }}"
+            class="{% if username_error %}is-invalid{% elif password_error %}is-valid{% endif %}"
+            required
+        >
+
+        {% if username_error %}
+            <small class="field-error">{{ username_error }}</small>
+        {% endif %}
+    </div>
+
+    <div class="field">
+        <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            class="{% if password_error %}is-invalid{% endif %}"
+            required
+        >
+
+        {% if password_error %}
+            <small class="field-error">{{ password_error }}</small>
+        {% endif %}
+    </div>
+
+    <button type="submit">
+        Entrar
+    </button>
+</form>

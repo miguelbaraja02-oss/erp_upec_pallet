@@ -1,0 +1,264 @@
+:root {
+    --upec-green: #006633;
+    --upec-dark-green: #004d26;
+    --upec-gold: #ffce00;
+    --upec-gold-hover: #e6b800;
+    --card-bg: #ffffff;
+    --text-muted: #6c757d;
+}
+
+/* =========================================
+   DISEÑO CUADRADO (SHARP STYLE)
+   ========================================= */
+
+/* Tarjeta Principal */
+.profile-view-card {
+    background-color: var(--card-bg);
+    /* CAMBIO: 0px para esquinas cuadradas */
+    border-radius: 0px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* --- CABECERA --- */
+.profile-header {
+    background: linear-gradient(135deg, var(--upec-green) 0%, var(--upec-dark-green) 100%);
+    padding: 40px 20px 30px;
+    color: white;
+    position: relative;
+}
+
+/* Avatar (Solo Lectura) */
+/* Nota: La foto se mantiene redonda por estándar de UI, 
+   pero si la quieres cuadrada cambia border-radius a 0 */
+.avatar-display-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+}
+
+.avatar-read-only {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; /* Mantener foto redonda para estética */
+    object-fit: cover;
+    border: 4px solid #fff; /* Borde blanco */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Icono por defecto */
+.avatar-icon-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    border: 4px solid #fff; /* Borde blanco */
+}
+
+/* Botón editar foto */
+.btn-edit-photo {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: var(--upec-gold);
+    color: #000;
+    width: 32px;
+    height: 32px;
+    /* CAMBIO: Botón redondo */
+    border-radius: 50%; 
+    border: 2px solid #fff; /* Contorno blanco alrededor del lápiz */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.btn-edit-photo:hover {
+    transform: scale(1.1);
+    color: #000;
+}
+
+/* Textos Cabecera */
+.user-fullname {
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.user-role {
+    opacity: 0.8;
+    font-size: 0.95rem;
+    margin-top: 5px;
+}
+
+/* --- CUERPO --- */
+.profile-body {
+    padding: 30px 40px;
+}
+
+/* Grid de Información */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.info-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    /* CAMBIO: Cuadrado */
+    border-radius: 0px; 
+    border: 1px solid #eee;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.divider {
+    border-top: 1px solid #eee;
+    margin: 20px 0 30px;
+}
+
+/* Título formulario */
+.form-title {
+    color: var(--upec-green);
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    border-left: 4px solid var(--upec-gold);
+    padding-left: 10px;
+}
+
+/* --- INPUTS DEL FORMULARIO --- */
+.django-form-content p {
+    margin-bottom: 1.2rem;
+}
+
+.django-form-content label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.django-form-content input[type="text"],
+.django-form-content input[type="email"],
+.django-form-content input[type="number"],
+.django-form-content textarea,
+.django-form-content select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    /* CAMBIO: Inputs cuadrados */
+    border-radius: 0px; 
+    background-color: #fff;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.django-form-content input:focus,
+.django-form-content textarea:focus {
+    border-color: var(--upec-green);
+    box-shadow: 0 0 0 2px rgba(0, 102, 51, 0.1); /* Sombra cuadrada más sólida */
+    outline: none;
+}
+
+/* Botón Guardar */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.form-actions a {
+    order: 0;
+    color: #000; /* Enlace negro solicitado */
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.form-actions .btn-save-profile {
+    order: 1;
+}
+
+.btn-save-profile {
+    background-color: #ffce00; /* UPEC gold requested */
+    color: #000; /* Text black */
+    border: none;
+    padding: 14px 30px; /* Un poco más alto */
+    /* CAMBIO: Botón cuadrado */
+    border-radius: 0px; 
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 102, 51, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-save-profile:hover {
+    background-color: #e6b800; /* slightly darker gold on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 102, 51, 0.4);
+}
+
+/* Animación */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Móvil */
+@media (max-width: 576px) {
+    .profile-body {
+        padding: 20px;
+    }
+    .form-actions {
+        /* En móvil apilamos: botón completo y enlace encima centrado */
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .btn-save-profile {
+        width: 100%;
+        order: 1;
+    }
+    .form-actions a {
+        order: 0;
+        text-align: center;
+        display: block;
+    }
+}

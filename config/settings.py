@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #######APPS DEL PROYECTO########
     'anymail',
-    'accounts',
+    "companies",
+    "core",
+    "accounts.apps.AccountsConfig", 
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 MIDDLEWARE = [
@@ -142,11 +146,19 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 ### AUTENTICACION DEL USUARIO #####
 
 AUTH_USER_MODEL = "accounts.User"
-LOGIN_URL = "accounts:login"
-LOGIN_REDIRECT_URL = "accounts:welcome"
 
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/welcome/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+
+## MEDIA ###########
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 

@@ -1,0 +1,225 @@
+:root {
+    /* Paleta UPEC */
+    --upec-green: #006633;
+    --upec-dark-green: #004d26;
+    --upec-black: #000000;
+    --upec-gold: #ffce00;
+    --upec-gold-hover: #e6b800;
+    
+    /* Sistema de Diseño */
+    --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.15);
+    
+    /* CAMBIO: Bordes Cuadrados (0px) */
+    --radius-card: 0px; 
+    --radius-input: 0px; 
+    
+    --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* Reset Básico */
+* { box-sizing: border-box; }
+
+/* 1. BLOQUEO DE SCROLL GENERAL */
+html, body {
+    height: 100%;
+    overflow: hidden; 
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    background-color: var(--upec-green);
+}
+
+/* Contenedor Principal */
+.auth-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Tarjeta Principal */
+.auth-box {
+    width: 100%;
+    /* CAMBIO: Hacemos la tarjeta más estrecha en escritorio */
+    max-width: 380px; 
+    /* CAMBIO: Reducimos el relleno para que se vea más compacta */
+    padding: 2rem 2rem; 
+    
+    border-radius: var(--radius-card);
+    background: #fff;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto; 
+    scrollbar-width: none; 
+}
+.auth-box::-webkit-scrollbar { display: none; }
+
+/* Cabecera */
+.login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px; /* Reducido un poco */
+}
+
+.logo {
+    width: 160px; /* Logo un poco más pequeño para ajustar proporción */
+    height: auto;
+    object-fit: contain;
+}
+
+.auth-box h1 {
+    margin: 0;
+    font-size: 1.5rem; /* Fuente un poco más pequeña */
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+/* Inputs y Campos */
+.field {
+    position: relative;
+    margin-bottom: 1rem; /* Menos espacio entre inputs */
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 12px 15px; /* Input más compacto */
+    border: 1px solid #ccc; /* Borde un poco más visible al ser cuadrado */
+    background-color: #fcfcfc;
+    border-radius: var(--radius-input);
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.auth-box input:focus {
+    background-color: #fff;
+    border-color: var(--upec-green);
+    box-shadow: 0 0 0 2px rgba(0, 102, 51, 0.1); 
+}
+
+/* Botón Principal */
+.auth-box button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: var(--radius-input);
+    background: var(--upec-gold);
+    color: #000;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+    margin-top: 5px;
+}
+
+.auth-box button:hover {
+    background: var(--upec-gold-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.auth-box button:active {
+    transform: translateY(0);
+}
+
+/* Links */
+.auth-links {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.auth-links a {
+    color: var(--upec-green);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* Utilidades */
+.password-wrapper { position: relative; }
+.password-wrapper input { padding-right: 40px; }
+.toggle-pass {
+    position: absolute;
+    right: 10px; top: 50%; transform: translateY(-50%);
+    cursor: pointer; color: #9ca3af; font-size: 1.1rem;
+    background: none; border: none; padding: 0;
+}
+
+/* ============================================================
+   ADAPTACIÓN MÓVIL "APP NATIVA"
+   ============================================================ */
+@media (max-width: 768px) {
+    /* 1. Fondo Blanco y Contenedor Fijo */
+    body {
+        background-color: #ffffff;
+    }
+
+    .auth-container {
+        padding: 0;
+        align-items: flex-start; 
+        height: 100dvh; 
+        overflow: hidden; 
+    }
+
+    /* 2. Tarjeta Full Screen */
+    .auth-box {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 100%; 
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+        border: none;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        
+        padding: 1.5rem; 
+    }
+
+    /* 3. Ajustes específicos para móvil */
+    .logo {
+        width: 140px;
+        margin-bottom: 0;
+    }
+
+    .auth-box h1 {
+        font-size: 1.4rem;
+    }
+
+    .auth-box input {
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: 14px 15px; /* Un poco más alto para el dedo */
+    }
+
+    .auth-box button {
+        padding: 16px; /* Botón más alto para touch */
+    }
+
+    @media (max-height: 650px) {
+        .auth-box {
+            justify-content: flex-start;
+            padding-top: 2rem;
+            overflow-y: auto; 
+        }
+    }
+}

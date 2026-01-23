@@ -1,0 +1,88 @@
+{% extends "welcome/welcome.html" %}
+{% load static %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'profile/profile.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'profile/profile.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            
+            <div class="profile-view-card animate-fade-in">
+                
+                <div class="profile-header text-center">
+                    <div class="avatar-display-wrapper">
+                        {% if user.profile.avatar and user.profile.avatar.name != 'profiles/default.png' %}
+                            <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar-read-only">
+                        {% else %}
+                            <div class="avatar-icon-placeholder">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <a href="{% url 'accounts:avatar' %}" class="btn-edit-photo" title="Cambiar foto">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+                    </div>
+
+                    <h2 class="user-fullname">{{ user.get_full_name|default:user.username }}</h2>
+                    <p class="user-role">@{{ user.username }}</p>
+                </div>
+
+                <div class="profile-body">
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label"><i class="fa-solid fa-envelope me-2"></i>Correo</span>
+                            <span class="info-value">{{ user.email }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label"><i class="fa-solid fa-calendar-day me-2"></i>Miembro desde</span>
+                            <span class="info-value">{{ user.date_joined|date:"d M, Y" }}</span>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h5 class="form-title">Editar Información Personal</h5>
+                    
+                    <form method="post" class="profile-edit-form">
+                        {% csrf_token %}
+                        
+                        <div class="django-form-content">
+                            {% for field in form %}
+                                {% if field.name != 'avatar' %} <p>
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <span class="text-danger small d-block">{{ field.errors.0 }}</span>
+                                        {% endif %}
+                                        {% if field.help_text %}
+                                            <span class="text-muted small d-block">{{ field.help_text }}</span>
+                                        {% endif %}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-actions d-flex align-items-center">
+                            <button type="submit" class="btn-save-profile">Guardar Cambios</button>
+                            <a href="{% url 'core:welcome' %}" class="ms-3 text-decoration-none fw-bold">Ir a inicio</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

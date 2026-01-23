@@ -1,0 +1,27 @@
+{% extends "welcome/welcome.html" %}
+{% load static %}
+
+{% block title %}Bienvenido | ERP UPEC{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1>Bienvenido {{ request.user.username }}</h1>
+
+    {% if companies %}
+        <p>Selecciona una empresa:</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {% for cu in companies %}
+                <button type="submit" name="company_id" value="{{ cu.company.id }}" class="btn btn-outline-primary mb-2">
+                    {{ cu.company.name }}
+                </button>
+            {% endfor %}
+        </form>
+    {% else %}
+        <p>No tienes empresas registradas.</p>
+    {% endif %}
+
+    <a href="#" class="btn btn-success mt-3">Crear empresa</a>
+</div>
+{% endblock %}

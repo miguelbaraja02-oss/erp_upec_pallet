@@ -1,0 +1,180 @@
+:root {
+    --upec-green: #006633;
+    --upec-dark-green: #004d26;
+    --upec-gold: #ffce00;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================
+   ESTILOS DE ESCRITORIO (CUADRADOS)
+   ========================================= */
+
+/* Tarjeta Principal */
+.profile-card {
+    background: #fff;
+    border-radius: 0px !important;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+/* Cabecera Verde */
+.card-header-custom {
+    background: linear-gradient(135deg, var(--upec-green) 0%, var(--upec-dark-green) 100%);
+    padding: 30px 20px 50px;
+    text-align: center;
+    color: white;
+    border-radius: 0px !important;
+}
+
+.card-header-custom h3 { margin: 0; font-weight: 700; letter-spacing: 0.5px; }
+.card-header-custom p { margin: 5px 0 0; opacity: 0.9; font-size: 0.9rem; }
+
+/* Cuerpo */
+.card-body-custom { padding: 20px 40px 40px; }
+
+/* Área de la imagen */
+.avatar-preview-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: -70px auto 30px;
+}
+
+/* Marco de la foto (REDONDO) */
+.avatar-frame {
+    width: 100%; height: 100%; border-radius: 50%; 
+    border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    overflow: hidden; background: #f8f9fa; position: relative;
+}
+
+.avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+.default-avatar-icon {
+    width: 100%; height: 100%; display: flex; align-items: center; 
+    justify-content: center; background-color: #e9ecef; color: #adb5bd; font-size: 5rem;
+}
+
+/* Icono cámara */
+.camera-icon {
+    position: absolute; bottom: 5px; right: 5px;
+    background: var(--upec-gold); color: var(--upec-dark-green);
+    width: 35px; height: 35px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 2;
+}
+
+/* Input */
+.custom-file-area { margin-bottom: 25px; text-align: center; }
+
+.file-label {
+    display: inline-block; padding: 15px 20px;
+    background-color: #f8f9fa; border: 2px dashed #ccc;
+    border-radius: 0px !important;
+    color: #555; cursor: pointer; transition: all 0.3s ease;
+    width: 100%; font-weight: 600; font-size: 0.95rem;
+}
+
+.file-label:hover {
+    border-color: var(--upec-green); color: var(--upec-green); background-color: #f0fdf4;
+}
+
+/* Botones */
+.action-buttons { display: flex; flex-direction: column; gap: 12px; }
+
+.btn-save {
+    width: 100%; padding: 14px; border: none;
+    border-radius: 0px !important; /* Cuadrado */
+    background: #ffce00; color: #000;
+    font-weight: 600; transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 102, 51, 0.2);
+    -webkit-appearance: none; appearance: none;
+}
+
+.btn-save:hover {
+    background: #e6b800;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 102, 51, 0.3);
+}
+
+.btn-cancel {
+    display: block; width: 100%; padding: 10px; text-align: center;
+    color: #666; text-decoration: none; font-weight: 500;
+    transition: color 0.2s; background: transparent;
+}
+
+.btn-cancel:hover { color: #333; text-decoration: underline; }
+
+.animate-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; transform: translateY(20px); }
+@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+
+/* =================================================================
+   TRANSFORMACIÓN "APP NATIVA" PARA MÓVILES ( < 768px )
+   ================================================================= */
+@media (max-width: 768px) {
+    
+    /* 1. Ajuste del contenedor principal */
+    .container {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* 2. Tarjeta Blanca Ajustada */
+    .profile-card {
+        border-radius: 0px !important;
+        box-shadow: none; 
+        border: none;
+        background-color: #fff; 
+        margin-top: 0;
+        
+        /* CORRECCIÓN: Quitamos min-height 100vh para que no se alargue */
+        height: auto; 
+        min-height: auto;
+        
+        /* Aseguramos que ocupe el ancho pero no fuerce scroll vertical infinito */
+        width: 100%;
+        margin-bottom: 20px; /* Un pequeño margen abajo para respirar */
+    }
+
+    /* 3. Cabecera Cuadrada */
+    .card-header-custom {
+        padding-top: 20px; 
+        padding-bottom: 60px;
+        border-radius: 0px !important; 
+        margin-bottom: 0;
+    }
+
+    /* 4. Avatar */
+    .avatar-preview-container {
+        margin-top: -50px; 
+        width: 130px; 
+        height: 130px;
+        margin-bottom: 20px;
+    }
+
+    /* 5. Cuerpo y Botones */
+    .card-body-custom {
+        padding: 10px 20px 40px 20px;
+    }
+
+    .file-label {
+        padding: 20px; 
+        font-size: 1rem;
+        border-radius: 0px !important;
+    }
+
+    .action-buttons {
+        margin-top: 15px;
+    }
+
+    .btn-save {
+        padding: 18px; 
+        font-size: 1.1rem;
+        width: 100%;
+        border-radius: 0px !important;
+    }
+}

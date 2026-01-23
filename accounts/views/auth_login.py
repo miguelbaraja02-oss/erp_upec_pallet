@@ -45,13 +45,9 @@ def login_form(request):
         login(request, user)
 
         response = HttpResponse("")
-        response["HX-Redirect"] = reverse("accounts:welcome")
+        response["HX-Redirect"] = reverse("core:welcome")
         return response
 
     return render(request, "accounts/partials/login_form.html")
 
-###PRUEBA
 
-@login_required
-def welcome(request):
-    return render(request, "accounts/welcome.html")

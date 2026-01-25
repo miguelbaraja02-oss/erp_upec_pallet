@@ -1,0 +1,285 @@
+:root {
+    --upec-green: #006633;
+    --upec-dark-green: #004d26;
+    --upec-gold: #ffce00;
+    --text-dark: #333;
+    --text-muted: #666;
+    --bg-light: #f4f6f9;
+}
+
+/* ================================
+   CONTENEDOR PRINCIPAL
+================================ */
+.welcome-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: calc(var(--header-height) + 30px) 20px 60px;
+}
+
+/* ================================
+   ENCABEZADO
+================================ */
+.welcome-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.greeting-subtitle {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--upec-green);
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.greeting-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 10px 0;
+    letter-spacing: -0.5px;
+}
+
+.greeting-text {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+}
+
+/* ================================
+   GRID DE EMPRESAS
+================================ */
+.company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* ================================
+   TARJETAS
+================================ */
+.company-card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 0 !important;
+    padding: 30px 25px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    position: relative;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #f0fdf4;
+    color: var(--upec-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-right: 20px;
+    border: 1px solid rgba(0, 102, 51, 0.1);
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.role-badge {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border: 1px solid #eee;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.card-arrow {
+    color: var(--upec-gold);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+/* ================================
+   HOVER
+================================ */
+.company-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    border-color: var(--upec-green);
+}
+
+.company-card:hover .card-icon {
+    background-color: var(--upec-green);
+    color: #fff;
+}
+
+.company-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ================================
+   CREAR NUEVA
+================================ */
+.company-card.create-new {
+    border-style: dashed;
+    border-color: #ccc;
+    background-color: #fafafa;
+    text-decoration: none;
+}
+
+.company-card.create-new:hover {
+    border-color: var(--upec-gold);
+    background-color: #fff;
+}
+
+/* ================================
+   EMPTY STATE
+================================ */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.btn-upec-primary {
+    background-color: var(--upec-green);
+    color: white;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background 0.3s;
+    border-radius: 0 !important;
+}
+
+.btn-upec-primary:hover {
+    background-color: var(--upec-dark-green);
+}
+
+/* ================================
+   ANIMACIÓN
+================================ */
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   MOBILE (NO ROMPER OFFSET)
+================================ */
+@media (max-width: 576px) {
+    .greeting-title {
+        font-size: 1.8rem;
+    }
+
+    .company-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-wrapper {
+        padding-top: calc(var(--header-height) + 20px);
+    }
+}
+
+
+
+/* ================================
+   BOTÓN EDITAR EMPRESA
+================================ */
+.company-card-wrapper {
+    position: relative;
+    display: block;
+}
+
+.btn-edit-company {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.btn-edit-company:hover {
+    background-color: var(--upec-green);
+    color: white;
+    border-color: var(--upec-green);
+    transform: translateY(0) scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 102, 51, 0.2);
+}
+
+.company-card-wrapper:hover .btn-edit-company {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ajuste para el botón principal en hover */
+.company-card-wrapper:hover .company-card {
+    padding-right: 50px; /* Espacio para el botón de editar */
+}
+
+/* Ajuste para el botón de flecha */
+.company-card-wrapper:hover .company-card .card-arrow {
+    opacity: 0.7; /* Reducir opacidad para no competir con el botón de editar */
+}
+
+/* Ajuste responsive */
+@media (max-width: 576px) {
+    .btn-edit-company {
+        opacity: 1; /* Siempre visible en móvil */
+        transform: translateY(0);
+        top: 10px;
+        right: 10px;
+    }
+    
+    .company-card-wrapper:hover .company-card {
+        padding-right: 25px;
+    }
+}

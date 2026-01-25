@@ -1,0 +1,277 @@
+:root {
+    /* Paleta UPEC */
+    --primary: #006633;
+    --primary-dark: #004d26;
+    --accent: #ffce00;
+    
+    /* UI Colors */
+    --sidebar-bg: #1a1f24; /* Oscuro profesional */
+    --sidebar-text: #aeb4b9;
+    --sidebar-text-hover: #ffffff;
+    --sidebar-width: 260px;
+    --header-height: 70px;
+    --bg-body: #f4f6f8;
+    --border-color: #e0e0e0;
+    --text-dark: #333;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-body);
+    color: var(--text-dark);
+    height: 100vh;
+    overflow: hidden; /* Evita scroll doble */
+}
+
+/* --- LAYOUT --- */
+.erp-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.erp-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.erp-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto; /* Scroll solo en el contenido */
+}
+
+/* --- SIDEBAR --- */
+.erp-sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+    flex-shrink: 0; /* No encoger */
+}
+
+.sidebar-brand {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.brand-icon {
+    color: var(--accent);
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding-top: 20px;
+    overflow-y: auto;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-header {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 15px 25px 10px;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+    border-left: 4px solid transparent;
+}
+
+.nav-link i {
+    width: 25px;
+    text-align: center;
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.nav-link:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: var(--sidebar-text-hover);
+}
+
+.nav-link.active {
+    background-color: rgba(0, 102, 51, 0.15); /* Tint verde muy suave */
+    color: var(--accent); /* Texto dorado */
+    border-left-color: var(--accent);
+}
+
+.badge {
+    margin-left: auto;
+    background-color: var(--accent);
+    color: #000;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    font-weight: 700;
+    border-radius: 2px; /* Cuadrado sutil */
+}
+
+/* --- NAVBAR --- */
+.erp-navbar {
+    height: var(--header-height);
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #555;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.company-badge {
+    background-color: #f0fdf4;
+    color: var(--primary);
+    padding: 8px 15px;
+    border: 1px solid rgba(0, 102, 51, 0.2);
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.change-company-link {
+    color: var(--primary-dark);
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.change-company-link:hover { opacity: 1; }
+
+/* USER DROPDOWN */
+.user-dropdown { position: relative; }
+
+.user-btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.user-info {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name { font-weight: 600; font-size: 0.9rem; color: #333; }
+.user-role { font-size: 0.75rem; color: #888; }
+
+.user-avatar-sm {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    border-radius: 0px; /* Cuadrado según estilo */
+}
+
+/* Dropdown Menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 10px;
+    background-color: #fff;
+    min-width: 200px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.dropdown-content.show { display: block; }
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    border-left: 3px solid transparent;
+}
+
+.dropdown-content a:hover {
+    background-color: #f9f9f9;
+    border-left-color: var(--primary);
+    color: var(--primary);
+}
+
+.dropdown-divider { height: 1px; background-color: #eee; margin: 5px 0; }
+.text-danger:hover { color: #dc3545 !important; border-left-color: #dc3545 !important; }
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+    .erp-sidebar {
+        position: fixed;
+        left: -100%; /* Oculto por defecto */
+        top: 0;
+        bottom: 0;
+        z-index: 1050;
+        width: 80%; /* Ancho móvil */
+        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+    }
+    
+    .erp-sidebar.active {
+        left: 0; /* Mostrar */
+    }
+
+    .user-info, .user-name, .user-role { display: none; } /* Ocultar texto usuario en móvil */
+    .company-badge span { display: none; } /* Ocultar nombre empresa largo en móvil */
+    
+    .erp-content { padding: 15px; }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

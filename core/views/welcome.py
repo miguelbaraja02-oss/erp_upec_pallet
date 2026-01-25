@@ -6,7 +6,8 @@ from companies.models import CompanyUser, Company
 def welcome(request):
     companies = CompanyUser.objects.filter(
         user=request.user,
-        is_active=True
+        is_active=True,
+        company__is_active=True
     ).select_related("company")
 
     if request.method == "POST":

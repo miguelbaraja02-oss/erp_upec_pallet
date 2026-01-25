@@ -24,8 +24,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", lambda request: redirect("accounts:login_page")),
     path("accounts/", include(("accounts.urls", "accounts"), namespace="accounts")),
-    path("", include("core.urls")),
     
+    
+    path("", include("core.urls")),
+    path("companies/", include("companies.urls")),
+    path("companies/", include("companies.urls")),
     
 ]
 
@@ -34,3 +37,4 @@ if settings.DEBUG:
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
         )
+    

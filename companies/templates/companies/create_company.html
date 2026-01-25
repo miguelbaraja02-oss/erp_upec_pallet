@@ -1,0 +1,28 @@
+{% extends "welcome/base.html" %}
+{% load static %}
+
+{% block title %}Crear Empresa{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'companies/create_company.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="modal-overlay">
+    <div class="modal-window">
+
+        <h2>Crear empresa</h2>
+
+        <form method="post" action="{% url 'companies:create' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="modal-actions">
+                <button type="submit" class="btn-primary">Crear empresa</button>
+                <a href="{% url 'core:welcome' %}" class="btn-secondary">Cancelar</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

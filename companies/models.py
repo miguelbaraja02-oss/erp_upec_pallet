@@ -5,11 +5,19 @@ from django.conf import settings
 class Company(models.Model):
     name = models.CharField(max_length=255)
     ruc = models.CharField(max_length=13, unique=True)
+
+    logo = models.ImageField(upload_to="companies/logos/", blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.ruc})"
+
+
 
 ## MODELO DE LOS EMPLEADOS
 class CompanyUser(models.Model):

@@ -1,0 +1,152 @@
+:root {
+    --upec-green: #006633;
+    --upec-dark: #004d26;
+    --header-height: 70px;
+}
+
+/* --- BARRA DE NAVEGACIÓN --- */
+.navbar-custom {
+    background-color: var(--upec-green);
+    height: var(--header-height);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    /* Borde inferior eliminado */
+    border-bottom: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+/* Poli logo centered in navbar for desktop only */
+.poli-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 56px;
+    width: auto;
+    pointer-events: none;
+    z-index: 1040;
+}
+
+@media (max-width: 768px) {
+    .poli-logo { display: none; }
+}
+
+.navbar-content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- LOGOTIPO Y TEXTO --- */
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Force brand link appearance to avoid browser default purple underline */
+.brand-link,
+.brand-link:visited,
+.brand-link:hover,
+.brand-link:active,
+.brand-link:focus {
+    color: #ffffff;
+    text-decoration: none;
+    outline: none;
+}
+
+.header-logo {
+    height: 48px;
+    width: auto;
+}
+
+.brand-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.brand-subtitle {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* --- BOTÓN DE USUARIO (TRIGGER) --- */
+.user-trigger {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 4px 12px 4px 4px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.user-trigger:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #ffffff;
+}
+
+/* --- AVATAR PROFESIONAL --- */
+.avatar-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ffffff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.user-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Esto asegura que la foto no se deforme */
+}
+
+.user-avatar-placeholder {
+    color: var(--upec-green);
+    font-size: 1.1rem;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* --- MENÚ DESPLEGABLE --- */
+.user-dropdown .dropdown-menu {
+    border: 1px solid #eee;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border-radius: 0 !important;
+    margin-top: 12px !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--upec-green);
+    color: #ffffff;
+}
+
+/* Evita que el contenido quede oculto por la navbar fija */
+.app-main {
+    padding-top: calc(var(--header-height) + 12px);
+}

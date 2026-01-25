@@ -1,0 +1,69 @@
+{% load static %}
+
+<nav class="navbar-custom">
+    <div class="navbar-content">
+
+        <a href="{% url 'core:welcome' %}" class="brand-section brand-link">
+            <img src="{% static 'welcome/img/logoapp.svg' %}" class="header-logo" alt="Logo">
+
+            <div class="brand-text">
+                <span class="brand-title">STRIX ERP</span>
+                <span class="brand-subtitle"></span>
+            </div>
+        </a>
+
+        <!-- Poli logo centered (desktop only) -->
+        <img src="{% static 'welcome/img/poli.svg' %}" alt="Poli" class="poli-logo" />
+
+        {% if user.is_authenticated %}
+        <div class="user-section">
+            <div class="dropdown user-dropdown">
+
+                <button
+                    class="user-trigger dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    <div class="avatar-wrapper">
+                        {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" class="user-avatar" alt="Avatar">
+                        {% else %}
+                            <div class="user-avatar-placeholder">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <span class="user-name">
+                        {% if user.get_full_name %}
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                            Perfil
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="post" action="{% url 'accounts:logout' %}">
+                            {% csrf_token %}
+                            <button class="dropdown-item" type="submit">
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</nav>

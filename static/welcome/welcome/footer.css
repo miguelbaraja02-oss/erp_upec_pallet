@@ -1,0 +1,44 @@
+/* --- ESTO ARREGLA EL FOOTER FLOTANTE --- */
+/* Aplicamos los estilos a las clases que ya tienes en tu base.html */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Obliga al cuerpo a medir toda la pantalla */
+}
+
+.app-main {
+    flex: 1 0 auto; /* Empuja el footer hacia abajo ocupando el espacio sobrante */
+}
+
+/* --- DISEÑO PRO DEL FOOTER --- */
+.footer-custom {
+    background-color: #000000; /* Negro */
+    color: #ffffff; /* Letras blancas */
+    padding: 1.5rem 0;
+    width: 100%;
+    border-top: 5px solid #ffce00; /* Franja amarilla #ffce00 encima */
+    flex-shrink: 0; /* Evita que el footer se aplaste */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-text strong {
+    color: #ffce00; /* Resaltamos STRIX ERP en amarillo */
+}

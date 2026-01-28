@@ -1,0 +1,129 @@
+/* ================================
+   ERP SIDEBAR
+================================ */
+.erp-sidebar {
+    position: fixed;
+    top: 0;                 /* quedará encima del navbar */
+    left: 0;
+
+    width: 260px;
+    height: 100vh;
+
+    background-color: #000000;
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 1100;
+}
+
+/* ================================
+   BRAND
+================================ */
+.sidebar-brand {
+    height: 64px;
+    padding: 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-brand i {
+    font-size: 20px;
+    color: #ffffff;
+}
+
+/* Logo dentro del sidebar: ajustar tamaño */
+.sidebar-logo {
+    height: 45px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ================================
+   NAV
+================================ */
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Secciones */
+.nav-section {
+    padding: 12px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0.6;
+}
+
+/* Items */
+.nav-item {
+    margin: 4px 0;
+}
+
+/* Link */
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px 20px;
+
+    font-size: 14px;
+    color: #ffffff;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+/* Iconos */
+.nav-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+/* Hover */
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Activo */
+.nav-link.active {
+    background-color: #006130;
+    font-weight: 600;
+}
+
+/* ================================
+   SCROLLBAR (OPCIONAL)
+================================ */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+
+
+

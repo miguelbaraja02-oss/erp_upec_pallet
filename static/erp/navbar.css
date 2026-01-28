@@ -1,0 +1,184 @@
+/* ================================
+   RESET BÁSICO
+================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding-top: 64px; /* altura exacta del navbar */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================================
+   ERP NAVBAR
+================================ */
+.erp-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background-color: #006130;
+    color: #ffffff;
+
+    z-index: 1000;
+}
+
+/* ================================
+   LEFT SIDE
+================================ */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Botón hamburguesa */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    background: transparent;
+    border: none;
+    color: #ffffff;
+
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-icon i {
+    line-height: 1;
+}
+
+.btn-icon:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+}
+
+/* Empresa activa */
+.company-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 6px 14px;
+    border-radius: 20px;
+
+    background-color: rgba(255, 255, 255, 0.15);
+    font-size: 14px;
+    white-space: nowrap;
+
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.company-badge i {
+    font-size: 15px;
+}
+
+/* ================================
+   RIGHT SIDE
+================================ */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Usuario */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Info usuario */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.1;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.user-role {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Avatar */
+.user-avatar {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #006130;
+
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.user-avatar img,
+.user-avatar-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #006130;
+    font-size: 16px;
+}
+
+.user-avatar {
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.06) inset;
+}
+
+/* ================================
+   PREVENCIÓN DESCOLOCADOS
+================================ */
+.navbar-left,
+.navbar-right,
+.user-menu {
+    min-height: 64px;
+}
+
+i {
+    vertical-align: middle;
+}

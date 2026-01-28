@@ -1,0 +1,17 @@
+{% extends "erp/base.html" %}
+
+{% block layout %}
+<div class="erp-wrapper">
+
+    {% include "erp/partials/sidebar_desktop.html" %}
+
+    <div class="erp-main">
+        {% include "erp/partials/navbar.html" %}
+        {% include "erp/partials/content.html" %}
+        {% include "erp/partials/footer.html" %}
+    </div>
+
+    {% include "erp/partials/sidebar_mobile.html" %}
+
+</div>
+{% endblock %}

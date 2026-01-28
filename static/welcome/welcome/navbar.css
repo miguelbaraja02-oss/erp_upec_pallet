@@ -69,6 +69,12 @@
     width: auto;
 }
 
+/* Logo Strix: más grande para mejor visibilidad */
+.strix-logo {
+    height: 40px;
+    width: auto;
+}
+
 .brand-title {
     font-weight: 700;
     font-size: 1.2rem;
@@ -149,4 +155,94 @@
 /* Evita que el contenido quede oculto por la navbar fija */
 .app-main {
     padding-top: calc(var(--header-height) + 12px);
+}
+
+
+
+
+/* --- ESTILOS PRO DE NOTIFICACIONES --- */
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre la campana y el usuario */
+}
+
+.notifications-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.notification-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    padding: 0;
+}
+
+.notification-btn i {
+    font-size: 1.15rem;
+    transition: transform 0.3s ease;
+}
+
+.notification-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+.notification-btn:hover i {
+    transform: rotate(15deg);
+}
+
+/* El punto de notificación (Badge) */
+.notification-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: #ffce00; /* Dorado UPEC */
+    border-radius: 50%;
+    border: 2px solid var(--upec-green); /* Crea un efecto de separación con el fondo */
+    box-shadow: 0 0 8px rgba(255, 206, 0, 0.4);
+}
+
+/* Animación sutil de respiración para el punto dorado */
+@keyframes pulse-gold {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.notification-dot {
+    animation: pulse-gold 2s infinite ease-in-out;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 480px) {
+    .user-name {
+        display: none; /* Oculta texto para evitar amontonamiento */
+    }
+    .user-trigger {
+        padding: 4px; /* Hace el botón más compacto */
+    }
+}
+
+/* Control tamaño logo Strix en móviles */
+@media (max-width: 768px) {
+    .strix-logo {
+        height: 30px; /* Tamaño reducido en móviles */
+        width: auto;
+    }
 }

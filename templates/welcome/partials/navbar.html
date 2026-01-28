@@ -6,17 +6,20 @@
         <a href="{% url 'core:welcome' %}" class="brand-section brand-link">
             <img src="{% static 'welcome/img/logoapp.svg' %}" class="header-logo" alt="Logo">
 
-            <div class="brand-text">
-                <span class="brand-title">STRIX ERP</span>
-                <span class="brand-subtitle"></span>
-            </div>
+            <img src="{% static 'welcome/img/strix_logo.svg' %}" class="strix-logo" alt="STRIX">
         </a>
 
-        <!-- Poli logo centered (desktop only) -->
         <img src="{% static 'welcome/img/poli.svg' %}" alt="Poli" class="poli-logo" />
 
         {% if user.is_authenticated %}
         <div class="user-section">
+            
+            <div class="notifications-container">
+                <button class="notification-btn" type="button" aria-label="Notificaciones">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+            </div>
             <div class="dropdown user-dropdown">
 
                 <button

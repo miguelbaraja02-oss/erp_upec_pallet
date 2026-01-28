@@ -1,0 +1,455 @@
+@media (max-width: 768px) {
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    *, *::before, *::after {
+        box-sizing: inherit;
+    }
+
+    /* OCULTAR SIDEBAR */
+    .erp-sidebar {
+        display: none;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+    .main-content {
+        padding-bottom: calc(64px + env(safe-area-inset-bottom));
+        margin: 0;
+    }
+
+    /* NAV BOTTOM */
+    .erp-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: calc(64px + env(safe-area-inset-bottom));
+        padding-bottom: env(safe-area-inset-bottom);
+        background: #000;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        /* offset vertical del botón central: ajustar aquí (ej. -30px) */
+        /* ## este es para controlar altura */
+        --bottom-center-offset: -25px;
+        overflow: visible;
+        box-shadow: 0 -6px 18px rgba(0,0,0,0.35);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1200;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    /* Franja amarilla encima de la barra (mobile) */
+    .erp-bottom-nav::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: #ffce00;
+        display: block;
+        pointer-events: none;
+    }
+
+    .bottom-item {
+        color: #fff;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
+    }
+
+    /* Tamaño y alineación uniforme de iconos y avatar */
+    :root {
+        --bottom-icon-size: 34px; /* ← #ajusta este valor para cambiar todos los iconos/avatars */
+    }
+
+    .bottom-left-group,
+    .bottom-right-group {
+        gap: 27px; /* espacio entre iconos (ajustado según feedback) */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 56px;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+
+    /* nav-item: contenedor vertical para icono + label */
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px; /* reducir separación entre icono y texto */
+    }
+
+    .nav-label {
+        display: block;
+        font-size: 11px;
+        color: #ffffff; /* letras blancas */
+        line-height: 1;
+        margin-top: 2px;
+        white-space: nowrap;
+        text-align: center; /* asegurar centrado bajo el icono */
+        width: 100%;
+    }
+
+ 
+    /* Iconos (font icons) */
+    .bottom-left-group i,
+    .bottom-right-group i {
+        width: var(--bottom-icon-size);
+        height: var(--bottom-icon-size);
+        line-height: var(--bottom-icon-size);
+        font-size: calc(var(--bottom-icon-size) * 0.62);
+        text-align: center;
+        color: #fff;
+        transition: color 0.15s, transform 0.12s;
+        display: inline-block;
+    }
+
+    .bottom-left-group i:hover,
+    .bottom-right-group i:hover {
+        color: #ffce00;
+        transform: translateY(-2px);
+    }
+
+    /* Estado activo cuando se selecciona un icono (click): igual que hover */
+    .nav-btn.active i {
+        color: #ffce00;
+        transform: translateY(-2px);
+    }
+
+    /* SVG inline: controlar color con `color` y `fill:currentColor` dentro del SVG */
+    .icono-derecha-svg {
+        width: var(--bottom-icon-size);
+        height: var(--bottom-icon-size);
+        display: block;
+        color: #fff; /* default color for SVG (paths use currentColor) */
+        transition: color 0.12s, transform 0.12s;
+    }
+
+    .icono-derecha-svg svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .nav-btn.active .icono-derecha-svg {
+        color: #ffce00; /* when active, svg paths become yellow */
+        transform: translateY(-2px);
+    }
+
+    /* Asegurar que los iconos de fuente usen exactamente el color deseado */
+    .nav-btn.active i {
+        color: #ffce00 !important;
+    }
+
+    /* Agrandar solo los iconos de Inicio y Alertas (primeros 2 items del grupo izquierdo) */
+    .bottom-left-group .nav-item:nth-child(1) i,
+    .bottom-left-group .nav-item:nth-child(2) i {
+        font-size: calc(var(--bottom-icon-size) * 0.77); /* ligeramente más grandes */
+    }
+
+    /* SVG icon on the right (legacy fallback for img tags) */
+    .icono-derecha-svg {
+        width: var(--bottom-icon-size);
+        height: var(--bottom-icon-size);
+        object-fit: contain;
+        display: block;
+    }
+
+    /* Avatar: igual tamaño, circular */
+    .avatar-usuario {
+        width: var(--bottom-icon-size);
+        height: var(--bottom-icon-size);
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto; /* centrar avatar dentro del botón */
+        border: 2px solid #ffffff; /* borde blanco */
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        display: block;
+    }
+
+    /* Botones clicables que envuelven iconos/avatar */
+    .nav-btn {
+        width: calc(var(--bottom-icon-size) + 6px);
+        height: calc(var(--bottom-icon-size) + 6px);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 50%;
+        -webkit-tap-highlight-color: transparent;
+        cursor: pointer;
+    }
+
+    .nav-btn:active { transform: translateY(1px); }
+    .nav-btn:focus { outline: none; }
+
+    /* Alineación fina: asegurar simetría alrededor del botón central */
+    /* acercar los grupos hacia el centro */
+    .bottom-left-group { margin-left: 6px; transform: translateX(8px); }
+    .bottom-right-group { margin-right: 6px; transform: translateX(-8px); }
+
+    /* prevenir selección visual al tocar y eliminar outline azul en mobile */
+    .nav-btn, .nav-btn * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+        outline: none;
+    }
+
+    /* Menu ribbon para el avatar (desplegable) — animado y más grande */
+    .user-menu-ribbon {
+        position: fixed;
+        /* subir la card 16px extra para abrir un poco más arriba */
+        bottom: calc(64px + env(safe-area-inset-bottom) + 26px);
+        right: 12px;
+        background: linear-gradient(180deg, #0c0c0c 0%, #070707 100%);
+        color: #fff;
+        border-radius: 0; /* esquinas cuadradas */
+        padding: 10px 12px;
+        /* no usar display:none para permitir transiciones suaves */
+        opacity: 0;
+        transform: translateY(10px) scale(0.96);
+        transform-origin: bottom right;
+        transition: opacity 220ms cubic-bezier(.2,.9,.3,1), transform 220ms cubic-bezier(.2,.9,.3,1);
+        z-index: 1500;
+        min-width: 200px; /* mayor ancho */
+        box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+        pointer-events: none;
+    }
+
+    .user-menu-ribbon.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    .user-menu-item {
+        display: block;
+        padding: 10px 14px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 15px;
+        border-radius: 10px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: transform 220ms cubic-bezier(.2,.9,.3,1), opacity 180ms ease;
+    }
+
+    .user-menu-item + .user-menu-item {
+        margin-top: 8px;
+    }
+
+    /* Cuando el ribbon se muestra, animar los items (ligero stagger) */
+    .user-menu-ribbon.show .user-menu-item {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .user-menu-ribbon.show .user-menu-item:nth-child(1) { transition-delay: 60ms; }
+    .user-menu-ribbon.show .user-menu-item:nth-child(2) { transition-delay: 100ms; }
+
+    .user-menu-item:hover {
+        background: rgba(255,255,255,0.03);
+        color: #ffce00;
+    }
+
+    /* Control rápido: cambia solo esta variable para escalar la card circular negra */
+    :root {
+        --card-size: 58px; /* ← #ajusta este valor para cambiar el tamaño de la card circular negra */
+    }
+    .bottom-center {
+        width: var(--card-size);
+        height: var(--card-size);
+        background: #000; /* negro sólido, sin grises */
+        border-radius: 50%;
+        /* fijar siempre en el centro de la pantalla (viewport) para evitar desplazamientos
+           cuando cambia el ancho por la aparición/desaparición de la barra de scroll) */
+        position: absolute;
+        left: 50vw;
+        transform: translate(-50%, var(--bottom-center-offset));
+        box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        touch-action: manipulation;
+        /* sombra amarilla sutil detrás del círculo (mismo tono ffce00) */
+        /* ajustar opacidad en .bottom-center::before */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        z-index: 1350;
+        cursor: pointer;
+        flex: 0 0 auto;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .bottom-center::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: 90%;
+        background: #ffce00;
+        filter: blur(10px);
+        opacity: 0.12; /* ajustar para más/menos intensidad */
+        border-radius: 50%;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    /* Wrapper interno verde y logo blanco dentro de la card circular
+       Uso en HTML:
+       <div class="bottom-center">
+           <div class="logo-wrap">
+               <img src="/static/img/logoappmovil.svg" alt="Logo" class="bottom-logo">
+           </div>
+       </div>
+    */
+    /* #este para controlar el tamaño del logo (modifica width y height de .logo-wrap) */
+    /* Control rápido: cambia solo esta variable para escalar el logo en la card */
+    :root {
+        --logo-size: 85%; /* ← #ajusta este valor para cambiar el tamaño del logo en la card */
+    }
+    .bottom-center .logo-wrap {
+        width: var(--logo-size); /* ← #este es el tamaño horizontal del logo */
+        height: var(--logo-size); /* ← #este es el tamaño vertical del logo */
+        border-radius: 50%;
+        background: #006130; /* fondo verde del logo */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .bottom-center .bottom-logo {
+        width: 85%;
+        height: 70%;
+        object-fit: contain;
+        display: block;
+        /* Forzar SVG a blanco cuando el SVG no tiene fill="currentColor" */
+        filter: brightness(0) invert(1);
+    }
+
+    .bottom-center:hover {
+        transform: translate(-50%, calc(var(--bottom-center-offset) - 4px));
+        box-shadow: 0 10px 26px rgb(0, 0, 0), 0 12px 30px rgba(255,206,0,0.14);
+    }
+
+    .bottom-center:active {
+        transform: translate(-50%, calc(var(--bottom-center-offset) - 2px));
+        box-shadow: 0 4px 12px rgb(0, 0, 0);
+    }
+
+    .bottom-center:focus-visible {
+        transform: translate(-50%, var(--bottom-center-offset));
+        outline: 3px solid rgb(0, 0, 0);
+        outline-offset: 4px;
+    }
+
+    /* DRAWER */
+    .erp-drawer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 75vh;
+        background: #0d0d0d !important;
+        color: #fff;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        z-index: 1400;
+        border-radius: 16px 16px 0 0;
+        overflow: hidden;
+    }
+
+    .erp-drawer.open {
+        transform: translateY(0);
+    }
+
+    .drawer-handle {
+        width: 40px;
+        height: 5px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        margin: 10px auto;
+    }
+
+    .drawer-header {
+        padding: 8px 20px 16px;
+        text-align: center;
+        font-weight: 600;
+        color: #fff;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .drawer-grid {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+    }
+
+    .drawer-item {
+        background: #151515;
+        border-radius: 12px;
+        height: 90px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        transition: background 0.2s ease;
+    }
+
+    .drawer-item i {
+        font-size: 20px;
+        margin-bottom: 6px;
+        color: #00a86b;
+    }
+
+    .drawer-item:hover {
+        background: #1f1f1f;
+    }
+
+    .drawer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1350;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .drawer-overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}

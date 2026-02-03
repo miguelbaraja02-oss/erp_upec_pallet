@@ -68,7 +68,10 @@
         <div class="drawer-item"><i class="fas fa-truck"></i><span>Transporte</span></div>
         <div class="drawer-item"><i class="fas fa-chart-line"></i><span>Reportes</span></div>
         <div class="drawer-item"><i class="fas fa-warehouse"></i><span>Almacenes</span></div>
-        <div class="drawer-item"><i class="fas fa-user-shield"></i><span>Usuarios</span></div>
+        {% if is_company_owner %}
+        <a href="{% url 'companies:role_list' %}" class="drawer-item"><i class="fas fa-user-shield"></i><span>Roles</span></a>
+        <a href="{% url 'companies:edit_company' company_id=active_company.id %}" class="drawer-item"><i class="fas fa-building"></i><span>Mi Empresa</span></a>
+        {% endif %}
         <div class="drawer-item"><i class="fas fa-cog"></i><span>Configuración</span></div>
     </div>
 </div>

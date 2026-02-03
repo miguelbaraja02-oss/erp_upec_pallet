@@ -1,20 +1,40 @@
 {% extends "auth/auth.html" %}
 {% load static %}
+{% load socialaccount %}
 
 {% block title %}Iniciar sesión{% endblock %}
 
 {% block content %}
+
 <div class="login-header">
     <img src="{% static 'img/logoV.svg' %}" alt="Logo" class="logo">
-    <h1>Login</h1>
+
 </div>
 
 <div id="auth-form">
     {% include "accounts/partials/login_form.html" %}
 </div>
 
+<div class="divider">
+    <span>o</span>
+</div>
+
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+<div class="social-login">
+    {% for provider in socialaccount_providers %}
+        {% if provider.id == "google" %}
+            <a href="{% provider_login_url 'google' %}" class="btn btn-google" role="button">
+                <i class="bi bi-google" aria-hidden="true"></i>
+                Iniciar sesión con Google
+            </a>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+
 <div class="auth-links">
     <a href="{% url 'accounts:register_page' %}">Crear cuenta</a>
-    <a href="{% url 'accounts:register_page' %}">Recuperar contraseña</a>
 </div>
+
 {% endblock %}

@@ -1,0 +1,28 @@
+{% extends "welcome/base.html" %}
+
+{% block title %}Mis Invitaciones{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Mis invitaciones pendientes</h1>
+
+  {% if invitations %}
+    <ul class="list-group">
+      {% for inv in invitations %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ inv.company.name }}</strong>
+            <div>{{ inv.message }}</div>
+          </div>
+          <div>
+            <a class="btn btn-sm btn-success" href="{% url 'companies:invitation_accept' inv.id %}">Aceptar</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'companies:invitation_reject' inv.id %}">Rechazar</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No tienes invitaciones pendientes.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,290 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Usuarios de la Empresa{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'company_users/company_users.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="company-users-container">
+    <div class="company-users-header">
+        <div class="header-title">
+            <h1><i class="fas fa-users"></i> Usuarios de la Empresa</h1>
+            <p>Gestiona los miembros de <strong>{{ company.name }}</strong></p>
+        </div>
+        <a href="{% url 'companies:invitation_create' %}" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Invitar Usuario
+        </a>
+    </div>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Stats cards -->
+    <div class="stats-row">
+        <div class="stat-card active">
+            <div class="stat-icon">
+                <i class="fas fa-user-check"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-number">{{ active_count }}</span>
+                <span class="stat-label">Con Acceso</span>
+            </div>
+        </div>
+        <div class="stat-card inactive">
+            <div class="stat-icon">
+                <i class="fas fa-user-slash"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-number">{{ inactive_count }}</span>
+                <span class="stat-label">Dados de Baja</span>
+            </div>
+        </div>
+        <div class="stat-card roles">
+            <div class="stat-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-number">{{ roles.count }}</span>
+                <span class="stat-label">Roles Disponibles</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="users-tabs">
+        <button class="tab-btn active" data-tab="active">
+            Con Acceso <span class="badge">{{ active_count }}</span>
+        </button>
+        <button class="tab-btn" data-tab="inactive">
+            Dados de Baja <span class="badge">{{ inactive_count }}</span>
+        </button>
+    </div>
+
+    <!-- Tab: Usuarios Activos -->
+    <div class="tab-content active" id="tab-active">
+        {% if active_users %}
+        <div class="users-table-container">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cu in active_users %}
+                    <tr data-user-id="{{ cu.id }}" class="{% if cu.is_owner %}owner-row{% endif %}">
+                        <td class="user-cell">
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    {% if cu.user.profile.avatar %}
+                                    <img src="{{ cu.user.profile.avatar.url }}" alt="Avatar">
+                                    {% else %}
+                                    <div class="avatar-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="user-details">
+                                    <span class="user-name">
+                                        {{ cu.user.first_name }} {{ cu.user.last_name }}
+                                        {% if cu.is_owner %}
+                                        <span class="owner-badge" title="Dueño de la empresa">
+                                            <i class="fas fa-crown"></i>
+                                        </span>
+                                        {% endif %}
+                                    </span>
+                                    <span class="username">@{{ cu.user.username }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ cu.user.email }}</td>
+                        <td class="role-cell">
+                            {% if cu.is_owner %}
+                            <span class="role-badge owner">Todos los permisos</span>
+                            {% elif cu.role %}
+                            <span class="role-badge assigned">{{ cu.role.name }}</span>
+                            {% else %}
+                            <span class="role-badge none">Sin rol</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ cu.created_at|date:"d/m/Y" }}</td>
+                        <td class="actions-cell">
+                            {% if not cu.is_owner %}
+                            <div class="actions-buttons">
+                                <button class="btn-action assign-role-btn" title="Asignar Rol" data-user-id="{{ cu.id }}" data-user-name="{{ cu.user.first_name }} {{ cu.user.last_name }}" data-current-role="{{ cu.role.id|default:'' }}">
+                                    <i class="fas fa-user-tag"></i>
+                                </button>
+                                <form method="post" action="{% url 'companies:toggle_user_status' user_id=cu.id %}" class="action-form" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-action btn-baja" title="Dar de Baja">
+                                        <i class="fas fa-user-slash"></i>
+                                    </button>
+                                </form>
+                                <button class="btn-action btn-danger-action remove-user-btn" title="Eliminar" data-user-id="{{ cu.id }}" data-user-name="{{ cu.user.username }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            {% else %}
+                            <span class="no-actions">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <h3>No hay usuarios con acceso</h3>
+            <p>Invita usuarios a tu empresa para comenzar.</p>
+            <a href="{% url 'companies:invitation_create' %}" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Invitar Usuario
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tab: Usuarios Dados de Baja -->
+    <div class="tab-content" id="tab-inactive">
+        {% if inactive_users %}
+        <div class="users-table-container">
+            <table class="users-table inactive-table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cu in inactive_users %}
+                    <tr data-user-id="{{ cu.id }}">
+                        <td class="user-cell">
+                            <div class="user-info">
+                                <div class="user-avatar inactive">
+                                    {% if cu.user.profile.avatar %}
+                                    <img src="{{ cu.user.profile.avatar.url }}" alt="Avatar">
+                                    {% else %}
+                                    <div class="avatar-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="user-details">
+                                    <span class="user-name inactive-text">{{ cu.user.first_name }} {{ cu.user.last_name }}</span>
+                                    <span class="username">@{{ cu.user.username }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="inactive-text">{{ cu.user.email }}</td>
+                        <td class="role-cell">
+                            {% if cu.role %}
+                            <span class="role-badge disabled">{{ cu.role.name }}</span>
+                            {% else %}
+                            <span class="role-badge none">Sin rol</span>
+                            {% endif %}
+                            <span class="status-badge-baja">Sin acceso</span>
+                        </td>
+                        <td class="actions-cell">
+                            <div class="actions-buttons">
+                                <form method="post" action="{% url 'companies:toggle_user_status' user_id=cu.id %}" class="action-form" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-action btn-alta" title="Dar de Alta">
+                                        <i class="fas fa-user-check"></i>
+                                    </button>
+                                </form>
+                                <button class="btn-action btn-danger-action remove-user-btn" title="Eliminar" data-user-id="{{ cu.id }}" data-user-name="{{ cu.user.username }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-user-check"></i>
+            <h3>No hay usuarios dados de baja</h3>
+            <p>Todos los usuarios tienen acceso a la empresa.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal para asignar rol -->
+<div class="modal-overlay" id="assignRoleModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-user-tag"></i> Asignar Rol</h3>
+            <button class="modal-close" id="closeRoleModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Asignando rol a: <strong id="assignRoleUserName"></strong></p>
+            <form id="assignRoleForm" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="roleSelect">Seleccionar Rol:</label>
+                    <select name="role_id" id="roleSelect" class="form-control">
+                        <option value="">-- Sin rol --</option>
+                        {% for role in roles %}
+                        <option value="{{ role.id }}">{{ role.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelRoleBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para confirmar eliminación -->
+<div class="modal-overlay" id="removeUserModal">
+    <div class="modal-content danger">
+        <div class="modal-header">
+            <h3><i class="fas fa-exclamation-triangle"></i> Eliminar Usuario</h3>
+            <button class="modal-close" id="closeRemoveModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro de eliminar a <strong id="removeUserName"></strong> de la empresa?</p>
+            <p class="warning-text">Esta acción no se puede deshacer. El usuario perderá todo acceso a la empresa.</p>
+            <form id="removeUserForm" method="post">
+                {% csrf_token %}
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelRemoveBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'company_users/company_users.js' %}"></script>
+{% endblock %}

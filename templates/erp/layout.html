@@ -7,7 +7,12 @@
 
     <div class="erp-main">
         {% include "erp/partials/navbar.html" %}
-        {% include "erp/partials/content.html" %}
+        <main class="erp-content">
+            {% block content %}
+            <h1>Dashboard</h1>
+            <p>Contenido principal del ERP</p>
+            {% endblock %}
+        </main>
         {% include "erp/partials/footer.html" %}
     </div>
 

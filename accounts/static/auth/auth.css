@@ -67,7 +67,7 @@ html, body {
 }
 
 .logo {
-    width: 160px; /* Logo un poco más pequeño para ajustar proporción */
+    width: 167px; /* Aumentado +7px */
     height: auto;
     object-fit: contain;
 }
@@ -198,7 +198,7 @@ html, body {
 
     /* 3. Ajustes específicos para móvil */
     .logo {
-        width: 140px;
+        width: 147px;
         margin-bottom: 0;
     }
 
@@ -222,4 +222,103 @@ html, body {
             overflow-y: auto; 
         }
     }
+    
+}
+
+
+/* ---------- LOGIN HEADER ---------- */
+.login-header {
+    text-align: center;
+    margin-bottom: -10px; /* aumentado para separar del formulario */
+}
+
+.login-header .logo {
+    width: 200px !important; /* forzar tamaño si hay reglas que lo sobrescriban */
+    margin-bottom: 10px;
+}
+
+.login-header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* ---------- FORM ---------- */
+#auth-form {
+    margin-bottom: 20px;
+}
+
+/* ---------- DIVIDER ---------- */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    color: #999;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+    padding: 0 10px;
+    font-size: 0.9rem;
+}
+
+/* ---------- GOOGLE BUTTON ---------- */
+.social-login {
+    margin-bottom: 20px;
+}
+
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 12px;
+
+    background-color: #ffffff;
+    color: #444;
+
+    border: 1px solid #ddd;
+    border-radius: 0px; /* esquinas cuadradas para el botón Google */
+
+    text-decoration: none;
+    font-weight: 500;
+
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-google .bi {
+    font-size: 18px;
+    line-height: 1;
+    vertical-align: middle;
+    color: #000; /* Icon color set to black */
+}
+
+.btn-google:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- LINKS ---------- */
+.auth-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.auth-links a {
+    font-size: 0.9rem;
+    color: #555;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
 }

@@ -283,3 +283,241 @@
         padding-right: 25px;
     }
 }
+
+/* ================================
+   SECCIÓN DE INVITACIONES
+================================ */
+.invitations-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 102, 51, 0.1);
+}
+
+.invitations-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.invitations-section .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.invitations-section .section-title i {
+    font-size: 1.5rem;
+    color: var(--upec-green);
+}
+
+.invitations-section .section-title h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.invitations-count {
+    background: linear-gradient(135deg, var(--upec-green), var(--upec-dark-green));
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    min-width: 28px;
+    text-align: center;
+}
+
+/* Grid de invitaciones */
+.invitations-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Tarjeta de invitación */
+.invitation-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #f8fdf9, #f0f9f4);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 102, 51, 0.12);
+    transition: all 0.3s ease;
+}
+
+.invitation-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 102, 51, 0.12);
+    border-color: rgba(0, 102, 51, 0.25);
+}
+
+.invitation-company-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.invitation-company-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.invitation-company-logo .logo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: var(--upec-green);
+    font-size: 1.5rem;
+}
+
+.invitation-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.invitation-company-name {
+    margin: 0 0 0.35rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.invitation-from {
+    margin: 0 0 0.35rem 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.invitation-from i {
+    margin-right: 0.35rem;
+    color: var(--upec-green);
+}
+
+.invitation-message {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+    color: #555;
+    font-style: italic;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    border-left: 3px solid var(--upec-gold);
+}
+
+.invitation-message i {
+    color: var(--upec-gold);
+    margin-right: 0.35rem;
+    font-size: 0.75rem;
+}
+
+.invitation-time {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.invitation-time i {
+    margin-right: 0.35rem;
+}
+
+/* Botones de invitación */
+.invitation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.btn-invitation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.btn-invitation.btn-accept {
+    background: linear-gradient(135deg, var(--upec-green), var(--upec-dark-green));
+    color: white;
+}
+
+.btn-invitation.btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 102, 51, 0.35);
+}
+
+.btn-invitation.btn-reject {
+    background: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.btn-invitation.btn-reject:hover {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+}
+
+/* Responsive para invitaciones */
+@media (max-width: 768px) {
+    .invitation-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .invitation-content {
+        width: 100%;
+    }
+    
+    .invitation-actions {
+        flex-direction: row;
+        width: 100%;
+    }
+    
+    .btn-invitation {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .invitations-section {
+        padding: 1.25rem;
+    }
+    
+    .invitations-section .section-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+    
+    .invitation-actions {
+        flex-direction: column;
+    }
+}

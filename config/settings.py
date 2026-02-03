@@ -38,13 +38,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #######APPS DEL PROYECTO########
+
+    'django.contrib.sites',  
+
     'anymail',
-    "companies",
-    "core",
-    "accounts.apps.AccountsConfig", 
-    "django_cleanup.apps.CleanupConfig",
+    'companies',
+    'core',
+    'accounts.apps.AccountsConfig',
+    'django_cleanup.apps.CleanupConfig',
+
+    # 👇 allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    "channels",
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "core.middleware.company.CompanyRequiredMiddleware"
+    "core.middleware.company.CompanyRequiredMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
     
 ]
 
@@ -72,7 +83,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "core.context_processors.company.active_company"
+                "core.context_processors.company.active_company",
+                "core.context_processors.company.pending_invitations",
             ],
         },
     },
@@ -165,3 +177,30 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+### INICIO DE SESION CON GOOGLE ######
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+##### PARA NOTIFICACIONES EN TIEMPO REAL###
+
+ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}

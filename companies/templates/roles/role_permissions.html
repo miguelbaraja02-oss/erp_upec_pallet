@@ -1,0 +1,119 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Permisos del Rol: {{ role.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'roles/roles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="roles-container">
+    <div class="roles-header">
+        <div class="roles-title">
+            <h1><i class="fas fa-key"></i> Permisos del Rol</h1>
+            <p>Configura los permisos para <strong>{{ role.name }}</strong></p>
+        </div>
+        <a href="{% url 'companies:role_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Volver a Roles
+        </a>
+    </div>
+
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        Haz clic en los checkboxes para activar o desactivar permisos. Los cambios se guardan automáticamente.
+    </div>
+
+    <div class="permissions-card">
+        <div class="permissions-table-wrapper">
+            <table class="permissions-table" id="permissionsTable" data-role-id="{{ role.id }}">
+                <thead>
+                    <tr>
+                        <th class="module-column">Módulo</th>
+                        {% for perm_type in permission_types %}
+                        <th class="permission-column">
+                            <span title="{{ perm_type.description }}">{{ perm_type.name }}</span>
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in permissions_matrix %}
+                    <tr>
+                        <td class="module-cell">
+                            {% if item.module.icon %}
+                            <i class="fas {{ item.module.icon }}"></i>
+                            {% endif %}
+                            {{ item.module.name }}
+                        </td>
+                        {% for perm in item.permissions %}
+                        <td class="permission-cell">
+                            <label class="permission-checkbox">
+                                <input type="checkbox" 
+                                       data-module-id="{{ item.module.id }}"
+                                       data-permission-type-id="{{ perm.permission_type.id }}"
+                                       {% if perm.has_permission %}checked{% endif %}>
+                                <span class="checkmark"></span>
+                            </label>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="{{ permission_types|length|add:1 }}" class="text-center text-muted py-4">
+                            No hay módulos configurados en el sistema.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <h4>Acciones rápidas</h4>
+        <div class="quick-actions-buttons">
+            <button type="button" class="btn btn-sm btn-outline-success" id="selectAll">
+                <i class="fas fa-check-double"></i> Seleccionar todos
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-danger" id="deselectAll">
+                <i class="fas fa-times"></i> Deseleccionar todos
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="selectView">
+                <i class="fas fa-eye"></i> Solo ver
+            </button>
+        </div>
+    </div>
+
+    <div class="help-card">
+        <h4><i class="fas fa-question-circle"></i> Tipos de permisos</h4>
+        <ul>
+            {% for perm_type in permission_types %}
+            <li><strong>{{ perm_type.name }}:</strong> {{ perm_type.description|default:"Sin descripción" }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Toast para notificaciones -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="permissionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fas fa-check-circle text-success me-2" id="toastIcon"></i>
+            <strong class="me-auto" id="toastTitle">Permiso actualizado</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            El permiso se ha actualizado correctamente.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const TOGGLE_PERMISSION_URL = "{% url 'companies:role_toggle_permission' role_id=role.id %}";
+    const CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+<script src="{% static 'roles/role_permissions.js' %}"></script>
+{% endblock %}

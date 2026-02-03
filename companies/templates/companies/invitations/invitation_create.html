@@ -1,0 +1,112 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Invitar Usuario{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'invitations/invitations.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="invitations-container">
+    <div class="invitations-header">
+        <div class="invitations-title">
+            <h1><i class="fas fa-user-plus"></i> Invitar Usuario</h1>
+            <p>Busca y selecciona un usuario para invitarlo a <strong>{{ company.name }}</strong></p>
+        </div>
+        <a href="{% url 'companies:invitation_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="invite-form-card">
+        <form method="post" id="inviteForm">
+            {% csrf_token %}
+            
+            <!-- Búsqueda de usuarios -->
+            <div class="form-group">
+                <label for="userSearch">Buscar usuario</label>
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" 
+                           id="userSearch" 
+                           class="form-control" 
+                           placeholder="Escribe username o email..."
+                           autocomplete="off">
+                    <div class="search-spinner" id="searchSpinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+                <small class="form-text text-muted">Escribe al menos 2 caracteres para buscar</small>
+            </div>
+
+            <!-- Resultados de búsqueda -->
+            <div class="search-results" id="searchResults"></div>
+
+            <!-- Usuario seleccionado -->
+            <div class="selected-user" id="selectedUser" style="display: none;">
+                <h5>Usuario seleccionado:</h5>
+                <div class="user-preview">
+                    <div class="user-avatar" id="selectedAvatar"></div>
+                    <div class="user-info">
+                        <span class="user-name" id="selectedName"></span>
+                        <span class="user-email" id="selectedEmail"></span>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger" id="clearSelection">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <input type="hidden" name="user_id" id="selectedUserId">
+            </div>
+
+            <!-- Mensaje opcional -->
+            <div class="form-group" id="messageGroup" style="display: none;">
+                <label for="message">Mensaje (opcional)</label>
+                <textarea name="message" 
+                          id="message" 
+                          class="form-control" 
+                          rows="3"
+                          placeholder="Escribe un mensaje personalizado para la invitación..."></textarea>
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                    <i class="fas fa-paper-plane"></i> Enviar Invitación
+                </button>
+                <a href="{% url 'companies:invitation_list' %}" class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="help-card">
+        <h4><i class="fas fa-info-circle"></i> ¿Cómo funciona?</h4>
+        <ul>
+            <li>Busca usuarios existentes por su username o correo electrónico</li>
+            <li>El usuario recibirá una notificación con la invitación</li>
+            <li>Puede aceptar o rechazar la invitación</li>
+            <li>Si acepta, tendrá acceso solo al dashboard hasta que le asignes un rol</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const SEARCH_URL = "{% url 'companies:search_users' %}";
+</script>
+<script src="{% static 'invitations/invitation_create.js' %}"></script>
+{% endblock %}

@@ -22,6 +22,7 @@
     <title>{% block title %}STRIX ERP{% endblock %}</title>
 </head>
 
+
 <body class="app-layout">
 
 
@@ -38,6 +39,36 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script para notificaciones -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+        
+        if (notificationBtn && notificationsDropdown) {
+            // Toggle dropdown
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                notificationsDropdown.classList.toggle('show');
+            });
+            
+            // Cerrar al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (!notificationsDropdown.contains(e.target) && !notificationBtn.contains(e.target)) {
+                    notificationsDropdown.classList.remove('show');
+                }
+            });
+            
+            // Cerrar con Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    notificationsDropdown.classList.remove('show');
+                }
+            });
+        }
+    });
+    </script>
 
     <!-- JS por vista -->
     {% block extra_js %}{% endblock %}

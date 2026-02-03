@@ -1,5 +1,5 @@
 from django import forms
-from .models import Company
+from .models import Company, Role
 
 class CompanyCreateForm(forms.ModelForm):
     class Meta:
@@ -44,3 +44,48 @@ class CompanyUpdateForm(forms.ModelForm):
             "phone",
             "email",
         ]
+
+
+### FORMULARIO PARA CREAR/EDITAR ROLES ###
+class RoleForm(forms.ModelForm):
+    class Meta:
+        model = Role
+        fields = ['name', 'description', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Conductor, Vendedor, Bodeguero'
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Descripción del rol y sus responsabilidades'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+        }
+        labels = {
+            'name': 'Nombre del Rol',
+            'description': 'Descripción',
+            'is_active': 'Activo',
+        }
+
+    def __init__(self, *args, company=None, **kwargs):
+        self.company = company
+        super().__init__(*args, **kwargs)
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name', '').strip()
+        if len(name) < 2:
+            raise forms.ValidationError("El nombre debe tener al menos 2 caracteres.")
+        
+        # Verificar que no exista otro rol con el mismo nombre en la empresa
+        if self.company:
+            existing = Role.objects.filter(company=self.company, name__iexact=name)
+            if self.instance.pk:
+                existing = existing.exclude(pk=self.instance.pk)
+            if existing.exists():
+                raise forms.ValidationError("Ya existe un rol con este nombre en la empresa.")
+        
+        return name

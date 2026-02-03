@@ -1,0 +1,144 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Gestión de Roles{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'roles/roles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="roles-container">
+    <div class="roles-header">
+        <div class="roles-title">
+            <h1><i class="fas fa-user-shield"></i> Gestión de Roles</h1>
+            <p>Crea y administra los roles de tu empresa</p>
+        </div>
+        <div class="header-actions">
+            <a href="{% url 'companies:company_users_list' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-users"></i> Ver Usuarios
+            </a>
+            <a href="{% url 'companies:role_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nuevo Rol
+            </a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Sección para asignar roles a usuarios -->
+    <div class="assign-role-section">
+        <div class="section-header">
+            <h2><i class="fas fa-user-tag"></i> Asignar Rol a Usuario</h2>
+            <p>Busca un usuario de tu empresa y asígnale un rol</p>
+        </div>
+        
+        <div class="assign-role-form">
+            <div class="search-user-container">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchUserInput" class="search-input" placeholder="Buscar usuario por nombre, email o username...">
+                </div>
+                <div id="userSearchResults" class="search-results"></div>
+            </div>
+            
+            <div class="selected-user-container" id="selectedUserContainer" style="display: none;">
+                <div class="selected-user" id="selectedUser">
+                    <div class="user-avatar" id="selectedUserAvatar"></div>
+                    <div class="user-info" id="selectedUserInfo"></div>
+                    <button type="button" class="btn-clear" id="clearSelectedUser">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="role-select-container">
+                    <label for="roleSelectAssign">Seleccionar Rol:</label>
+                    <select id="roleSelectAssign" class="form-control">
+                        <option value="">-- Sin rol --</option>
+                        {% for item in roles_data %}
+                        {% if item.role.is_active %}
+                        <option value="{{ item.role.id }}">{{ item.role.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="button" id="assignRoleBtn" class="btn btn-primary">
+                    <i class="fas fa-check"></i> Asignar Rol
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% if roles_data %}
+    <div class="roles-grid">
+        {% for item in roles_data %}
+        <div class="role-card {% if not item.role.is_active %}role-inactive{% endif %}">
+            <div class="role-card-header">
+                <h3>{{ item.role.name }}</h3>
+                {% if not item.role.is_active %}
+                <span class="badge badge-inactive">Inactivo</span>
+                {% endif %}
+            </div>
+            
+            <div class="role-card-body">
+                {% if item.role.description %}
+                <p class="role-description">{{ item.role.description }}</p>
+                {% else %}
+                <p class="role-description text-muted">Sin descripción</p>
+                {% endif %}
+                
+                <div class="role-stats">
+                    <div class="stat">
+                        <i class="fas fa-users"></i>
+                        <span>{{ item.user_count }} usuario(s)</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-key"></i>
+                        <span>{{ item.permission_count }} permiso(s)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="role-card-footer">
+                <a href="{% url 'companies:role_permissions' role_id=item.role.id %}" 
+                   class="btn btn-sm btn-outline-primary" title="Gestionar permisos">
+                    <i class="fas fa-key"></i> Permisos
+                </a>
+                <a href="{% url 'companies:role_edit' role_id=item.role.id %}" 
+                   class="btn btn-sm btn-outline-secondary" title="Editar rol">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'companies:role_delete' role_id=item.role.id %}" 
+                   class="btn btn-sm btn-outline-danger" title="Eliminar rol">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-user-shield"></i>
+        <h3>No hay roles creados</h3>
+        <p>Crea tu primer rol para empezar a asignar permisos a los usuarios de tu empresa.</p>
+        <a href="{% url 'companies:role_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Crear primer rol
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'roles/roles.js' %}"></script>
+{% endblock %}

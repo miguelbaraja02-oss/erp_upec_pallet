@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from companies.models import CompanyUser, Company
+from companies.models import CompanyUser, Company, CompanyInvitation
 
 @login_required
 def welcome(request):
@@ -10,6 +10,9 @@ def welcome(request):
         company__is_active=True
     ).select_related("company")
 
+    # Obtener invitaciones pendientes
+    pending_invitations = CompanyInvitation.get_pending_for_user(request.user)
+
     if request.method == "POST":
         company_id = request.POST.get("company_id")
         if company_id:
@@ -17,6 +20,7 @@ def welcome(request):
             return redirect("core:dashboard")
 
     return render(request, "home/welcome.html", {
-        "companies": companies
+        "companies": companies,
+        "pending_invitations": pending_invitations,
     })
     

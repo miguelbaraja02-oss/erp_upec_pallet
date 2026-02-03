@@ -1,0 +1,52 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Eliminar Rol{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'roles/roles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="roles-container">
+    <div class="roles-header">
+        <div class="roles-title">
+            <h1><i class="fas fa-trash text-danger"></i> Eliminar Rol</h1>
+            <p>Confirma la eliminación del rol</p>
+        </div>
+        <a href="{% url 'companies:role_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    <div class="delete-confirmation-card">
+        <div class="delete-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <h3>¿Estás seguro de eliminar el rol "{{ role.name }}"?</h3>
+        
+        {% if users_with_role > 0 %}
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i>
+            <strong>No se puede eliminar:</strong> Este rol tiene {{ users_with_role }} usuario(s) asignado(s).
+            <p class="mb-0 mt-2">Debes reasignar los usuarios a otro rol antes de eliminar este.</p>
+        </div>
+        {% else %}
+        <p class="text-muted">Esta acción no se puede deshacer. Todos los permisos asociados a este rol también serán eliminados.</p>
+        
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Sí, eliminar rol
+                </button>
+                <a href="{% url 'companies:role_list' %}" class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

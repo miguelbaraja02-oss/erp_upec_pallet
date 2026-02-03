@@ -14,11 +14,66 @@
         {% if user.is_authenticated %}
         <div class="user-section">
             
+            <!-- Notificaciones con dropdown -->
             <div class="notifications-container">
-                <button class="notification-btn" type="button" aria-label="Notificaciones">
+                <button class="notification-btn" type="button" aria-label="Notificaciones" id="notificationBtn">
                     <i class="fa-solid fa-bell"></i>
-                    <span class="notification-dot"></span>
+                    {% if pending_invitations_count > 0 %}
+                    <span class="notification-dot" data-count="{{ pending_invitations_count }}"></span>
+                    {% endif %}
                 </button>
+                
+                <!-- Dropdown de notificaciones -->
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-dropdown-header">
+                        <h4><i class="fas fa-bell"></i> Notificaciones</h4>
+                        <span class="notifications-count">{{ pending_invitations_count|default:0 }}</span>
+                    </div>
+                    
+                    <div class="notifications-dropdown-body">
+                        {% if pending_invitations %}
+                            {% for invitation in pending_invitations %}
+                            <div class="notification-item" data-invitation-id="{{ invitation.id }}">
+                                <div class="notification-item-icon">
+                                    {% if invitation.company.logo %}
+                                    <img src="{{ invitation.company.logo.url }}" alt="{{ invitation.company.name }}">
+                                    {% else %}
+                                    <i class="fas fa-building"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="notification-item-content">
+                                    <p class="notification-item-title">Invitación de <strong>{{ invitation.company.name }}</strong></p>
+                                    <p class="notification-item-subtitle">
+                                        Por: {{ invitation.invited_by.first_name }} {{ invitation.invited_by.last_name }}
+                                    </p>
+                                    <p class="notification-item-time">
+                                        <i class="fas fa-clock"></i> {{ invitation.created_at|timesince }}
+                                    </p>
+                                </div>
+                                <div class="notification-item-actions">
+                                    <form method="post" action="{% url 'companies:invitation_accept' invitation_id=invitation.id %}" class="notification-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-notif-accept" title="Aceptar">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{% url 'companies:invitation_reject' invitation_id=invitation.id %}" class="notification-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-notif-reject" title="Rechazar">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="notifications-empty">
+                                <i class="fas fa-inbox"></i>
+                                <p>No tienes notificaciones</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             <div class="dropdown user-dropdown">
 

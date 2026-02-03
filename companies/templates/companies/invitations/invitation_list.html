@@ -1,0 +1,222 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Invitaciones{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'invitations/invitations.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="invitations-container">
+    <div class="invitations-header">
+        <div class="invitations-title">
+            <h1><i class="fas fa-envelope"></i> Invitaciones</h1>
+            <p>Gestiona las invitaciones de tu empresa</p>
+        </div>
+        <a href="{% url 'companies:invitation_create' %}" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Invitar Usuario
+        </a>
+    </div>
+
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Tabs de navegación -->
+    <div class="invitations-tabs">
+        <button class="tab-btn active" data-tab="pending">
+            Pendientes <span class="badge">{{ pending_count|default:0 }}</span>
+        </button>
+        <button class="tab-btn" data-tab="accepted">
+            Aceptadas <span class="badge">{{ accepted_count|default:0 }}</span>
+        </button>
+        <button class="tab-btn" data-tab="rejected">
+            Rechazadas <span class="badge">{{ rejected_count|default:0 }}</span>
+        </button>
+        <button class="tab-btn" data-tab="cancelled">
+            Canceladas <span class="badge">{{ cancelled_count|default:0 }}</span>
+        </button>
+    </div>
+
+    <!-- Tab: Pendientes -->
+    <div class="tab-content active" id="tab-pending">
+        {% if pending_count > 0 %}
+        <div class="invitations-list">
+            {% for inv in invitations %}
+            {% if inv.status == 'pending' %}
+            <div class="invitation-card pending">
+                <div class="invitation-avatar">
+                    {% if inv.invited_user.profile.avatar %}
+                    <img src="{{ inv.invited_user.profile.avatar.url }}" alt="Avatar">
+                    {% else %}
+                    <div class="avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="invitation-info">
+                    <h4>{{ inv.invited_user.first_name }} {{ inv.invited_user.last_name }}</h4>
+                    <p class="username">@{{ inv.invited_user.username }}</p>
+                    <p class="email">{{ inv.invited_user.email }}</p>
+                    {% if inv.message %}
+                    <p class="message"><i class="fas fa-comment"></i> {{ inv.message }}</p>
+                    {% endif %}
+                    <p class="meta">
+                        <span><i class="fas fa-clock"></i> {{ inv.created_at|timesince }} atrás</span>
+                        <span><i class="fas fa-user"></i> Por: {{ inv.invited_by.username }}</span>
+                    </p>
+                </div>
+                <div class="invitation-actions">
+                    <span class="status-badge pending">Pendiente</span>
+                    <form method="post" action="{% url 'companies:invitation_cancel' invitation_id=inv.id %}" 
+                          class="cancel-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                onclick="return confirm('¿Cancelar esta invitación?')">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-envelope-open"></i>
+            <h3>No hay invitaciones pendientes</h3>
+            <p>Las invitaciones enviadas aparecerán aquí mientras esperan respuesta.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tab: Aceptadas -->
+    <div class="tab-content" id="tab-accepted">
+        {% if accepted_count > 0 %}
+        <div class="invitations-list">
+            {% for inv in invitations %}
+            {% if inv.status == 'accepted' %}
+            <div class="invitation-card accepted">
+                <div class="invitation-avatar">
+                    {% if inv.invited_user.profile.avatar %}
+                    <img src="{{ inv.invited_user.profile.avatar.url }}" alt="Avatar">
+                    {% else %}
+                    <div class="avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="invitation-info">
+                    <h4>{{ inv.invited_user.first_name }} {{ inv.invited_user.last_name }}</h4>
+                    <p class="username">@{{ inv.invited_user.username }}</p>
+                    <p class="email">{{ inv.invited_user.email }}</p>
+                    <p class="meta">
+                        <span><i class="fas fa-check"></i> Aceptada: {{ inv.responded_at|date:"d/m/Y H:i" }}</span>
+                    </p>
+                </div>
+                <div class="invitation-actions">
+                    <span class="status-badge accepted">Aceptada</span>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-user-check"></i>
+            <h3>No hay invitaciones aceptadas</h3>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tab: Rechazadas -->
+    <div class="tab-content" id="tab-rejected">
+        {% if rejected_count > 0 %}
+        <div class="invitations-list">
+            {% for inv in invitations %}
+            {% if inv.status == 'rejected' %}
+            <div class="invitation-card rejected">
+                <div class="invitation-avatar">
+                    {% if inv.invited_user.profile.avatar %}
+                    <img src="{{ inv.invited_user.profile.avatar.url }}" alt="Avatar">
+                    {% else %}
+                    <div class="avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="invitation-info">
+                    <h4>{{ inv.invited_user.first_name }} {{ inv.invited_user.last_name }}</h4>
+                    <p class="username">@{{ inv.invited_user.username }}</p>
+                    <p class="email">{{ inv.invited_user.email }}</p>
+                    <p class="meta">
+                        <span><i class="fas fa-times"></i> Rechazada: {{ inv.responded_at|date:"d/m/Y H:i" }}</span>
+                    </p>
+                </div>
+                <div class="invitation-actions">
+                    <span class="status-badge rejected">Rechazada</span>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-user-times"></i>
+            <h3>No hay invitaciones rechazadas</h3>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tab: Canceladas -->
+    <div class="tab-content" id="tab-cancelled">
+        {% if cancelled_count > 0 %}
+        <div class="invitations-list">
+            {% for inv in invitations %}
+            {% if inv.status == 'cancelled' %}
+            <div class="invitation-card cancelled">
+                <div class="invitation-avatar">
+                    {% if inv.invited_user.profile.avatar %}
+                    <img src="{{ inv.invited_user.profile.avatar.url }}" alt="Avatar">
+                    {% else %}
+                    <div class="avatar-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="invitation-info">
+                    <h4>{{ inv.invited_user.first_name }} {{ inv.invited_user.last_name }}</h4>
+                    <p class="username">@{{ inv.invited_user.username }}</p>
+                    <p class="email">{{ inv.invited_user.email }}</p>
+                    <p class="meta">
+                        <span><i class="fas fa-ban"></i> Cancelada</span>
+                    </p>
+                </div>
+                <div class="invitation-actions">
+                    <span class="status-badge cancelled">Cancelada</span>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-ban"></i>
+            <h3>No hay invitaciones canceladas</h3>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'invitations/invitations.js' %}"></script>
+{% endblock %}

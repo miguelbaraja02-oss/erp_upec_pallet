@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", lambda request: redirect("accounts:login_page")),
     path("accounts/", include(("accounts.urls", "accounts"), namespace="accounts")),
-    
+    path("accounts/", include("allauth.urls")),
     
     path("", include("core.urls")),
     path("companies/", include("companies.urls")),

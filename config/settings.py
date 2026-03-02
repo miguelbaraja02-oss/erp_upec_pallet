@@ -94,20 +94,19 @@ DATABASES = {
 
 # CON MYSQL DATABASE
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'erp_db',           # Cambia por el nombre de tu base de datos
-#        'USER': 'root',       # Cambia por tu usuario de MySQL
-#        'PASSWORD': 'root',# Cambia por tu contraseña de MySQL
-#        'HOST': 'localhost',        # O la IP/host de tu servidor MySQL
-#        'PORT': '3306',             # Puerto por defecto de MySQL
-#        'OPTIONS': {
-#            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#        },
-#    }
-#}
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'erp_db',           # Cambia por el nombre de tu base de datos
+#         'USER': 'root',             # Cambia por tu usuario de MySQL
+#         'PASSWORD': 'root',         # Cambia por tu contraseña de MySQL
+#         'HOST': 'localhost',        # O la IP/host de tu servidor MySQL
+#         'PORT': '3306',             # Puerto por defecto de MySQL
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     }
+# }
 
 
 # Password validation

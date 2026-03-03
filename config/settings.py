@@ -44,6 +44,15 @@ INSTALLED_APPS = [
     "core",
     "accounts.apps.AccountsConfig", 
     "django_cleanup.apps.CleanupConfig",
+    
+    
+    
+    ##### AUTENTIFICACION CON GOOGLE #####
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 MIDDLEWARE = [
@@ -54,9 +63,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "core.middleware.company.CompanyRequiredMiddleware"
+    "core.middleware.company.CompanyRequiredMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
+
     
 ]
+
+SITE_ID = 1
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ROOT_URLCONF = 'config.urls'
 
@@ -126,6 +140,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 
 # Internationalization

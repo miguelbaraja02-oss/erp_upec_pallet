@@ -4,10 +4,6 @@
 {% block title %}Iniciar sesión{% endblock %}
 
 {% block content %}
-<div class="login-header">
-    <img src="{% static 'img/logoV.svg' %}" alt="Logo" class="logo">
-    <h1>Login</h1>
-</div>
 
 <div id="auth-form">
     {% include "accounts/partials/login_form.html" %}
@@ -15,6 +11,5 @@
 
 <div class="auth-links">
     <a href="{% url 'accounts:register_page' %}">Crear cuenta</a>
-    <a href="{% url 'accounts:register_page' %}">Recuperar contraseña</a>
 </div>
 {% endblock %}

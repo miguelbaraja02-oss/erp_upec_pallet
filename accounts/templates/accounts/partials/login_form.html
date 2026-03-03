@@ -1,3 +1,8 @@
+{% load static %}
+{% load socialaccount %}
+<div class="login-header">
+    <img src="{% static 'img/logoV.svg' %}" alt="Logo" class="logo logo-spacing">
+</div>
 <form class="login-form"
       method="post"
       hx-post="{% url 'accounts:login_form' %}"
@@ -39,3 +44,10 @@
         Entrar
     </button>
 </form>
+
+<div class="google-login-container">
+    <a href="{% provider_login_url 'google' process='login' %}" class="google-login-btn">
+        <i class="bi bi-google google-icon"></i>
+        Iniciar sesión con Google
+    </a>
+</div>

@@ -1,61 +1,46 @@
 /* ================================
-   ERP SIDEBAR
+   ERP SIDEBAR - CORPORATIVO
 ================================ */
 .erp-sidebar {
     position: fixed;
-    top: 0;                 /* quedará encima del navbar */
+    top: 0;
     left: 0;
-
     width: 260px;
     height: 100vh;
-
-    background-color: #000000;
-    color: #ffffff;
-
+    background-color: #1a1a1a;
+    color: #e0e0e0;
     display: flex;
     flex-direction: column;
-
     z-index: 1100;
+    border-right: 1px solid #2a2a2a;
 }
 
 /* ================================
    BRAND
 ================================ */
 .sidebar-brand {
-    height: 64px;
-    padding: 0 20px;
-
+    height: 70px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-
-    font-size: 18px;
-    font-weight: 600;
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #2a2a2a;
+    background-color: #111111;
 }
 
-.sidebar-brand i {
-    font-size: 20px;
-    color: #ffffff;
-}
-
-/* Logo dentro del sidebar: ajustar tamaño */
 .sidebar-logo {
-    height: 45px;
+    height: 38px;
     width: auto;
     display: block;
-    margin: 0 auto;
 }
 
 /* ================================
-   NAV
+   NAVEGACIÓN
 ================================ */
 .sidebar-nav {
     flex: 1;
     overflow-y: auto;
-    padding: 12px 0;
+    padding: 16px 0;
 }
 
 .sidebar-nav ul {
@@ -64,66 +49,192 @@
     margin: 0;
 }
 
-/* Secciones */
+/* ================================
+   SECCIONES
+================================ */
 .nav-section {
-    padding: 12px 20px;
+    padding: 20px 24px 8px;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    opacity: 0.6;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #666666;
 }
 
-/* Items */
+/* ================================
+   ITEMS
+================================ */
 .nav-item {
-    margin: 4px 0;
+    margin: 2px 0;
 }
 
-/* Link */
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 12px;
-
-    padding: 10px 20px;
-
+    gap: 14px;
+    padding: 12px 24px;
+    margin: 0 8px;
+    border-radius: 0;
     font-size: 14px;
-    color: #ffffff;
-
+    color: #b0b0b0;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
+    text-decoration: none;
 }
 
 /* Iconos */
-.nav-link i {
-    width: 20px;
+.nav-icon {
+    width: 22px;
     text-align: center;
-    font-size: 15px;
     flex-shrink: 0;
+    color: #fff; /* Fuerza iconos blancos */
+}
+
+.nav-icon i {
+    font-size: 16px;
+    color: #fff; /* Fuerza iconos blancos */
+    transition: color 0.2s ease;
+}
+
+.nav-text {
+    flex: 1;
+    font-weight: 500;
+}
+
+.nav-arrow {
+    font-size: 12px;
+    color: #666666;
+    opacity: 0;
+    transition: all 0.2s ease;
 }
 
 /* Hover */
 .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: #252525;
+    color: #fff; /* Letras blancas al hover */
+}
+
+.nav-link:hover .nav-icon i {
+    color: #fff; /* Icono hover blanco */
+}
+
+.nav-link:hover .nav-arrow {
+    opacity: 1;
+    color: #006130;
 }
 
 /* Activo */
 .nav-link.active {
     background-color: #006130;
+    color: #fff; /* Letras blancas activas */
     font-weight: 600;
 }
 
+.nav-link.active .nav-icon i {
+    color: #fff; /* Icono activo blanco */
+}
+
+/* Indicador lateral */
+.active-indicator {
+    width: 4px;
+    height: 16px;
+    background-color: #ffffff;
+    border-radius: 0;
+    margin-left: 8px;
+}
+
 /* ================================
-   SCROLLBAR (OPCIONAL)
+   BADGES
+================================ */
+.nav-badge {
+    padding: 2px 8px;
+    background-color: #333333;
+    border-radius: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #e0e0e0;
+    min-width: 18px;
+    text-align: center;
+}
+
+.nav-badge.hot {
+    background-color: #c0392b;
+    color: #ffffff;
+}
+
+/* ================================
+   LINK ESPECIAL (SALIR)
+================================ */
+.nav-exit {
+    border: 1px solid #2a2a2a;
+    margin-bottom: 8px;
+}
+
+.nav-exit:hover {
+    border-color: #006130;
+    background-color: rgba(0, 97, 48, 0.1);
+}
+
+/* ================================
+   FOOTER
+================================ */
+.sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid #2a2a2a;
+    background-color: #111111;
+}
+
+.user-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 0;
+    background-color: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #808080;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #666666;
+}
+
+/* ================================
+   SCROLLBAR
 ================================ */
 .sidebar-nav::-webkit-scrollbar {
     width: 6px;
 }
 
-.sidebar-nav::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
 }
 
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: #333333;
+    border-radius: 0;
+}
 
-
-
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background-color: #444444;
+}

@@ -43,7 +43,11 @@
         </div>
         <div class="nav-item">
             <button type="button" class="nav-btn user-menu-btn" aria-label="Perfil" aria-expanded="false" aria-controls="userMenuRibbon">
-                <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'erp/img/avatar_default.svg' %}{% endif %}" alt="Avatar usuario" class="avatar-usuario" />
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar usuario" class="avatar-usuario" />
+                {% else %}
+                    <span class="avatar-icon-person"><i class="bi bi-person-fill"></i></span>
+                {% endif %}
             </button>
             <span class="nav-label">Perfil</span>
         </div>

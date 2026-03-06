@@ -21,23 +21,6 @@
     border-radius: 0;
 }
 /* ================================
-   RESPONSIVE NAVBAR
-================================ */
-@media (max-width: 900px) {
-    .erp-navbar {
-        margin-left: 0 !important;
-        padding: 0 8px;
-    }
-    .company-card {
-        padding: 4px 8px;
-        font-size: 13px;
-        box-shadow: none;
-    }
-    .navbar-left {
-        gap: 8px;
-    }
-}
-/* ================================
    CARD EMPRESA EN NAVBAR
 ================================ */
 .company-card {
@@ -67,6 +50,7 @@
     font-weight: 600;
     color: #222;
     opacity: 0.75;
+    font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter */
 }
 /* ================================
    RESET BÁSICO
@@ -90,9 +74,9 @@ body {
 .erp-navbar {
     position: fixed;
     top: 0;
-    left: 0;
+    left: 260px;
 
-    width: 100%;
+    width: calc(100% - 260px);
     /* === GROSOR DEL NAVBAR: Modifica la altura aquí === */
     height: 69px; /* Cambia este valor para ajustar el grosor del navbar */
 
@@ -106,7 +90,6 @@ body {
     color: #ffffff;
 
     z-index: 1000;
-    margin-left: 260px; /* ancho del sidebar */
 }
 
 /* ================================
@@ -254,4 +237,57 @@ body {
 
 i {
     vertical-align: middle;
+}
+
+/* ================================
+   RESPONSIVE NAVBAR
+================================ */
+@media (max-width: 768px) {
+    body {
+        padding-top: 56px;
+    }
+
+    .erp-navbar {
+        left: 0 !important;
+        width: 100% !important;
+        height: 56px;
+        padding: 0 10px;
+    }
+
+    .navbar-left {
+        gap: 8px !important;
+        overflow: hidden;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .company-card {
+        padding: 4px 8px;
+        font-size: 13px;
+        box-shadow: none;
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    .company-card .company-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 45vw;
+        display: block;
+    }
+
+    .company-avatar-img,
+    .company-avatar-placeholder {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    .navbar-left,
+    .navbar-right,
+    .user-menu {
+        min-height: auto;
+    }
 }

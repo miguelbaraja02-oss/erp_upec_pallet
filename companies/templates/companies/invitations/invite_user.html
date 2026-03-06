@@ -1,0 +1,31 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'companies/invitations/invitations.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container-erp">
+    <h2 class="invite-title">Invitar usuario a {{ company.name }}</h2>
+    <label for="username">Buscar usuario:</label>
+    <input type="text" id="user-search" class="invite-search-input" placeholder="Escribe username o correo" autocomplete="off" data-company-id="{{ company.id }}">
+    <div id="user-results" class="user-results"></div>
+
+    <h3 class="invite-subtitle">Invitaciones enviadas</h3>
+    <ul class="invitation-list">
+        {% for invitation in invitations %}
+            <li class="invitation-row">
+                <span class="user">{{ invitation.invited_user.username }}</span>
+                <span class="user-email">{{ invitation.invited_user.email }}</span>
+                <span class="status {{ invitation.status }} invitation-status-right">{{ invitation.get_status_display }}</span>
+            </li>
+        {% empty %}
+            <li>No hay invitaciones enviadas.</li>
+        {% endfor %}
+    </ul>
+</div>
+<script src="{% static 'companies/invitations/invitations.js' %}"></script>
+<script>
+window.csrfToken = '{{ csrf_token }}';
+document.getElementById('user-search').dataset.companyId = '{{ company.id }}';
+</script>
+{% endblock %}

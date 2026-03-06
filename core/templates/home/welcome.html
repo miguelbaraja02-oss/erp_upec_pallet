@@ -1,5 +1,6 @@
 {% extends "welcome/base.html" %}
 {% load static %}
+{% load dict_extras %}
 
 {% block title %}Seleccionar Empresa | ERP UPEC{% endblock %}
 
@@ -41,15 +42,17 @@
                             </div>
                             <div class="card-info">
                                 <h3>{{ cu.company.name }}</h3>
-                                <span class="role-badge">Administrador</span>
+                                <span class="role-badge">{{ company_roles|get_item:cu.company.id }}</span>
                             </div>
                             <div class="card-arrow">
                                 <i class="fas fa-arrow-right"></i>
                             </div>
                         </button>
+                        {% if company_roles|get_item:cu.company.id == "Administrador" %}
                         <a href="{% url 'companies:edit_company' cu.company.id %}" class="btn-edit-company" title="Editar empresa">
                             <i class="fas fa-edit"></i>
                         </a>
+                        {% endif %}
                     </div>
                 {% endfor %}
 

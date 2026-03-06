@@ -1,5 +1,5 @@
 from django import forms
-from .models import Company
+from .models import Company, Role
 
 class CompanyCreateForm(forms.ModelForm):
     class Meta:
@@ -31,8 +31,6 @@ class CompanyCreateForm(forms.ModelForm):
 
 
 
-
-
 ### EDITAR COMPANIA ###
 class CompanyUpdateForm(forms.ModelForm):
     class Meta:
@@ -44,3 +42,15 @@ class CompanyUpdateForm(forms.ModelForm):
             "phone",
             "email",
         ]
+
+### GESTIONAR ROLES ###
+class RoleForm(forms.ModelForm):
+    class Meta:
+        model = Role
+        fields = ['name', 'permissions']
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name', '').strip()
+        if len(name) < 3:
+            raise forms.ValidationError("El nombre del rol debe tener al menos 3 caracteres.")
+        return name

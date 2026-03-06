@@ -13,6 +13,7 @@
     flex-direction: column;
     z-index: 1100;
     border-right: 1px solid #2a2a2a;
+    font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter */
 }
 
 /* ================================
@@ -65,7 +66,8 @@
    ITEMS
 ================================ */
 .nav-item {
-    margin: 2px 0;
+    margin: 1px 0;
+    padding: 0 0 0 0;
 }
 
 .nav-link {

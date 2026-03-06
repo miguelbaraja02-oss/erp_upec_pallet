@@ -2,17 +2,14 @@
 
 {% block layout %}
 <div class="erp-wrapper">
-
     {% include "erp/partials/sidebar_desktop.html" %}
-
-
     <div class="erp-main">
         {% include "erp/partials/navbar.html" with request=request %}
-        {% include "erp/partials/content.html" %}
+        <main class="erp-content">
+            {% block content %}{% endblock %}
+        </main>
         {% include "erp/partials/footer.html" %}
     </div>
-
     {% include "erp/partials/sidebar_mobile.html" %}
-
 </div>
 {% endblock %}

@@ -10,7 +10,7 @@
             <span class="nav-label">Inicio</span>
         </div>
         <div class="nav-item">
-            <button type="button" class="nav-btn" aria-label="Notificaciones">
+            <button type="button" class="nav-btn" aria-label="Alertas" disabled>
                 <i class="fas fa-bell"></i>
             </button>
             <span class="nav-label">Alertas</span>
@@ -65,15 +65,34 @@
 
     <div class="drawer-header">
         <span>Módulos</span>
-
     </div>
 
     <div class="drawer-grid">
-        <div class="drawer-item"><i class="fas fa-truck"></i><span>Transporte</span></div>
-        <div class="drawer-item"><i class="fas fa-chart-line"></i><span>Reportes</span></div>
-        <div class="drawer-item"><i class="fas fa-warehouse"></i><span>Almacenes</span></div>
-        <div class="drawer-item"><i class="fas fa-user-shield"></i><span>Usuarios</span></div>
-        <div class="drawer-item"><i class="fas fa-cog"></i><span>Configuración</span></div>
+        <div class="drawer-group">
+            <h5 class="drawer-subtitle">Operaciones</h5>
+            <div class="drawer-cards">
+                <div class="drawer-card"><i class="fas fa-truck"></i><span>Transporte</span></div>
+                <div class="drawer-card"><i class="fas fa-warehouse"></i><span>Almacenes</span></div>
+            </div>
+        </div>
+        {#PARA OCULTAR MÓDULOS ADMINISTRATIVOS SI EL USUARIO NO ES ADMINISTRADOR DE LA EMPRESA ACTIVA#}
+        {% if active_company and is_company_admin %}
+        <div class="drawer-group">
+            <h5 class="drawer-subtitle">Administración</h5>
+            <div class="drawer-cards">
+                <a href="{% url 'companies:list_roles' %}" class="drawer-card">
+                    <i class="fas fa-user-shield"></i><span>Gestión de Roles</span>
+                </a>
+                <a href="{% url 'companies:list_company_users' %}" class="drawer-card">
+                    <i class="fas fa-users"></i><span>Usuarios</span>
+                </a>
+                <a href="{% url 'companies:invite_user' active_company.id %}" class="drawer-card">
+                    <i class="fas fa-envelope-open-text"></i><span>Invitaciones</span>
+                </a>
+            </div>
+        </div>
+        {# Agrega aquí cualquier otro módulo administrativo futuro #}
+        {% endif %}
     </div>
 </div>
 

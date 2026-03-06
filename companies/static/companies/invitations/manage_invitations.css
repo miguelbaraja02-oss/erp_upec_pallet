@@ -1,0 +1,286 @@
+/* ============================================
+   INVITATIONS MODAL - Minimalist Enterprise
+   ============================================ */
+
+:root {
+    --color-primary: #0a0a0a;
+    --color-secondary: #737373;
+    --color-muted: #a3a3a3;
+    --color-border: #e5e5e5;
+    --color-surface: #fafafa;
+    --color-success: #16a34a;
+    --color-danger: #dc2626;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --radius: 8px;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Modal */
+.modal-content {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    font-family: var(--font-sans);
+}
+
+.modal-header {
+    background: var(--color-primary);
+    border-bottom: none;
+    padding: 1.5rem;
+}
+
+.modal-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.modal-title i {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.btn-close-white {
+    opacity: 0.5;
+    transition: opacity 0.15s;
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+.btn-close-white:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 0;
+    background: white;
+}
+
+/* Lista */
+.invitation-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Tarjeta */
+.invitation-card {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.15s;
+    border-radius: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    max-width: 500px;
+}
+
+.invitation-card:last-child {
+    border-bottom: none;
+}
+
+.invitation-card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+/* Header */
+.invitation-header {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 0.375rem;
+}
+
+.invitation-header i {
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    opacity: 0.8;
+}
+
+.invitation-company {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: -0.01em;
+}
+
+/* Invitador */
+.invitation-by {
+    font-size: 0.8125rem;
+    color: var(--color-secondary);
+    margin-bottom: 1.25rem;
+    margin-left: 2.125rem;
+    line-height: 1.5;
+}
+
+.invitation-by b {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+/* Acciones */
+.invitation-actions {
+    display: flex;
+    gap: 0.625rem;
+    margin-left: 2.125rem;
+    margin-top: 8px;
+}
+
+.invitation-actions form {
+    margin: 0;
+}
+
+.invitation-actions button {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    border: none;
+    border-radius: 0;
+    padding: 8px 20px;
+    font-weight: 500;
+    font-size: 1rem;
+    flex: 1;
+}
+
+/* Aceptar */
+.invitation-actions button.accept {
+    background: var(--color-primary);
+    color: white;
+}
+
+.invitation-actions button.accept:hover {
+    background: #262626;
+}
+
+/* Rechazar */
+.invitation-actions button.reject {
+    background: transparent;
+    color: var(--color-secondary);
+    border-color: var(--color-border);
+}
+
+.invitation-actions button.reject:hover {
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+    background: rgba(220, 38, 38, 0.02);
+}
+
+/* Vacío */
+.invitation-empty {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--color-muted);
+    margin-top: 40px;
+    font-size: 1.1rem;
+}
+
+.invitation-empty i {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    opacity: 0.5;
+}
+
+.invitation-empty div {
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+/* Scrollbar minimal */
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+}
+
+/* Avatar empresa e icono cuadrado */
+.company-avatar {
+    width: 3.2rem;
+    height: 3.2rem;
+    object-fit: cover;
+    border-radius: 0;
+    border: 1px solid #fff;
+    background: #fff;
+    display: inline-block;
+    vertical-align: middle;
+}
+.company-avatar-icon {
+    font-size: 3.2rem;
+    color: #198754;
+    border-radius: 0;
+    border: 1px solid #fff;
+    background: #fff;
+    width: 3.2rem;
+    height: 3.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+/* Botón aceptar personalizado */
+.btn-aceptar {
+    background: #ffce00 !important;
+    color: #222 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20) !important;
+    border: none !important;
+    font-weight: 600;
+    border-radius: 0 !important;
+}
+.btn-aceptar:hover {
+    background: #e6b800 !important;
+}
+
+/* Botón rechazar personalizado */
+.btn-rechazar {
+    background: #111 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20) !important;
+    border: none !important;
+    font-weight: 600;
+    border-radius: 0 !important;
+}
+.btn-rechazar:hover {
+    background: #333 !important;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .invitation-card {
+        padding: 1.25rem;
+    }
+    
+    .invitation-by,
+    .invitation-actions {
+        margin-left: 0;
+    }
+    
+    .invitation-header {
+        margin-bottom: 0.75rem;
+    }
+    
+    .invitation-actions {
+        flex-direction: row;
+    }
+    
+    .invitation-actions button {
+        flex: 1;
+    }
+}

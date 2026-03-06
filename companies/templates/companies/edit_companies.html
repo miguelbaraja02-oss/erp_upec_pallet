@@ -37,10 +37,53 @@
                         </div>
                     </div>
 
-                    <form method="post" enctype="multipart/form-data" id="editCompanyForm">
-                        {% csrf_token %}
-
-
+                    {% if is_company_admin %}
+                        <form method="post" enctype="multipart/form-data" id="editCompanyForm">
+                            {% csrf_token %}
+                            <div class="company-fields px-lg-4">
+                                <div class="mb-3">
+                                    <label class="fw-bold small text-uppercase opacity-50">RUC (Registro Único)</label>
+                                    <div class="readonly-box-custom">
+                                        <i class="bi bi-fingerprint me-2"></i>
+                                        {{ form.instance.ruc }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="fw-bold small text-uppercase opacity-50">Razón Social</label>
+                                    <div class="input-group-custom">
+                                        {{ form.name }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="fw-bold small text-uppercase opacity-50">Dirección Matriz</label>
+                                    <div class="input-group-custom">
+                                        {{ form.address }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold small text-uppercase opacity-50">Teléfono</label>
+                                        <div class="input-group-custom">
+                                            {{ form.phone }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-bold small text-uppercase opacity-50">Email</label>
+                                        <div class="input-group-custom">
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-none">
+                                {{ form.logo }} 
+                            </div>
+                            <div class="action-buttons mt-4">
+                                <button type="submit" class="btn-save">Actualizar Información</button>
+                                <a href="{% url 'core:welcome' %}" class="btn-cancel">Volver</a>
+                            </div>
+                        </form>
+                    {% else %}
                         <div class="company-fields px-lg-4">
                             <div class="mb-3">
                                 <label class="fw-bold small text-uppercase opacity-50">RUC (Registro Único)</label>
@@ -49,53 +92,46 @@
                                     {{ form.instance.ruc }}
                                 </div>
                             </div>
-
                             <div class="mb-3">
                                 <label class="fw-bold small text-uppercase opacity-50">Razón Social</label>
-                                <div class="input-group-custom">
-                                    {{ form.name }}
+                                <div class="readonly-box-custom">
+                                    {{ form.instance.name }}
                                 </div>
                             </div>
-
                             <div class="mb-3">
                                 <label class="fw-bold small text-uppercase opacity-50">Dirección Matriz</label>
-                                <div class="input-group-custom">
-                                    {{ form.address }}
+                                <div class="readonly-box-custom">
+                                    {{ form.instance.address }}
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-bold small text-uppercase opacity-50">Teléfono</label>
-                                    <div class="input-group-custom">
-                                        {{ form.phone }}
+                                    <div class="readonly-box-custom">
+                                        {{ form.instance.phone }}
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="fw-bold small text-uppercase opacity-50">Email</label>
-                                    <div class="input-group-custom">
-                                        {{ form.email }}
+                                    <div class="readonly-box-custom">
+                                        {{ form.instance.email }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="d-none">
-                            {{ form.logo }} 
-                        </div>
-
                         <div class="action-buttons mt-4">
-                            <button type="submit" class="btn-save">Actualizar Información</button>
                             <a href="{% url 'core:welcome' %}" class="btn-cancel">Volver</a>
                         </div>
-                    </form>
+                    {% endif %}
 
+                    {% if is_company_admin %}
                     <div class="danger-action mt-3">
                         <form method="post" action="{% url 'companies:deactivate' form.instance.id %}" onsubmit="return confirm('¿Estás seguro que deseas dar de baja esta empresa? Esta acción desactivará la empresa.');">
                             {% csrf_token %}
                             <button type="submit" class="btn-deactivate">Dar de baja empresa</button>
                         </form>
                     </div>
+                    {% endif %}
 
                 </div>
             </div>

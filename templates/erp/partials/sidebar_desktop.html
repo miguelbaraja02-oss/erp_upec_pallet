@@ -68,6 +68,37 @@
                     <span class="nav-text">Clientes</span>
                 </div>
             </li>
+        {#PARA OCULTAR MÓDULOS ADMINISTRATIVOS SI EL USUARIO NO ES ADMINISTRADOR DE LA EMPRESA ACTIVA#}
+                    {% if active_company and is_company_admin %}
+                        <li class="nav-section admin-section">
+                            <span class="section-text admin-title"><i class="fas fa-user-shield"></i> Administrativo</span>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'companies:list_roles' %}" class="nav-link">
+                                <div class="nav-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <span class="nav-text">Gestión de Roles</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'companies:list_company_users' %}" class="nav-link">
+                                <div class="nav-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <span class="nav-text">Usuarios</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'companies:invite_user' active_company.id %}" class="nav-link">
+                                <div class="nav-icon">
+                                    <i class="fas fa-envelope-open-text"></i>
+                                </div>
+                                <span class="nav-text">Invitaciones</span>
+                            </a>
+                        </li>
+                        {# Agrega aquí cualquier otro módulo administrativo futuro #}
+                    {% endif %}
         </ul>
     </nav>
 
@@ -82,8 +113,8 @@
                 {% endif %}
             </div>
             <div class="user-info">
-                <span class="user-name">Admin</span>
-                <span class="user-role">Superusuario</span>
+                <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+                <span class="user-role">{{ user_role_name|default:"Sin rol asignado" }}</span>
             </div>
         </div>
     </div>

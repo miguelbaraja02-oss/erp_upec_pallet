@@ -1,0 +1,247 @@
+.user-row-card {
+		background: #fff;
+		border: 1px solid #e0e0e0;
+		border-radius: 12px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+@media (min-width: 992px) {
+	.user-row-card {
+		border: none;
+		box-shadow: none;
+		border-radius: 0;
+	}
+}
+}
+.assign-role-title {
+	text-align: center;
+	margin-bottom: 1.5em;
+}
+
+.user-info-cell {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.user-avatar {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border: 1px solid #bdbdbd !important;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.no-users-msg {
+	text-align: center;
+}
+.select-options.dropup {
+	box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+}
+/* Margen superior para separar el botón Asignar del select */
+.assign-role-btn {
+	margin-top: 8px;
+}
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+*{
+box-sizing:border-box;
+}
+
+body{
+font-family:"Inter",sans-serif;
+}
+
+/* TITULO */
+
+h2{
+font-weight:600;
+color:#111;
+}
+
+/* TABLA */
+
+.company-users-table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:0;
+overflow:hidden;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.company-users-table th{
+background:#006633;
+color:white;
+padding:14px;
+text-align:left;
+font-weight:500;
+font-size:14px;
+}
+
+.company-users-table td{
+padding:14px;
+border-bottom:1px solid #f0f0f0;
+font-size:14px;
+vertical-align:middle;
+}
+
+.company-users-table tr:hover{
+background:#fafafa;
+}
+
+/* BADGES */
+
+.badge{
+padding:4px 8px;
+border-radius:0;
+font-size:12px;
+font-weight:500;
+background:#000;
+color:#fff;
+}
+
+.bg-primary{
+background:#000;
+color:#fff;
+}
+
+.bg-secondary{
+background:#e5e7eb;
+color:#555;
+}
+
+/* BOTONES */
+
+.btn-success{
+background:#ffce00;
+border:none;
+color:#222;
+padding:6px 12px;
+border-radius:0;
+cursor:pointer;
+font-size:13px;
+transition:0.2s;
+box-shadow:0 2px 8px rgba(0,0,0,0.20); /* Sombra 0.20 */
+/* Puedes modificar el color y la sombra aquí */
+}
+
+.btn-success:hover{
+background:#ffd633;
+}
+
+/* AVATAR */
+
+.avatar-img {
+	border-radius: 0 !important;
+}
+
+/* SELECT ORIGINAL OCULTO */
+
+.role-select{
+display:none;
+}
+
+/* CUSTOM SELECT */
+
+.custom-select{
+position:relative;
+min-width:160px;
+}
+
+/* BOTON DEL SELECT */
+
+.select-btn{
+border:1px solid #e5e7eb;
+background:white;
+border-radius:0;
+padding:8px 10px;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:14px;
+transition:0.2s;
+}
+
+.select-btn:hover{
+border-color:#006633;
+}
+
+/* TEXTO */
+
+.select-btn span{
+font-weight:500;
+}
+
+/* FLECHA */
+
+.select-btn::after{
+content:"▼";
+font-size:10px;
+color:#666;
+margin-left:10px;
+}
+
+/* MENU */
+
+.select-options{
+position:absolute;
+top:110%;
+left:0;
+width:100%;
+background:white;
+border:1px solid #e5e7eb;
+border-radius:0;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+display:none;
+z-index:50;
+overflow:hidden;
+}
+
+/* OPCION */
+
+.select-option{
+padding:10px;
+cursor:pointer;
+font-size:14px;
+transition:0.15s;
+}
+
+.select-option:hover{
+background:#f3f4f6;
+}
+
+.select-option.active{
+background:#006633;
+color:white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+.company-users-table thead{
+display:none;
+}
+
+.company-users-table tr{
+display:block;
+background:white;
+margin-bottom:14px;
+border-radius:0;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.company-users-table td{
+display:flex;
+justify-content:space-between;
+padding:12px;
+border-bottom:1px solid #f2f2f2;
+}
+
+.company-users-table td:last-child{
+border-bottom:none;
+}
+
+}

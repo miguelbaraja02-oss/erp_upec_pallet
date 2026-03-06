@@ -1,0 +1,49 @@
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'companies/invitations/manage_invitations.css' %}">
+{% endblock %}
+
+<div class="modal fade" id="invitationsModal" tabindex="-1" aria-labelledby="invitationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius:0;">
+            <div class="modal-header bg-success text-white" style="border-radius:0;">
+                <h5 class="modal-title" id="invitationsModalLabel">
+                    <i class="bi bi-envelope-paper me-2"></i> Invitaciones recibidas
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="border-radius:0;"></button>
+            </div>
+            <div class="modal-body" style="border-radius:0;">
+                <ul class="invitation-list">
+                    {% for invitation in pending_invitations_list %}
+                        <li class="invitation-card">
+                            <div class="invitation-header">
+                                {% if invitation.company.logo %}
+                                    <img src="{{ invitation.company.logo.url }}" alt="Avatar empresa" class="company-avatar">
+                                {% else %}
+                                    <i class="bi bi-building-fill company-avatar-icon"></i>
+                                {% endif %}
+                                <span class="invitation-company">{{ invitation.company.name }}</span>
+                            </div>
+                            <div class="invitation-by">Invitado por: <b>{{ invitation.invited_by.username }}</b></div>
+                            <div class="invitation-actions">
+                                <form method="post" action="{% url 'companies:respond_invitation' invitation.id 'accept' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="accept btn-aceptar" style="border-radius:0;">Aceptar</button>
+                                </form>
+                                <form method="post" action="{% url 'companies:respond_invitation' invitation.id 'reject' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="reject btn-rechazar" style="border-radius:0;">Rechazar</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <div class="invitation-empty">
+                            <i class="bi bi-inbox" style="font-size:2.5rem;color:#888;"></i>
+                            <div>No tienes invitaciones pendientes.</div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

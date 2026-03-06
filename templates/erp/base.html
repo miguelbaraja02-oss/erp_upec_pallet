@@ -25,7 +25,9 @@
 </head>
 <body>
 
-{% block layout %}{% endblock %}
+{% block layout %}
+    {% block content %}{% endblock %}
+{% endblock %}
 
 <script src="{% static 'erp/sidebar_mobile.js' %}"></script>
 {% block extra_js %}{% endblock %}

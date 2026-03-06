@@ -11,11 +11,19 @@ def create_company(request):
         if form.is_valid():
             company = form.save()
 
-            CompanyUser.objects.create(
+            # Crear roles por defecto si no existen
+            from companies.models import Role, UserRole
+            admin_role, _ = Role.objects.get_or_create(name="Administrador")
+            employee_role, _ = Role.objects.get_or_create(name="Empleado")
+
+            # Crear el usuario dueño de la empresa
+            company_user = CompanyUser.objects.create(
                 user=request.user,
                 company=company,
                 is_owner=True
             )
+            # Asignar rol Administrador al dueño, vinculado a la empresa
+            UserRole.objects.create(user=request.user, company=company, role=admin_role)
 
             return redirect("core:welcome")
     else:

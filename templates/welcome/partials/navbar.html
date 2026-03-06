@@ -14,10 +14,13 @@
         {% if user.is_authenticated %}
         <div class="user-section">
             
+
             <div class="notifications-container">
-                <button class="notification-btn" type="button" aria-label="Notificaciones">
-                    <i class="fa-solid fa-bell"></i>
-                    <span class="notification-dot"></span>
+                <button type="button" class="notification-btn" aria-label="Notificaciones" data-bs-toggle="modal" data-bs-target="#invitationsModal">
+                    <i class="bi bi-bell"></i>
+                    {% if pending_invitations_list and pending_invitations_list|length > 0 %}
+                        <span class="notification-dot"></span>
+                    {% endif %}
                 </button>
             </div>
             <div class="dropdown user-dropdown">

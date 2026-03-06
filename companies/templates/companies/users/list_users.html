@@ -1,0 +1,67 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+{% load role_extras %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'companies/users/users.css' %}">
+{% endblock %}
+{% block content %}
+<h2>Usuarios de {{ company.name }}</h2>
+<table class="company-users-table">
+    <thead>
+        <tr>
+            <th>Avatar</th>
+            <th>Nombre</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cu in users %}
+        <tr>
+            <td data-label="Avatar">
+                {% if cu.user.profile and cu.user.profile.avatar and cu.user.profile.avatar.url %}
+                    <img src="{{ cu.user.profile.avatar.url }}" alt="Avatar" class="user-avatar-img">
+                {% else %}
+                    <span class="user-avatar-icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                {% endif %}
+            </td>
+            <td data-label="Nombre">{{ cu.user.first_name }} {{ cu.user.last_name }}</td>
+            <td data-label="Username">{{ cu.user.username }}</td>
+            <td data-label="Email">{{ cu.user.email }}</td>
+            <td data-label="Rol">
+                {% if cu.is_owner %}
+                    <span class="badge bg-primary">Dueño</span>
+                {% elif user_roles|has_key:cu.user.id %}
+                    {% with user_roles|get_item:cu.user.id as user_role %}
+                        <span class="badge bg-info">{{ user_role.name }}</span>
+                    {% endwith %}
+                {% else %}
+                    <span class="badge bg-secondary">Sin rol</span>
+                {% endif %}
+            </td>
+            <td data-label="Estado">{% if cu.is_active %}<span class="badge bg-success">Activo</span>{% else %}<span class="badge bg-secondary">Inactivo</span>{% endif %}</td>
+            <td data-label="Acción">
+                {% if not cu.is_owner and cu.is_active %}
+                <form method="post" action="{% url 'companies:deactivate_company_user' cu.user.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Inhabilitar</button>
+                </form>
+                {% elif not cu.is_owner and not cu.is_active %}
+                <form method="post" action="{% url 'companies:activate_company_user' cu.user.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm btn-habilitar">Habilitar</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align:center;">No hay usuarios en la empresa.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

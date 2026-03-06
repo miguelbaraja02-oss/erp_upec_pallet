@@ -1,0 +1,358 @@
+/* ==============================
+   VARIABLES Y RESET
+============================== */
+:root {
+    --primary: #006633;
+    --accent: #ffce00;
+    --black: #000000;
+    --white: #ffffff;
+    --gray-light: #f5f5f5;
+    --gray-border: #e0e0e0;
+    --gray-text: #666666;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--gray-light);
+    color: var(--black);
+    font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter */
+}
+
+/* ==============================
+   CONTENEDOR PRINCIPAL
+============================== */
+.invite-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ==============================
+   TITULOS
+============================== */
+.invite-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 25px;
+}
+
+.invite-subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 15px 0;
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+}
+
+/* ==============================
+   INPUT BUSQUEDA
+============================== */
+label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.invite-search-input {
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-border);
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+.invite-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 51, 0.15);
+}
+
+.invite-search-input:disabled {
+    border-color: var(--gray-border);
+    background: var(--gray-light);
+}
+
+/* ==============================
+   RESULTADOS (CARDS)
+============================== */
+.user-results {
+    margin-top: 15px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    padding: 14px 18px;
+    border-radius: 0 !important;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+@media (max-width: 600px) {
+    .user-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .user-card-email {
+        margin-bottom: 8px;
+    }
+    .user-card-invite-btn {
+        margin-top: 4px;
+        align-self: flex-end;
+    }
+}
+
+.user-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.user-card-username {
+    font-weight: 600;
+    color: var(--black);
+}
+
+.user-card-email {
+    font-size: 14px;
+    color: var(--gray-text);
+    margin-right: 10px;
+}
+
+.user-card-invite-btn {
+    background: #ffce00 !important;
+    color: #222 !important;
+    border: none !important;
+    padding: 8px 14px !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+    font-size: 14px !important;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20) !important;
+}
+
+.user-card-invite-btn:hover {
+    background: #e6b800 !important;
+}
+
+/* ==============================
+        border-radius: 0 !important;
+        cursor: pointer;
+        font-size: 14px !important;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.20) !important;
+
+.invitation-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: 0 !important;
+    margin-bottom: 10px;
+}
+
+.invitation-list .user {
+    font-weight: 500;
+}
+
+.user-email {
+    color: #555;
+    font-size: 0.97em;
+    margin-left: 1em;
+    font-weight: 400;
+}
+
+.invitation-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 260px;
+    max-width: 99vw;
+    box-sizing: border-box;
+}
+.invitation-row .user {
+    font-weight: 600;
+    margin-right: 1em;
+}
+.invitation-row .user-email {
+    color: #555;
+    font-size: 0.97em;
+    margin-right: 1em;
+    font-weight: 400;
+}
+.invitation-status-right {
+    margin-left: auto;
+    font-weight: 600;
+}
+
+/* ==============================
+   ESTADOS
+============================== */
+.status {
+    border-radius: 0 !important;
+    padding: 0.3em 0.8em;
+    font-weight: 600;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+.status.pending {
+    background: rgba(255, 206, 0, 0.2);
+    color: #b38f00;
+}
+
+.status.accepted {
+    background: rgba(0, 102, 51, 0.15);
+    color: var(--primary);
+}
+
+.status.rejected {
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--black);
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+
+    .invite-container {
+        padding: 25px;
+        margin: 20px;
+    }
+
+    .user-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .invitation-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .user-card-invite-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .container-erp {
+        max-width: 98vw;
+        padding: 1em 0.5em;
+        padding-left: 4vw;
+        padding-right: 4vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .invite-search-input {
+        max-width: 98vw;
+        border-radius: 0 !important;
+    }
+
+    .user-results,
+    .user-card,
+    .invite-form {
+        max-width: 98vw;
+        font-size: 0.97em;
+    }
+
+    .user-card {
+        padding: 0.7em 0.7em 1em 0.7em;
+    }
+
+    .user-card-invite-btn {
+        font-size: 0.95em !important;
+        padding: 0.45em 0.9em !important;
+    }
+
+    .status {
+        font-size: 0.95em;
+        padding: 0.25em 0.6em;
+    }
+
+    .invite-search-input,
+    .user-results,
+    .user-card,
+    .invite-form,
+    .invitation-list {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    .invitation-list li {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+}
+
+@media (min-width: 900px) {
+
+    .invite-form, .user-results, .invite-search-input, .user-card, .user-card-invite-btn, .container-erp {
+        border-radius: 0 !important;
+    }
+
+    .invite-form, .user-results {
+        max-width: 420px;
+    }
+
+    .invite-search-input {
+        max-width: 420px;
+    }
+
+    .container-erp {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 2em 1em 2em 1em;
+        box-sizing: border-box;
+        background: transparent;
+    }
+
+    @media (min-width: 900px) {
+        .container-erp {
+            max-width: 600px;
+            padding: 2.5em 2em 2.5em 2em;
+        }
+}
+
+/* Botón Habilitar personalizado */
+.btn-habilitar {
+    background: #ffce00 !important;
+    color: #222 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20) !important;
+    border: none !important;
+    font-weight: 600;
+}
+.btn-habilitar:hover {
+    background: #e6b800 !important;
+}

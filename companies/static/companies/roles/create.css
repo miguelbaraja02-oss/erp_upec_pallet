@@ -1,0 +1,146 @@
+
+/* ==============================
+    VARIABLES
+============================== */
+
+:root{
+    --primary:#006633;
+    --accent:#ffce00;
+    --white:#ffffff;
+    --black:#000000;
+    --gray-bg:#f7f7f7;
+    --gray-border:#e5e5e5;
+    --gray-text:#666;
+}
+
+/* ==============================
+   RESET
+============================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:var(--gray-bg);
+    font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter */
+}
+
+/* ==============================
+   CONTENEDOR FORM
+============================== */
+
+.roles-form{
+    max-width:520px;
+    margin:60px auto;
+    padding:35px;
+    background:var(--white);
+    border:1px solid var(--gray-border);
+}
+
+/* ==============================
+   TITULO
+============================== */
+
+.roles-form h1{
+    font-size:24px;
+    font-weight:600;
+    color:var(--primary);
+    margin-bottom:25px;
+}
+
+/* ==============================
+   FORMULARIO
+============================== */
+
+.roles-form form p{
+    margin-bottom:18px;
+}
+
+.roles-form label{
+    display:block;
+    font-weight:500;
+    margin-bottom:6px;
+    color:var(--black);
+}
+
+/* inputs */
+
+.roles-form input,
+.roles-form select,
+.roles-form textarea{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--gray-border);
+    font-size:14px;
+    transition:0.2s;
+}
+
+.roles-form input:focus,
+.roles-form select:focus,
+.roles-form textarea:focus{
+    outline:none;
+    border-color:var(--primary);
+}
+
+/* ==============================
+   BOTONES
+============================== */
+
+.roles-form .btn{
+    display:inline-block;
+    padding:9px 16px;
+    font-size:14px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    transition:0.2s;
+    margin-right:8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20);
+}
+
+
+.btn-success{
+    background: #ffce00;
+    color: #000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20);
+}
+
+.btn-success:hover{
+    background: #ffd633;
+}
+
+.btn-secondary{
+    background: #000;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20);
+}
+
+.btn-secondary:hover{
+    background: #222;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width:700px){
+
+    .roles-form{
+        margin:20px;
+        padding:22px;
+    }
+
+    .roles-form h1{
+        font-size:20px;
+    }
+
+    .roles-form .btn{
+        width:100%;
+        margin-bottom:10px;
+        text-align:center;
+    }
+
+}

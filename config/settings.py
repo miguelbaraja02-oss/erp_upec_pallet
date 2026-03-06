@@ -86,7 +86,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "core.context_processors.company.active_company"
+                "core.context_processors.company.active_company",
+                "core.context_processors.pending_invitations.pending_invitations",
+                "core.context_processors.is_company_owner.is_company_admin",
+                "core.context_processors.pending_invitations_list.pending_invitations_list",
             ],
         },
     },
@@ -166,6 +169,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
+    BASE_DIR / "companies" / "static" / "companies",
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -184,3 +188,9 @@ LOGOUT_REDIRECT_URL = "/accounts/login/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+## LOGING GOOGLE #####
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_AUTO_SIGNUP = True

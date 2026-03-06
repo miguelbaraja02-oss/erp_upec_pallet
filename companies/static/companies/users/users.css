@@ -1,0 +1,265 @@
+/* Botón Habilitar personalizado */
+.btn-habilitar {
+    background: #ffce00 !important;
+    color: #222 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20) !important;
+    border: none !important;
+    font-weight: 600;
+}
+.btn-habilitar:hover {
+    background: #e6b800 !important;
+}
+.user-avatar-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 0;
+    object-fit: cover;
+    background: #ececec;
+    border: 1px solid #e0e0e0;
+}
+
+.user-avatar-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    background: #ececec;
+    color: #888;
+    font-size: 18px;
+    border: 1px solid #e0e0e0;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 1px solid #bdbdbd !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ==============================
+   VARIABLES Y RESET
+============================== */
+
+:root{
+    --primary:#006633;
+    --accent:#ffce00;
+    --black:#000000;
+    --white:#ffffff;
+    --gray-light:#f5f5f5;
+    --gray-border:#e3e3e3;
+    --gray-text:#666666;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter */
+}
+
+body{
+    background:var(--gray-light);
+    color:var(--black);
+}
+
+/* ==============================
+   TITULO
+============================== */
+
+h2{
+    color:var(--primary);
+    font-weight:600;
+    text-align: center;
+    margin-bottom: 1.5em;
+    margin-top: 2em;
+}
+
+/* ==============================
+   TABLA
+============================== */
+
+.company-users-table{
+    width:100%;
+    max-width:1800px;
+    margin:30px auto;
+    border-collapse:collapse;
+    background:var(--white);
+    box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* ==============================
+   HEADER
+============================== */
+
+.company-users-table thead{
+    background:var(--primary);
+    color:var(--white);
+}
+
+.company-users-table th{
+    text-align:left;
+    padding:22px 28px;
+    font-weight:600;
+    font-size:17px; /* ← Modifica aquí el tamaño de letra de los encabezados de la tabla de usuarios */
+}
+
+/* ==============================
+   FILAS
+============================== */
+
+.company-users-table td{
+    padding:22px 28px;
+    border-bottom:1px solid var(--gray-border);
+    font-size:17px; /* ← Modifica aquí el tamaño de letra de las celdas de la tabla de usuarios */
+}
+
+.company-users-table tbody tr{
+    transition:all 0.2s ease;
+}
+
+.company-users-table tbody tr:hover{
+    background:rgba(0,102,51,0.05);
+}
+
+/* ==============================
+   AVATAR
+============================== */
+
+.company-users-table img{
+    width:48px;
+    height:48px;
+    border-radius:0 !important;
+    object-fit:cover;
+    border: 1px solid #bdbdbd !important;
+}
+
+.company-users-table td div{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* ==============================
+   BADGES
+============================== */
+
+.badge{
+    padding:5px 10px;
+    font-size:12px;
+    font-weight:600;
+    display:inline-block;
+}
+
+.bg-primary{
+    background:rgba(0,102,51,0.18);
+    color:var(--primary);
+}
+
+.bg-info{
+    background:rgba(255,206,0,0.35);
+    color:#8f7400;
+}
+
+.bg-secondary{
+    background:rgba(0,0,0,0.08);
+    color:var(--black);
+}
+
+.bg-success{
+    background:rgba(0,102,51,0.25);
+    color:var(--primary);
+}
+
+/* ==============================
+   BOTONES
+============================== */
+
+.btn{
+    border:none;
+    padding:6px 12px;
+    cursor:pointer;
+    font-size:13px;
+    transition:all 0.2s ease;
+}
+
+.btn-sm{
+    font-size:12px;
+}
+
+.btn-danger{
+    background:#000;
+    color:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,0.20); /* Sombra 0.20 */
+    /* Puedes modificar el color y la sombra aquí */
+}
+
+.btn-danger:hover{
+    background:#222;
+}
+
+.btn-success{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-success:hover{
+    background:#004d26;
+}
+
+/* ==============================
+   FILA VACIA
+============================== */
+
+.company-users-table td[colspan]{
+    text-align:center;
+    padding:30px;
+    color:var(--gray-text);
+}
+
+/* ==============================
+   RESPONSIVE (MOVIL)
+============================== */
+
+@media (max-width:768px){
+
+    .company-users-table thead{
+        display:none;
+    }
+
+    .company-users-table,
+    .company-users-table tbody,
+    .company-users-table tr,
+    .company-users-table td{
+        display:block;
+        width:100%;
+    }
+
+    .company-users-table tr{
+        margin-bottom:15px;
+        padding:14px;
+        border:1px solid var(--gray-border);
+        background:var(--white);
+    }
+
+    .company-users-table td{
+        border:none;
+        padding:8px 0;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .company-users-table td::before{
+        content:attr(data-label);
+        font-weight:600;
+        color:var(--primary);
+        margin-right:10px;
+    }
+
+}

@@ -1,4 +1,25 @@
+/* ================================
+   OCULTAR ELEMENTOS MÓVILES EN DESKTOP
+================================ */
+.erp-bottom-nav,
+.user-menu-ribbon,
+.erp-drawer,
+.drawer-overlay {
+    display: none;
+}
+
 @media (max-width: 768px) {
+
+    .erp-bottom-nav {
+        display: flex;
+        font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter para móvil */
+    }
+
+    .user-menu-ribbon,
+    .erp-drawer,
+    .drawer-overlay {
+        display: block;
+    }
 
     html, body {
         margin: 0;
@@ -431,35 +452,75 @@
         border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
+    /* ── DRAWER GRID: lista vertical por áreas ── */
     .drawer-grid {
-        padding: 20px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-    }
-
-    .drawer-item {
-        background: #151515;
-        border-radius: 12px;
-        height: 90px;
+        padding: 12px 20px 28px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 12px;
-        text-align: center;
-        transition: background 0.2s ease;
+        gap: 0;
+        overflow-y: auto;
+        max-height: calc(75vh - 80px);
     }
 
-    .drawer-item i {
-        font-size: 20px;
-        margin-bottom: 6px;
-        color: #00a86b;
+    /* Grupo de cada área */
+    .drawer-group {
+        margin-bottom: 24px;
     }
 
-    .drawer-item:hover {
-        background: #1f1f1f;
+    /* Subtítulo de área */
+    .drawer-subtitle {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.35);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0 0 10px 4px;
+        padding: 0;
+        border: none;
+        background: none;
+    }
+
+    /* Grid de cajoncitos dentro de cada grupo */
+    .drawer-cards {
+           display: grid;
+           grid-template-columns: repeat(2, 1fr);
+           gap: 7px;
+    }
+
+    /* Cada cajoncito */
+    .drawer-card {
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           gap: 6px;
+           padding: 10px 4px;
+           border-radius: 0;
+           background: rgba(255,255,255,0.06);
+           color: rgba(255,255,255,0.85);
+           font-size: 0.75rem;
+           font-weight: 500;
+           text-decoration: none;
+           text-align: center;
+           transition: background 0.18s, transform 0.15s;
+           border: 1px solid rgba(255,255,255,0.08);
+           cursor: pointer;
+           -webkit-tap-highlight-color: transparent;
+    }
+
+    .drawer-card i {
+        font-size: 22px;
+        color: #f7b500;
+    }
+
+    .drawer-card:hover {
+        background: rgba(255,255,255,0.10);
+        transform: scale(1.03);
+    }
+
+    .drawer-card:active {
+        background: rgba(247,181,0,0.15);
+        transform: scale(0.97);
     }
 
     .drawer-overlay {
@@ -477,3 +538,5 @@
         pointer-events: auto;
     }
 }
+
+

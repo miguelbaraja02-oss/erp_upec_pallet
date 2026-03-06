@@ -1,0 +1,229 @@
+
+/* Importar fuente Inter de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ==============================
+    VARIABLES
+============================== */
+
+:root{
+    --primary:#006633;
+    --accent:#ffce00;
+    --white:#ffffff;
+    --black:#000000;
+    --gray-bg:#f7f7f7;
+    --gray-border:#e6e6e6;
+    --gray-text:#666;
+}
+
+/* ==============================
+   RESET
+============================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:var(--gray-bg);
+    font-family: 'Inter', Arial, sans-serif !important; /* Tipografía fija Inter */
+}
+
+/* ==============================
+   CONTENEDOR
+============================== */
+
+.roles-container{
+    max-width:1000px;
+    margin:40px auto;
+    padding:35px;
+    background:var(--white);
+}
+
+/* ==============================
+   TITULO
+============================== */
+
+.roles-container h1{
+    font-size:26px;
+    font-weight:600;
+    color:var(--primary);
+    margin-bottom:25px;
+}
+
+/* ==============================
+   BOTONES SUPERIORES
+============================== */
+
+.roles-container > div{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.btn{
+    padding:9px 16px;
+    font-size:14px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+    /* Sombra agregada para el botón Crear Rol */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+}
+
+.btn-primary:hover{
+    background:#004d26;
+}
+
+.btn-success{
+    background: var(--white); /* Cambiado de amarillo a blanco */
+    color: black;
+    /* Sombra agregada para el botón Asignar Rol a Usuarios */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+
+.btn-success:hover{
+    background: #f0f0f0; /* Blanco más oscuro en hover, similar a otros botones */
+}
+
+.btn-warning{
+    background:#ffce00; /* Color solicitado para Editar */
+    color:black;
+    /* Sombra agregada para el botón Editar */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+}
+
+.btn-warning:hover{
+    background:#d97706;
+}
+
+.btn-danger{
+    background:#000000; /* Fondo negro para Eliminar */
+    color:white;
+    /* Sombra agregada para el botón Eliminar */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+}
+
+.btn-danger:hover{
+    background:#222222; /* Mantener fondo oscuro en hover, no rojo */
+}
+
+/* ==============================
+   TABLA (PC)
+============================== */
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table thead{
+    border-bottom:2px solid var(--gray-border);
+}
+
+.table th{
+    text-align:left;
+    padding:14px;
+    font-size:13px;
+    color:var(--gray-text);
+}
+
+.table td{
+    padding:16px 14px;
+    border-bottom:1px solid var(--gray-border);
+}
+
+.table tbody tr{
+    transition:0.15s;
+}
+
+.table tbody tr:hover{
+    background:#fafafa;
+}
+
+.table td:last-child{
+    white-space:nowrap;
+}
+
+.table td .btn{
+    margin-right:6px;
+}
+
+/* ==============================
+   MENSAJE VACIO
+============================== */
+
+.table td[colspan]{
+    text-align:center;
+    padding:30px;
+    color:var(--gray-text);
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width:700px){
+
+    .roles-container{
+        margin:15px;
+        padding:20px;
+    }
+
+    /* ocultar header */
+    .table thead{
+        display:none;
+    }
+
+    .table,
+    .table tbody,
+    .table tr,
+    .table td{
+        display:block;
+        width:100%;
+    }
+
+    .table tr{
+        border:1px solid var(--gray-border);
+        padding:16px;
+        margin-bottom:12px;
+        background:white;
+    }
+
+    .table td{
+        border:none;
+        padding:8px 0;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .table td::before{
+        content:attr(data-label);
+        font-weight:600;
+        color:var(--primary);
+    }
+
+    .table td:last-child{
+        margin-top:8px;
+        justify-content:flex-end;
+    }
+
+    .table td:last-child::before{
+        display:none;
+    }
+
+    .table td .btn{
+        margin-left:6px;
+    }
+
+}

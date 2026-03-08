@@ -25,7 +25,11 @@ def list_roles(request):
     admin_roles = Role.objects.filter(name='Administrador')
     other_roles = Role.objects.exclude(name='Administrador')
     roles = list(admin_roles) + list(other_roles)
-    return render(request, 'companies/roles/list.html', {'roles': roles})
+    context = {
+        'roles': roles,
+        'active_module': 'roles',
+    }
+    return render(request, 'companies/roles/list.html', context)
 
 # Vista para crear un nuevo rol
 @company_admin_required

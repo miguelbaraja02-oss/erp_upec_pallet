@@ -13,4 +13,4 @@ def select_company(request, company_id):
 
     request.session["company_id"] = company_user.company_id
 
-    return redirect("core:dashboard")
+    return redirect("companies:overview", company_id=company_user.company_id)

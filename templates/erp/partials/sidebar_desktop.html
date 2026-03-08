@@ -26,13 +26,16 @@
             </li>
 
             <li class="nav-item">
-                <div class="nav-link active">
-                    <div class="nav-icon">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </div>
-                    <span class="nav-text">Dashboard</span>
-                    <div class="active-indicator"></div>
-                </div>
+                    <a href="{% if active_company %}{% url 'companies:overview' active_company.id %}{% else %}#{% endif %}"
+                       class="nav-link{% if active_module == 'overview' %} active bg-success text-white{% endif %}">
+                        <div class="nav-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <span class="nav-text">Vista General</span>
+                        {% if active_module == 'overview' %}
+                            <div class="active-indicator"></div>
+                        {% endif %}
+                    </a>
             </li>
 
             <li class="nav-section">
@@ -74,28 +77,40 @@
                             <span class="section-text admin-title"><i class="fas fa-user-shield"></i> Administrativo</span>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'companies:list_roles' %}" class="nav-link">
-                                <div class="nav-icon">
-                                    <i class="fas fa-user-shield"></i>
-                                </div>
-                                <span class="nav-text">Gestión de Roles</span>
-                            </a>
+                                <a href="{% url 'companies:list_roles' %}"
+                                   class="nav-link{% if active_module == 'roles' %} active bg-success text-white{% endif %}">
+                                    <div class="nav-icon">
+                                        <i class="fas fa-user-shield"></i>
+                                    </div>
+                                    <span class="nav-text">Gestión de Roles</span>
+                                    {% if active_module == 'roles' %}
+                                        <div class="active-indicator"></div>
+                                    {% endif %}
+                                </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'companies:list_company_users' %}" class="nav-link">
-                                <div class="nav-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <span class="nav-text">Usuarios</span>
-                            </a>
+                                <a href="{% url 'companies:list_company_users' %}"
+                                   class="nav-link{% if active_module == 'users' %} active bg-success text-white{% endif %}">
+                                    <div class="nav-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <span class="nav-text">Usuarios</span>
+                                    {% if active_module == 'users' %}
+                                        <div class="active-indicator"></div>
+                                    {% endif %}
+                                </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{% url 'companies:invite_user' active_company.id %}" class="nav-link">
-                                <div class="nav-icon">
-                                    <i class="fas fa-envelope-open-text"></i>
-                                </div>
-                                <span class="nav-text">Invitaciones</span>
-                            </a>
+                                <a href="{% url 'companies:invite_user' active_company.id %}"
+                                   class="nav-link{% if active_module == 'invite' %} active bg-success text-white{% endif %}">
+                                    <div class="nav-icon">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                    </div>
+                                    <span class="nav-text">Invitaciones</span>
+                                    {% if active_module == 'invite' %}
+                                        <div class="active-indicator"></div>
+                                    {% endif %}
+                                </a>
                         </li>
                         {# Agrega aquí cualquier otro módulo administrativo futuro #}
                     {% endif %}

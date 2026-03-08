@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     data.users.forEach(user => {
                         const form = document.createElement('form');
-                        form.className = 'user-card';
+                        form.className = 'user-card user-card-animate';
                         form.method = 'post';
                         form.action = `/companies/${companyId}/invite/`;
                         form.innerHTML = `
@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             <input type='hidden' name='csrfmiddlewaretoken' value='${window.csrfToken}'>
                         `;
                         results.appendChild(form);
+                        setTimeout(() => {
+                            form.classList.add('user-card-show');
+                        }, 10);
                     });
                 })
                 .catch(() => {

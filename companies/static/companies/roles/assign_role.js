@@ -49,15 +49,17 @@ btn.onclick=function(e){
 	e.stopPropagation();
 	document.querySelectorAll(".select-options").forEach(m=>{
 		if(m!==menu){
-			m.style.display="none";
+ 			m.classList.remove("select-options-show");
+ 			setTimeout(()=>{m.style.display="none";},300);
 		}
 	});
 
 	// Mostrar el menú
-	if(menu.style.display==="block"){
-		menu.style.display="none";
-		menu.classList.remove("dropup");
-	}else{
+ 	if(menu.classList.contains("select-options-show")){
+ 		menu.classList.remove("select-options-show");
+ 		setTimeout(()=>{menu.style.display="none";},300);
+ 		menu.classList.remove("dropup");
+ 	}else{
 		// Mostrar temporalmente para medir
 		menu.style.visibility = "hidden";
 		menu.style.display = "block";
@@ -88,7 +90,8 @@ btn.onclick=function(e){
 			menu.style.top = (btnRect.bottom + 6) + "px";
 			menu.style.width = btnRect.width + "px";
 		}
-		menu.style.display = "block";
+ 		menu.style.display = "block";
+ 		setTimeout(()=>{menu.classList.add("select-options-show");},10);
 	}
 }
 
@@ -102,11 +105,14 @@ wrapper.appendChild(select)
 
 document.addEventListener("click",function(){
 	document.querySelectorAll(".select-options").forEach(menu=>{
-		menu.style.display="none";
-		menu.style.position = "absolute";
-		menu.style.left = "";
-		menu.style.top = "";
-		menu.style.width = "";
+ 		menu.classList.remove("select-options-show");
+ 		setTimeout(()=>{
+ 			menu.style.display="none";
+ 			menu.style.position = "absolute";
+ 			menu.style.left = "";
+ 			menu.style.top = "";
+ 			menu.style.width = "";
+ 		},300);
 	});
 });
 

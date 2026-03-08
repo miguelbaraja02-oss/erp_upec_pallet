@@ -96,6 +96,17 @@ label {
     margin-right: auto;
 }
 
+/* ANIMACIÓN FADE + SLIDE PARA RESULTADOS */
+.user-card-animate {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.user-card-animate.user-card-show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .user-card {
     display: flex;
     justify-content: space-between;

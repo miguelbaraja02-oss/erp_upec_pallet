@@ -47,7 +47,13 @@ def list_company_users(request):
         return redirect("core:welcome")
     users = CompanyUser.objects.filter(company=company).select_related("user")
     user_roles = {ur.user_id: ur.role for ur in UserRole.objects.filter(user__in=[u.user for u in users], company=company)}
-    return render(request, "companies/users/list_users.html", {"company": company, "users": users, "user_roles": user_roles})
+    context = {
+        "company": company,
+        "users": users,
+        "user_roles": user_roles,
+        "active_module": "users",
+    }
+    return render(request, "companies/users/list_users.html", context)
 
 @login_required
 def deactivate_company_user(request, user_id):

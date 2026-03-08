@@ -148,6 +148,18 @@ display:none;
 position:relative;
 min-width:160px;
 }
+/* ANIMACIÓN FADE + SLIDE PARA EL MENÚ */
+.select-options {
+	opacity: 0;
+	transform: translateY(-20px);
+	transition: opacity 0.3s ease, transform 0.3s ease;
+	pointer-events: none;
+}
+.select-options.select-options-show {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
+}
 
 /* BOTON DEL SELECT */
 

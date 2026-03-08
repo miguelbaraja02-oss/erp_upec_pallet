@@ -57,6 +57,7 @@ def invite_user(request, company_id):
         "available_users": available_users,
         "invitations": Invitation.objects.filter(company=company),
         "query": query,
+        "active_module": "invite",
     }
     return render(request, "companies/invitations/invite_user.html", context)
 

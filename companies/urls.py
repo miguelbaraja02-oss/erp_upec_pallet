@@ -1,4 +1,6 @@
 from .views.users import list_company_users, deactivate_company_user, activate_company_user
+from .views.overview import overview
+from .views.select_company import select_company
 from django.urls import path
 
 from .views.create_company import create_company
@@ -11,6 +13,7 @@ from .views.invitations import invite_user, manage_invitations, respond_invitati
 app_name = "companies"
 
 urlpatterns = [
+    path("select/<int:company_id>/", select_company, name="select_company"),
     path("create/", create_company, name="create"),
     path("edit/<int:company_id>/", edit_company, name="edit_company"),
     path("deactivate/<int:company_id>/", deactivate_company, name="deactivate"),
@@ -18,6 +21,9 @@ urlpatterns = [
     path("roles/create/", create_role, name="create_role"),
     path("roles/edit/<int:role_id>/", edit_role, name="edit_role"),
     path("roles/delete/<int:role_id>/", delete_role, name="delete_role"),
+
+    # Vista general de la empresa
+    path("<int:company_id>/overview/", overview, name="overview"),
 
     # Invitaciones
     path("<int:company_id>/invite/", invite_user, name="invite_user"),

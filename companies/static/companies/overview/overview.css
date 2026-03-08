@@ -1,0 +1,132 @@
+/* ==============================
+    VARIABLES
+============================== */
+
+:root{
+    --primary:#006633;
+    --accent:#ffce00;
+    --white:#ffffff;
+    --black:#000000;
+    --gray-bg:#f7f7f7;
+    --gray-border:#e5e5e5;
+    --gray-text:#666;
+}
+
+/* ==============================
+   RESET
+============================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:var(--gray-bg);
+    font-family:'Inter', Arial, sans-serif !important;
+}
+
+/* ==============================
+   CONTENEDOR GENERAL
+============================== */
+
+.overview-container{
+    max-width:1000px;
+    margin:60px auto;
+    padding:0 20px;
+}
+
+/* ==============================
+   TARJETA BIENVENIDA
+============================== */
+
+.welcome-card{
+    background:var(--white);
+    border:1px solid var(--gray-border);
+    padding:40px;
+    text-align:center;
+    box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* ==============================
+   TITULO
+============================== */
+
+.welcome-card h1{
+    font-size:28px;
+    color:var(--primary);
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+/* ==============================
+   TEXTO
+============================== */
+
+.welcome-card p{
+    color:var(--gray-text);
+    font-size:15px;
+    margin-bottom:8px;
+}
+
+/* ==============================
+   INFO EMPRESA
+============================== */
+
+.company-info{
+    margin-top:35px;
+    padding-top:25px;
+    border-top:1px solid var(--gray-border);
+}
+
+/* logo */
+
+.company-logo{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    margin-bottom:15px;
+}
+
+/* nombre empresa */
+
+.company-info h2{
+    font-size:22px;
+    color:var(--black);
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+/* datos */
+
+.company-info p{
+    font-size:14px;
+    color:var(--gray-text);
+    margin-bottom:4px;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width:700px){
+
+    .overview-container{
+        margin:25px auto;
+    }
+
+    .welcome-card{
+        padding:25px;
+    }
+
+    .welcome-card h1{
+        font-size:22px;
+    }
+
+    .company-logo{
+        width:70px;
+        height:70px;
+    }
+
+}

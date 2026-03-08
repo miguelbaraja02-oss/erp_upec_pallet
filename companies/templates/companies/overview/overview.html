@@ -1,0 +1,22 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'companies/overview/overview.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="overview-container">
+	<div class="welcome-card">
+		<h1>¡Bienvenido a la empresa!</h1>
+		<p>Esta es la vista general de tu empresa en el sistema ERP UPEC Pallet.</p>
+		<p>Aquí podrás ver información relevante y acceder a las funcionalidades de gestión.</p>
+		<div class="company-info">
+			<img src="{% if company.logo %}{{ company.logo.url }}{% else %}{% static 'companies/overview/default_logo.png' %}{% endif %}" alt="Logo de la empresa" class="company-logo">
+			<h2>{{ company.name }}</h2>
+			<p>{{ company.address }}</p>
+			<p>{{ company.email }}</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+/* ==============================
+    VARIABLES
+============================== */
+
+:root{
+    --primary:#006633;
+    --accent:#ffce00;
+    --white:#ffffff;
+    --black:#000000;
+    --gray-bg:#f7f7f7;
+    --gray-border:#e5e5e5;
+    --gray-text:#666;
+}
+
+/* ==============================
+   RESET
+============================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:var(--gray-bg);
+    font-family:'Inter', Arial, sans-serif !important;
+}
+
+/* ==============================
+   CONTENEDOR
+============================== */
+
+.roles-confirm{
+    max-width:520px;
+    margin:60px auto;
+    padding:35px;
+    background:var(--white);
+    border:1px solid var(--gray-border);
+    text-align:center;
+}
+
+/* ==============================
+   TITULO
+============================== */
+
+.roles-confirm h1{
+    font-size:24px;
+    font-weight:600;
+    color:var(--primary);
+    margin-bottom:18px;
+}
+
+/* ==============================
+   TEXTO
+============================== */
+
+.roles-confirm p{
+    font-size:15px;
+    color:var(--gray-text);
+    margin-bottom:30px;
+}
+
+/* ==============================
+   BOTONES
+============================== */
+
+.roles-confirm .btn{
+    display:inline-block;
+    padding:9px 16px;
+    font-size:14px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    transition:0.2s;
+    margin-right:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.20);
+}
+
+/* eliminar */
+
+.btn-danger{
+    background:#ffce00;
+    color:#000;
+}
+
+.btn-danger:hover{
+    background:#ffd633;
+}
+
+/* cancelar */
+
+.btn-secondary{
+    background:#000;
+    color:#fff;
+}
+
+.btn-secondary:hover{
+    background:#222;
+}
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width:700px){
+
+    .roles-confirm{
+        margin:20px;
+        padding:22px;
+    }
+
+    .roles-confirm h1{
+        font-size:20px;
+    }
+
+    .roles-confirm .btn{
+        width:100%;
+        margin-bottom:10px;
+        text-align:center;
+    }
+
+}

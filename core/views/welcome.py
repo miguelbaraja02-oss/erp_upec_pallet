@@ -37,7 +37,7 @@ def welcome(request):
                 messages.error(request, "Ya no tienes acceso a esta empresa.")
                 return redirect("core:welcome")
             request.session["company_id"] = int(company_id)
-            return redirect("core:dashboard")
+            return redirect("companies:overview", company_id=company_id)
 
     return render(request, "home/welcome.html", {
         "companies": companies,

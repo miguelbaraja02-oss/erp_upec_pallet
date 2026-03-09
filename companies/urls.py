@@ -1,5 +1,5 @@
 from .views.users import list_company_users, deactivate_company_user, activate_company_user
-from .views.overview import overview
+from .views.overview import dashboard, overview
 from .views.select_company import select_company
 from django.urls import path
 
@@ -24,6 +24,7 @@ urlpatterns = [
 
     # Vista general de la empresa
     path("<int:company_id>/overview/", overview, name="overview"),
+    path("dashboard/", dashboard, name="dashboard"),
 
     # Invitaciones
     path("<int:company_id>/invite/", invite_user, name="invite_user"),

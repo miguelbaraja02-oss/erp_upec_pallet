@@ -11,19 +11,20 @@
     <div id="user-results" class="user-results"></div>
 
     <h3 class="invite-subtitle">Invitaciones enviadas</h3>
-    <ul class="invitation-list">
+    <ul class="invitation-list" id="sent-invitations-list" data-company-id="{{ company.id }}">
         {% for invitation in invitations %}
-            <li class="invitation-row">
+            <li class="invitation-row" data-invitation-id="{{ invitation.id }}">
                 <span class="user">{{ invitation.invited_user.username }}</span>
                 <span class="user-email">{{ invitation.invited_user.email }}</span>
                 <span class="status {{ invitation.status }} invitation-status-right">{{ invitation.get_status_display }}</span>
             </li>
         {% empty %}
-            <li>No hay invitaciones enviadas.</li>
+            <li id="sent-invitations-empty">No hay invitaciones enviadas.</li>
         {% endfor %}
     </ul>
 </div>
 <script src="{% static 'companies/invitations/invitations.js' %}"></script>
+<script src="{% static 'companies/invitations/invitations_sent_realtime.js' %}"></script>
 <script>
 window.csrfToken = '{{ csrf_token }}';
 document.getElementById('user-search').dataset.companyId = '{{ company.id }}';

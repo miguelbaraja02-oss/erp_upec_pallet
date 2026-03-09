@@ -13,9 +13,9 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="border-radius:0;"></button>
             </div>
             <div class="modal-body" style="border-radius:0;">
-                <ul class="invitation-list">
+                <ul class="invitation-list" id="invitations-list" data-csrf-token="{{ csrf_token }}">
                     {% for invitation in pending_invitations_list %}
-                        <li class="invitation-card">
+                        <li class="invitation-card" data-invitation-id="{{ invitation.id }}">
                             <div class="invitation-header">
                                 {% if invitation.company.logo %}
                                     <img src="{{ invitation.company.logo.url }}" alt="Avatar empresa" class="company-avatar">
@@ -37,7 +37,7 @@
                             </div>
                         </li>
                     {% empty %}
-                        <div class="invitation-empty">
+                        <div class="invitation-empty" id="invitations-empty-state">
                             <i class="bi bi-inbox" style="font-size:2.5rem;color:#888;"></i>
                             <div>No tienes invitaciones pendientes.</div>
                         </div>

@@ -72,7 +72,9 @@
             <h5 class="drawer-subtitle">Operaciones</h5>
             <div class="drawer-cards">
                 <div class="drawer-card"><i class="fas fa-truck"></i><span>Transporte</span></div>
-                <div class="drawer-card"><i class="fas fa-warehouse"></i><span>Almacenes</span></div>
+                <a href="{% url 'warehouses_list' %}" class="drawer-card">
+                    <i class="fas fa-warehouse"></i><span>Almacenes</span>
+                </a>
             </div>
         </div>
         {#PARA OCULTAR MÓDULOS ADMINISTRATIVOS SI EL USUARIO NO ES ADMINISTRADOR DE LA EMPRESA ACTIVA#}

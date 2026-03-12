@@ -1,0 +1,42 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block extra_js %}
+<script src="{% static 'warehouse/edit_warehouse.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Fuente Inter Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Inter:400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'warehouse/edit_warehouse.css' %}">
+
+
+<div class="container">
+    <div class="edit-card">
+        <h3 class="edit-warehouse-title">Editar almacén</h3>
+        <form method="post" class="edit-warehouse-form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.nombre.label_tag }}
+                {{ form.nombre }}
+            </div>
+            <div class="form-group">
+                {{ form.descripcion.label_tag }}
+                {{ form.descripcion }}
+            </div>
+            <div class="edit-actions">
+                <button type="submit" class="btn-save">
+                    Guardar cambios
+                </button>
+            </div>
+        </form>
+        <form method="post" action="{% url 'disable_warehouse' almacen.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-disable">
+                Deshabilitar almacén
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

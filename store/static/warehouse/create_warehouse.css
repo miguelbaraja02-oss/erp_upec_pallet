@@ -1,0 +1,199 @@
+/* Animación para la card de creación de almacén */
+.create-card {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.create-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .create-card {
+        /* Ajuste para móviles si se requiere */
+        margin: 16px 0;
+    }
+}
+/* Evitar contorno o borde especial al hacer foco en textarea */
+.form-group textarea:focus {
+    outline: none !important;
+    border-color: #bdbdbd !important;
+    border-left: 1px solid #bdbdbd !important;
+    box-shadow: none !important;
+}
+
+/* Eliminar cualquier contorno, sombra o borde especial al hacer foco en inputs y textarea */
+input:focus, textarea:focus {
+    outline: none !important;
+    border-color: #000 !important;
+    box-shadow: none !important;
+}
+
+/* --- Estilo para el título principal fuera de la card --- */
+.create-title {
+    background: none;
+    color: var(--primary-green);
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* create_warehouse.css - STRIX ERP Style */
+
+:root {
+    --primary-green: #006633;
+    --accent-yellow: #ffce00;
+    --dark-bg: #1a1a1a;
+    --light-gray: #ffffff;
+    --border-color: #ffffff;
+    --text-main: #333333;
+    --white: #ffffff;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: var(--light-gray);
+    min-height: 80vh;
+}
+
+/* Centrado horizontal del título */
+.create-warehouse-title {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: #006633;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding-top: 0;
+    position: relative;
+    top: 60px;
+    margin-bottom: 32px;
+    background: none;
+    /* Eliminar text-transform para respetar solo la primera mayúscula */
+    letter-spacing: 0.5px;
+}
+
+.create-card {
+    background-color: #fff;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.20);
+    margin-top: 0;
+    padding-top: 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 10px 0;
+        min-height: 100vh;
+    }
+
+    .create-card {
+        max-width: 90vw;
+        width: 90vw;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+        padding-top: 16px;
+    }
+
+    .create-warehouse-form {
+        padding: 10px;
+    }
+
+    .create-header {
+        padding: 12px;
+    }
+
+    .btn-create {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+}
+
+.create-header {
+    background: none;
+    color: var(--text-main);
+    padding: 20px;
+    border-bottom: none;
+}
+
+.create-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.create-warehouse-form {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-main);
+    font-size: 0.9rem;
+}
+
+/* Estilo para los inputs de Django */
+.form-group input, 
+.form-group textarea,
+.create-warehouse-form input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdbdbd;
+    border-left: 1px solid #bdbdbd !important;
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: none;
+}
+
+.form-group input:focus {
+    outline: none !important;
+    border-color: #bdbdbd !important;
+    border-left: 1px solid #bdbdbd !important;
+    box-shadow: none !important;
+}
+
+.create-actions {
+    margin-top: 25px;
+}
+
+/* Botón crear almacén */
+.btn-create {
+    width: 100%;
+    background-color: #ffce00;
+    color: #000;
+    padding: 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: none;
+    transition: background-color 0.2s;
+    margin-bottom: -10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-create:hover {
+    background-color: #ffd700;
+    color: #000;
+}

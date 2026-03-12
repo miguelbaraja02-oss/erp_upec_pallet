@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "core",
     "accounts.apps.AccountsConfig", 
     "django_cleanup.apps.CleanupConfig",
+    'store',
     
     
     
@@ -179,7 +180,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    BASE_DIR / "companies" / "static" / "companies",
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

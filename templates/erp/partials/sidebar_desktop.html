@@ -71,6 +71,14 @@
                     <span class="nav-text">Clientes</span>
                 </div>
             </li>
+                <li class="nav-item">
+                    <a href="{% url 'warehouses_list' %}" class="nav-link">
+                        <div class="nav-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <span class="nav-text">Almacenes</span>
+                    </a>
+                </li>
         {#PARA OCULTAR MÓDULOS ADMINISTRATIVOS SI EL USUARIO NO ES ADMINISTRADOR DE LA EMPRESA ACTIVA#}
                     {% if active_company and is_company_admin %}
                         <li class="nav-section admin-section">

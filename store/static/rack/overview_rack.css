@@ -1,0 +1,160 @@
+﻿/* Card para el botón Nuevo Rack */
+.nuevo-rack-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.btn-nuevo-rack {
+    background: #006633;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    padding: 12px 96px;
+    min-width: 320px;
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-nuevo-rack:hover {
+    background: #004422;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+/* ==============================
+   IMPORT FONT
+============================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+html, body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ==============================
+   CONTENEDOR GRID
+============================== */
+.racks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ==============================
+   CARD RACK
+============================== */
+.rack-card {
+    background: #fff;
+    border: 0.5px solid #000;
+    border-radius: 0 !important;
+    padding: 20px;
+    /* transition removed to disable movement */
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    /* Elimina el borde superior especial para un contorno completo */
+    font-family: 'Inter', sans-serif;
+}
+
+.rack-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.20);
+}
+
+/* ==============================
+   HEADER CARD
+============================== */
+.rack-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.rack-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--black);
+}
+
+/* Estado activo/inactivo */
+.rack-status {
+    padding: 5px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 0;
+    color: #fff;
+    text-align: center;
+}
+
+.rack-status.active {
+    background-color: #ffce00;
+    color: #000;
+    /* Letras negras, fondo amarillo */
+}
+
+.rack-status.inactive {
+    background-color: #000;
+    color: #fff;
+    /* Letras blancas, fondo negro */
+}
+
+/* ==============================
+   BODY CARD
+============================== */
+.rack-body p {
+    font-size: 14px;
+    color: #555;
+    margin: 4px 0;
+}
+
+/* Botón editar rack */
+.rack-edit-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.rack-edit-btn {
+    background: #006633;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-decoration: none;
+}
+
+.rack-edit-btn:hover {
+    background: #004422;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 991.98px) {
+    .rack-header {
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+    }
+    .rack-edit-btn {
+        text-decoration: none !important;
+    }
+    .racks-grid .rack-card {
+        border: 1.2px solid #000 !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.20) !important;
+    }
+}

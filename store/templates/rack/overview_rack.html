@@ -1,0 +1,49 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'rack/overview_rack.css' %}?v=20260316">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+           <h1 class="h2">Racks del almacén {{ almacen.nombre }}</h1>
+    </div>
+
+    <div class="nuevo-rack-card">
+        <a href="{% url 'create_rack' %}?almacen={{ almacen.id }}" class="btn-nuevo-rack">
+            <span data-feather="plus"></span>
+            Nuevo rack
+        </a>
+    </div>
+
+    {% if racks %}
+    <div class="racks-grid">
+        {% for rack in racks %}
+        <div class="rack-card">
+            <div class="rack-header">
+                <h3>{{ rack.nombre }}</h3>
+                <span class="rack-status active">Activo</span>
+            </div>
+            <div class="rack-body">
+                <p><strong>Código:</strong> {{ rack.codigo }}</p>
+                <p><strong>Descripción:</strong> {{ rack.descripcion|default:"-" }}</p>
+            </div>
+            <div class="rack-edit-btn-container">
+                <a href="{% url 'edit_rack' rack.id %}" class="rack-edit-btn">Editar</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+        No hay racks creados todavía.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'rack/overview_rack.js' %}"></script>
+{% endblock %}

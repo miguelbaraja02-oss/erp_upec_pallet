@@ -1,0 +1,119 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'rack/create_rack.css' %}">
+{% endblock %}
+{% block content %}
+<h2>{% if edit_mode %}Editar rack{% else %}Crear rack{% endif %}{% if almacen %}: {{ almacen.nombre }}{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {% if almacen %}
+        <input type="hidden" name="almacen" value="{{ almacen.id }}">
+    {% endif %}
+    {{ form.non_field_errors }}
+        {# {{ nivel_formset.non_form_errors }} #}
+    <div class="form-row-3cards">
+        <!-- Card: Datos del rack -->
+        <div class="card rack-card-form card-3col">
+            <div class="card-header">
+                <h4>Datos del rack</h4>
+            </div>
+            <div class="card-body">
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+                                {{ form.nombre.label_tag }} {{ form.nombre }} {{ form.nombre.errors }}<br>
+                                {{ form.codigo.label_tag }}
+                                <input type="text" name="codigo" id="rack_code" value="{{ form.codigo.value|default_if_none:'' }}">
+                                <span id="rack_code_msg" style="font-size: 0.9em; display: block; margin-bottom: 0.5em;"></span>
+                                {% if form.codigo.errors %}
+                                    <span class="errorlist" style="color: red; display: block; margin-bottom: 0.7em;">{{ form.codigo.errors|join:' ' }}</span>
+                                {% endif %}
+                                <div style="height: 0.7em;"></div>
+                                {{ form.descripcion.label_tag }} {{ form.descripcion }} {{ form.descripcion.errors }}<br>
+                {# form.is_active y delete ocultos #}
+            </div>
+        </div>
+        <!-- Card: Niveles -->
+        <div class="card niveles-card-form card-3col">
+            <div class="card-header" style="position: relative;">
+                <h4 style="margin-right: 40px;">Niveles</h4>
+                <button type="button" id="add-nivel-btn" style="position: absolute; top: 8px; right: 16px; font-weight: bold;">+</button>
+            </div>
+            <div class="card-body">
+                {{ nivel_formset.management_form }}
+                <label for="nivel-selector">Selecciona nivel:</label>
+                <select id="nivel-selector">
+                    {% for nivel_form, seccion_formset in niveles_y_secciones %}
+                        <option value="nivel-{{ forloop.counter0 }}">Nivel {{ forloop.counter }}</option>
+                    {% endfor %}
+                </select>
+                <div id="niveles-container">
+                    {% for nivel_form, seccion_formset in niveles_y_secciones %}
+                        <div class="nivel-block" id="nivel-{{ forloop.counter0 }}" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                            {% for hidden in nivel_form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                            {# Ocultar is_active y delete de nivel_form #}
+                            {% for field in nivel_form.visible_fields %}
+                                {% if field.name != 'is_active' and field.name != 'DELETE' %}
+                                    {% if field.name == 'codigo' %}
+                                        {{ field.label_tag }} <input type="text" name="{{ field.html_name }}" id="level_code_{{ forloop.parentloop.counter0 }}" value="{{ field.value|default_if_none:'' }}"> {{ field.errors }}
+                                        <span id="level_code_msg_{{ forloop.parentloop.counter0 }}" style="font-size: 0.9em;"></span><br>
+                                    {% else %}
+                                        {{ field.label_tag }} {{ field }} {{ field.errors }}<br>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+        <!-- Card: Secciones -->
+        <div class="card secciones-card-form card-3col">
+            <div class="card-header" style="position: relative;">
+                <h4 style="margin-right: 40px;">Secciones</h4>
+                <button type="button" class="add-seccion-btn" style="position: absolute; top: 8px; right: 16px; font-weight: bold;">+</button>
+            </div>
+            <div class="card-body">
+                {% for nivel_form, seccion_formset in niveles_y_secciones %}
+                    <div class="secciones-container" id="secciones-nivel-{{ forloop.counter0 }}" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                        {{ seccion_formset.management_form }}
+                        {{ seccion_formset.non_form_errors }}
+                        {% for seccion_form in seccion_formset.forms %}
+                            <div class="card seccion-block">
+                                <div class="card-body">
+                                    {% for hidden in seccion_form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    {# Ocultar is_active y delete de seccion_form #}
+                                    {% for field in seccion_form.visible_fields %}
+                                        {% if field.name != 'is_active' and field.name != 'DELETE' %}
+                                            {% if field.name == 'codigo' %}
+                                                {{ field.label_tag }} <input type="text" name="{{ field.html_name }}" id="section_code_{{ forloop.parentloop.parentloop.counter0 }}_{{ forloop.parentloop.counter0 }}" value="{{ field.value|default_if_none:'' }}"> {{ field.errors }}
+                                                <span id="section_code_msg_{{ forloop.parentloop.parentloop.counter0 }}_{{ forloop.parentloop.counter0 }}" style="font-size: 0.9em;"></span><br>
+                                            {% else %}
+                                                {{ field.label_tag }} {{ field }} {{ field.errors }}<br>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <button type="submit">Guardar rack</button>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'rack/create_rack.js' %}"></script>
+<script src="{% static 'rack/rack_validation.js' %}"></script>
+<script src="{% static 'rack/animate_create_rack.js' %}"></script>
+{% endblock %}

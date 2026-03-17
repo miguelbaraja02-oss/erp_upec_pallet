@@ -1,0 +1,192 @@
+
+/* ====== TIPOGRAFÍA GLOBAL ====== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+html, body {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+/* ====== CONTENEDOR GENERAL ====== */
+
+.form-row-3cards{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:20px;
+    margin-top:20px;
+}
+
+/* ====== CARDS ====== */
+
+.card{
+    background:white;
+    border-radius:0;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    border:1px solid #000;
+    display:flex;
+    flex-direction:column;
+}
+
+.card-header{
+    padding:12px 16px;
+    /* border-bottom:1px solid #eee;  Eliminado para quitar la línea tenue */
+    background:#f7f7f7;
+    position: relative;
+}
+
+.card-header h4{
+    margin:0;
+    font-size:16px;
+}
+
+.card-body{
+    padding:15px;
+}
+
+/* ====== INPUTS ====== */
+
+.card-body input,
+.card-body select,
+.card-body textarea{
+    width:100%;
+    padding:8px;
+    margin-top:4px;
+    margin-bottom:10px;
+    border-radius:0;
+    border:1px solid #ccc;
+    font-size:14px;
+}
+
+.card-body textarea{
+    resize:vertical;
+    min-height:70px;
+}
+
+/* ====== NIVELES Y SECCIONES ====== */
+
+#niveles-container{
+    margin-top:10px;
+}
+
+.nivel-block{
+    padding:10px;
+    border:1px solid #eee;
+    border-radius:0;
+    background:#fafafa;
+}
+
+/* Scroll para muchas secciones */
+
+.secciones-container{
+    max-height:420px;
+    overflow-y:auto;
+    padding-right:5px;
+}
+
+/* ====== SECCIONES ====== */
+
+.seccion-block{
+    margin-bottom:10px;
+    border:1px solid #ddd;
+    border-radius:0;
+}
+
+/* ====== BOTONES ====== */
+
+button{
+    padding:8px 14px;
+    border:none;
+    border-radius:0;
+    cursor:pointer;
+    font-size:14px;
+}
+
+
+
+#add-nivel-btn,
+.add-seccion-btn {
+    background: #ffce00;
+    color: #000;
+    margin-top: 0px;
+    top: 0px;
+    font-weight: bold; /* El símbolo '+' se verá en negrita */
+    /*
+    Para mover el botón .add-seccion-btn verticalmente u horizontalmente:
+    - Usa margin-top/margin-bottom para moverlo arriba o abajo.
+    - Usa margin-left/margin-right para moverlo a la izquierda o derecha.
+    
+    Ejemplo para más espacio arriba:
+    margin-top: 30px;
+    
+    Si quieres posicionarlo en una esquina específica dentro de su contenedor:
+    - Agrega 'position: absolute;' al botón.
+    - Asegúrate que el contenedor padre tenga 'position: relative;'.
+    - Usa 'top', 'bottom', 'left', 'right' para ubicarlo.
+    
+    Ejemplo para la esquina superior derecha:
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    */
+}
+
+.card-header #add-nivel-btn {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    margin-top: 0;
+    z-index: 2;
+}
+
+#add-nivel-btn:hover,
+.add-seccion-btn:hover{
+    background:#e6b800;
+}
+
+button[type="submit"]{
+    margin-top:20px;
+    padding:12px 20px;
+    font-size:15px;
+    background:#2e7d32;
+    color:white;
+    font-weight:bold;
+}
+
+button[type="submit"]:hover{
+    background:#1f5a22;
+}
+
+/* ====== TITULO ====== */
+
+h2{
+    margin-bottom:10px;
+}
+
+/* ====== RESPONSIVE ====== */
+
+@media (max-width:1100px){
+
+    .form-row-3cards{
+        grid-template-columns:1fr;
+    }
+
+    .secciones-container{
+        max-height:300px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .erp-content{
+        padding-bottom:calc(96px + env(safe-area-inset-bottom));
+    }
+
+    form{
+        padding-bottom:12px;
+    }
+
+    button[type="submit"]{
+        width:100%;
+    }
+
+}

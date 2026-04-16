@@ -28,4 +28,9 @@ def vista_almacenes(request):
             almacen.save()
             return redirect('warehouses_list')
     mostrar_formulario = almacenes.count() == 0
-    return render(request, "overview/overview.html", {"form": form, "almacenes": almacenes, "mostrar_formulario": mostrar_formulario})
+    return render(request, "overview/overview.html", {
+        "form": form,
+        "almacenes": almacenes,
+        "mostrar_formulario": mostrar_formulario,
+        "active_module": "warehouses",
+    })

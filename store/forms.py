@@ -12,7 +12,7 @@ class AlmacenForm(forms.ModelForm):
 class RackForm(forms.ModelForm):
     class Meta:
         model = Rack
-        fields = ['nombre', 'codigo', 'descripcion', 'is_active']
+        fields = ['nombre', 'codigo', 'descripcion']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,7 +31,7 @@ class RackForm(forms.ModelForm):
 class NivelForm(forms.ModelForm):
     class Meta:
         model = Nivel
-        fields = ['codigo', 'descripcion', 'posicion', 'is_active']
+        fields = ['codigo', 'descripcion', 'posicion']
         widgets = {
             'posicion': forms.HiddenInput(),
         }
@@ -49,7 +49,7 @@ class NivelForm(forms.ModelForm):
 class SeccionForm(forms.ModelForm):
     class Meta:
         model = Seccion
-        fields = ['codigo', 'capacidad', 'descripcion', 'is_active']
+        fields = ['codigo', 'capacidad', 'descripcion']
         widgets = {
             'capacidad': forms.HiddenInput(),
             'descripcion': forms.HiddenInput(),

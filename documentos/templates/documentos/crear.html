@@ -1,0 +1,32 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'documentos/documents.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="documents-page">
+    <header class="page-header-card">
+        <h1>Crear guia de pallet</h1>
+        <p>Genera la guia digital antes de la recepcion fisica. El sistema creara un codigo de pallet unico para escaneo posterior.</p>
+    </header>
+
+    <section class="detail-card form-card">
+        <form method="post" class="guide-form">
+            {% csrf_token %}
+            <label for="contenido">Contenido</label>
+            <input id="contenido" name="contenido" type="text" placeholder="Ej: Sacos de fertilizante">
+
+            <label for="proveedor">Proveedor</label>
+            <input id="proveedor" name="proveedor" type="text" placeholder="Ej: AgroSupply SA">
+
+            <label for="observacion">Observacion inicial</label>
+            <textarea id="observacion" name="observacion" rows="4" placeholder="Notas para recepcion y almacenamiento"></textarea>
+
+            <button type="submit" class="btn-primary">Generar guia y codigo</button>
+            <a href="{% url 'documentos:list' %}" class="btn-secondary">Cancelar</a>
+        </form>
+    </section>
+</div>
+{% endblock %}

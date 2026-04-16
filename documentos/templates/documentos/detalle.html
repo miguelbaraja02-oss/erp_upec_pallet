@@ -1,0 +1,117 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'documentos/documents.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="documents-page">
+    <header class="page-header-card">
+        <h1>Detalle del documento {{ documento.numero_documento }}</h1>
+        <p>Pallet {{ pallet.codigo }} - Trazabilidad completa de movimientos y ubicacion.</p>
+    </header>
+
+    <section class="detail-grid">
+        <article class="detail-card">
+            <h2>Datos del pallet</h2>
+            <ul>
+                <li><strong>Codigo:</strong> {{ pallet.codigo }}</li>
+                <li><strong>Contenido:</strong> {{ pallet.contenido|default:'Sin especificar' }}</li>
+                <li><strong>Proveedor:</strong> {{ pallet.proveedor|default:'Sin proveedor' }}</li>
+                <li><strong>Fecha ingreso:</strong> {{ pallet.fecha_ingreso|date:'d/m/Y H:i'|default:'-' }}</li>
+                <li><strong>Estado:</strong> {{ pallet.get_estado_display }}</li>
+                <li><strong>Ubicacion actual:</strong> {{ pallet.ubicacion_actual }}</li>
+            </ul>
+        </article>
+
+        <article class="detail-card">
+            <h2>Registro de recepcion</h2>
+            <p><strong>Codigo escaneado relacionado:</strong> {{ pallet.codigo }}</p>
+            <p>{{ documento.registro_recepcion|default:'Sin observaciones.' }}</p>
+            <p><strong>Creado:</strong> {{ documento.created_at|date:'d/m/Y H:i' }}</p>
+            <p><strong>Actualizado:</strong> {{ documento.updated_at|date:'d/m/Y H:i' }}</p>
+        </article>
+
+        <article class="detail-card qr-card">
+            <h2>QR Operativo</h2>
+            <p class="qr-subtitle">Escaneo directo para recepcion en bodega</p>
+            <div class="qr-panel">
+                <div id="palletQrCode" class="qr-code-box" data-code="{{ pallet.codigo }}"></div>
+                <div class="qr-meta">
+                    <span class="qr-label">Codigo pallet</span>
+                    <strong class="qr-value">{{ pallet.codigo }}</strong>
+                    <button id="downloadQrBtn" type="button" class="btn-secondary">Descargar QR PNG</button>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <section class="timeline-card">
+        <h2>Historial de movimientos</h2>
+        <div class="timeline-items">
+            {% for mov in movimientos %}
+                <article class="timeline-item">
+                    <div class="timeline-head">
+                        <h3>{{ mov.get_tipo_display }}</h3>
+                        <span>{{ mov.created_at|date:'d/m/Y H:i' }}</span>
+                    </div>
+                    <p><strong>Estado:</strong> {{ mov.get_estado_origen_display|default:'-' }} -> {{ mov.get_estado_destino_display|default:'-' }}</p>
+                    <p><strong>Ubicacion:</strong>
+                        {% if mov.almacen and mov.rack and mov.nivel and mov.seccion %}
+                            {{ mov.almacen.nombre }} / {{ mov.rack.nombre }} / Nivel {{ mov.nivel.posicion }} / Seccion {{ mov.seccion.codigo }}
+                        {% else %}
+                            Sin ubicacion
+                        {% endif %}
+                    </p>
+                    <p><strong>Observacion:</strong> {{ mov.observacion|default:'-' }}</p>
+                </article>
+            {% empty %}
+                <p class="empty-state">No hay movimientos registrados.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <a href="{% url 'documentos:list' %}" class="btn-secondary back-link">Volver a documentos</a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var qrContainer = document.getElementById('palletQrCode');
+    var downloadBtn = document.getElementById('downloadQrBtn');
+    if (!qrContainer || !window.QRCode) return;
+
+    var code = qrContainer.dataset.code || '';
+    if (!code.trim()) return;
+
+    new QRCode(qrContainer, {
+        text: code,
+        width: 180,
+        height: 180,
+        colorDark: '#111111',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    if (!downloadBtn) return;
+    downloadBtn.addEventListener('click', function () {
+        var canvas = qrContainer.querySelector('canvas');
+        var img = qrContainer.querySelector('img');
+        var link = document.createElement('a');
+        link.download = 'QR-' + code + '.png';
+
+        if (canvas) {
+            link.href = canvas.toDataURL('image/png');
+        } else if (img) {
+            link.href = img.src;
+        } else {
+            return;
+        }
+        link.click();
+    });
+});
+</script>
+{% endblock %}

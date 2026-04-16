@@ -26,16 +26,16 @@
             </li>
 
             <li class="nav-item">
-                    <a href="{% if active_company %}{% url 'companies:overview' active_company.id %}{% else %}#{% endif %}"
-                       class="nav-link{% if active_module == 'overview' %} active bg-success text-white{% endif %}">
-                        <div class="nav-icon">
-                            <i class="fas fa-tachometer-alt"></i>
-                        </div>
-                        <span class="nav-text">Vista General</span>
-                        {% if active_module == 'overview' %}
-                            <div class="active-indicator"></div>
-                        {% endif %}
-                    </a>
+                <a href="{% if active_company %}{% url 'companies:overview' active_company.id %}{% else %}#{% endif %}"
+                   class="nav-link{% if active_module == 'overview' %} active bg-success text-white{% endif %}">
+                    <div class="nav-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <span class="nav-text">Vista General</span>
+                    {% if active_module == 'overview' %}
+                        <div class="active-indicator"></div>
+                    {% endif %}
+                </a>
             </li>
 
             <li class="nav-section">
@@ -49,7 +49,6 @@
                         <i class="fas fa-boxes"></i>
                     </div>
                     <span class="nav-text">Inventario</span>
-                    
                 </div>
             </li>
 
@@ -59,7 +58,6 @@
                         <i class="fas fa-shopping-cart"></i>
                     </div>
                     <span class="nav-text">Pedidos</span>
-                   
                 </div>
             </li>
 
@@ -71,56 +69,70 @@
                     <span class="nav-text">Clientes</span>
                 </div>
             </li>
-                <li class="nav-section">
-                    <span class="section-line"></span>
-                    <span class="section-text">Logística</span>
+
+            <li class="nav-section">
+                <span class="section-line"></span>
+                <span class="section-text">Logistica</span>
+            </li>
+
+            <li class="nav-item">
+                <a href="{% url 'warehouses_list' %}" class="nav-link{% if active_module == 'warehouses' %} active bg-success text-white{% endif %}">
+                    <div class="nav-icon">
+                        <i class="fas fa-warehouse"></i>
+                    </div>
+                    <span class="nav-text">Almacenes</span>
+                    {% if active_module == 'warehouses' %}
+                        <div class="active-indicator"></div>
+                    {% endif %}
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{% url 'recepcion:dashboard' %}" class="nav-link{% if active_module == 'recepcion_pallets' %} active bg-success text-white{% endif %}">
+                    <div class="nav-icon">
+                        <i class="fas fa-dolly"></i>
+                    </div>
+                    <span class="nav-text">Recepcion de pallets</span>
+                    {% if active_module == 'recepcion_pallets' %}
+                        <div class="active-indicator"></div>
+                    {% endif %}
+                </a>
+            </li>
+
+            <li class="nav-section">
+                <span class="section-line"></span>
+                <span class="section-text">Documentacion</span>
+            </li>
+
+            <li class="nav-item">
+                <a href="{% url 'documentos:list' %}" class="nav-link{% if active_module == 'documentos_pallets' %} active bg-success text-white{% endif %}">
+                    <div class="nav-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <span class="nav-text">Documentos de pallets</span>
+                    {% if active_module == 'documentos_pallets' %}
+                        <div class="active-indicator"></div>
+                    {% endif %}
+                </a>
+            </li>
+
+            {% if active_company and is_company_admin %}
+                <li class="nav-section admin-section">
+                    <span class="section-text admin-title"><i class="fas fa-user-shield"></i> Administrativo</span>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'warehouses_list' %}" class="nav-link">
-                        <div class="nav-icon">
-                            <i class="fas fa-warehouse"></i>
-                        </div>
-                        <span class="nav-text">Almacenes</span>
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                        <div class="nav-link disabled">
-                            <div class="nav-icon">
-                                <i class="fas fa-dolly"></i>
-                            </div>
-                            <span class="nav-text">Recepción de pallets</span>
-                        </div>
-                </li>
-        <li class="nav-section">
-            <span class="section-line"></span>
-            <span class="section-text">Documentación</span>
-        </li>
-        <li class="nav-item">
-            <div class="nav-link">
-                <div class="nav-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <span class="nav-text">Documentos de pallets</span>
-            </div>
-        </li>
-        {#PARA OCULTAR MÓDULOS ADMINISTRATIVOS SI EL USUARIO NO ES ADMINISTRADOR DE LA EMPRESA ACTIVA#}
-        {% if active_company and is_company_admin %}
-            <li class="nav-section admin-section">
-                <span class="section-text admin-title"><i class="fas fa-user-shield"></i> Administrativo</span>
-            </li>
-            <li class="nav-item">
                     <a href="{% url 'companies:list_roles' %}"
                        class="nav-link{% if active_module == 'roles' %} active bg-success text-white{% endif %}">
                         <div class="nav-icon">
                             <i class="fas fa-user-shield"></i>
                         </div>
-                        <span class="nav-text">Gestión de Roles</span>
+                        <span class="nav-text">Gestion de Roles</span>
                         {% if active_module == 'roles' %}
                             <div class="active-indicator"></div>
                         {% endif %}
                     </a>
-            </li>
-            <li class="nav-item">
+                </li>
+                <li class="nav-item">
                     <a href="{% url 'companies:list_company_users' %}"
                        class="nav-link{% if active_module == 'users' %} active bg-success text-white{% endif %}">
                         <div class="nav-icon">
@@ -131,8 +143,8 @@
                             <div class="active-indicator"></div>
                         {% endif %}
                     </a>
-            </li>
-            <li class="nav-item">
+                </li>
+                <li class="nav-item">
                     <a href="{% url 'companies:invite_user' active_company.id %}"
                        class="nav-link{% if active_module == 'invite' %} active bg-success text-white{% endif %}">
                         <div class="nav-icon">
@@ -143,10 +155,9 @@
                             <div class="active-indicator"></div>
                         {% endif %}
                     </a>
-            </li>
-            {# Agrega aquí cualquier otro módulo administrativo futuro #}
-        {% endif %}
-    </ul>
+                </li>
+            {% endif %}
+        </ul>
     </nav>
 
     <div class="sidebar-footer">

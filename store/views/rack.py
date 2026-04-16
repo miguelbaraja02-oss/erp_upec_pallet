@@ -51,6 +51,7 @@ def _save_niveles_y_secciones(rack, nivel_formset, niveles_y_secciones):
         nivel = nivel_form.save(commit=False)
         nivel.rack = rack
         nivel.posicion = posicion_actual
+        nivel.is_active = True
         nivel.save()
         posicion_actual += 1
 
@@ -69,6 +70,7 @@ def _save_niveles_y_secciones(rack, nivel_formset, niveles_y_secciones):
             seccion.nivel = nivel
             if seccion.capacidad is None:
                 seccion.capacidad = 0
+            seccion.is_active = True
             seccion.save()
 
 @never_cache
@@ -99,6 +101,7 @@ def crear_rack(request):
                 with transaction.atomic():
                     rack = rack_form.save(commit=False)
                     rack.almacen = almacen
+                    rack.is_active = True
                     rack.save()
                     _save_niveles_y_secciones(rack, nivel_formset, niveles_y_secciones)
                 return redirect('overview_rack', warehouse_id=almacen.id)
@@ -119,6 +122,7 @@ def crear_rack(request):
         'niveles_y_secciones': niveles_y_secciones,
         'almacen': almacen,
         'edit_mode': False,
+        'active_module': 'warehouses',
     })
 
 
@@ -140,6 +144,8 @@ def editar_rack(request, rack_id):
         if es_valido:
             with transaction.atomic():
                 rack = rack_form.save()
+                rack.is_active = True
+                rack.save(update_fields=['is_active'])
                 _save_niveles_y_secciones(rack, nivel_formset, niveles_y_secciones)
             return redirect('overview_rack', warehouse_id=rack.almacen.id)
     else:
@@ -154,10 +160,11 @@ def editar_rack(request, rack_id):
         'edit_mode': True,
         'rack_id': rack_id,
         'almacen': rack.almacen,
+        'active_module': 'warehouses',
     })
 
 @never_cache
 def overview_rack(request, warehouse_id):
     almacen = get_object_or_404(Almacen, pk=warehouse_id)
     racks = Rack.objects.filter(almacen=almacen)
-    return render(request, 'rack/overview_rack.html', {'racks': racks, 'almacen': almacen})
+    return render(request, 'rack/overview_rack.html', {'racks': racks, 'almacen': almacen, 'active_module': 'warehouses'})

@@ -23,4 +23,4 @@ def crear_almacen(request):
                 almacen.company = Company.objects.first()
             almacen.save()
             return redirect('warehouses_list')
-    return render(request, "warehouse/create_warehouse.html", {"form": form})
+    return render(request, "warehouse/create_warehouse.html", {"form": form, "active_module": "warehouses"})

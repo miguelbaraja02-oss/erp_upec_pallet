@@ -11,4 +11,4 @@ def editar_almacen(request, warehouse_id):
             return redirect('warehouses_list')
     else:
         form = AlmacenEditForm(instance=almacen)
-    return render(request, 'warehouse/edit_warehouse.html', {'form': form, 'almacen': almacen})
+    return render(request, 'warehouse/edit_warehouse.html', {'form': form, 'almacen': almacen, 'active_module': 'warehouses'})

@@ -1,0 +1,91 @@
+{% extends 'erp/layout.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'recepcion/reception.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="reception-page"
+     data-scan-url="{{ scan_url }}"
+     data-assign-url="{{ assign_url }}"
+     data-document-base-url="{{ document_detail_base_url }}">
+    <header class="page-header-card">
+        <h1>Recepcion digital de pallets</h1>
+        <p>Escanea un QR o codigo de barras para consultar y almacenar un pallet sin registros manuales.</p>
+    </header>
+
+    <div class="reception-grid">
+        <section class="scanner-card">
+            <h2>Escaneo</h2>
+            <p class="helper-text">Funciona con camara web o movil.</p>
+            <div id="scanner" class="scanner-box"></div>
+            <div class="scanner-actions">
+                <button id="startScanner" type="button" class="btn-primary">Iniciar camara</button>
+                <button id="stopScanner" type="button" class="btn-secondary" disabled>Detener</button>
+            </div>
+            <label for="manualCode" class="manual-label">Fallback manual</label>
+            <div class="manual-row">
+                <input id="manualCode" type="text" placeholder="Ejemplo: PALLET-000123" autocomplete="off">
+                <button id="searchManual" type="button" class="btn-secondary">Consultar</button>
+            </div>
+            <p id="scanStatus" class="status-text">Esperando escaneo...</p>
+        </section>
+
+        <section class="pallet-card">
+            <h2>Informacion del pallet</h2>
+            <dl id="palletInfo" class="info-grid empty">
+                <div><dt>ID</dt><dd>-</dd></div>
+                <div><dt>Contenido</dt><dd>-</dd></div>
+                <div><dt>Proveedor</dt><dd>-</dd></div>
+                <div><dt>Fecha ingreso</dt><dd>-</dd></div>
+                <div><dt>Estado</dt><dd>-</dd></div>
+                <div><dt>Ubicacion</dt><dd>-</dd></div>
+            </dl>
+
+            <h3>Asignacion a almacen/rack/nivel/seccion</h3>
+            <form id="assignForm" class="assign-form">
+                {% csrf_token %}
+                <input type="hidden" id="selectedPalletCode" name="pallet_code">
+                <label for="warehouseSelect">Almacen</label>
+                <select id="warehouseSelect" required>
+                    <option value="">Selecciona un almacen</option>
+                </select>
+
+                <label for="rackSelect">Rack</label>
+                <select id="rackSelect" required disabled>
+                    <option value="">Selecciona un rack</option>
+                </select>
+
+                <label for="levelSelect">Nivel</label>
+                <select id="levelSelect" required disabled>
+                    <option value="">Selecciona un nivel</option>
+                </select>
+
+                <label for="sectionSelect">Seccion</label>
+                <select id="sectionSelect" required disabled>
+                    <option value="">Selecciona una seccion</option>
+                </select>
+
+                <p id="capacityInfo" class="capacity-info">Capacidad: -</p>
+                <button id="assignButton" type="submit" class="btn-primary" disabled>Asignar pallet</button>
+            </form>
+        </section>
+
+        <section class="document-card">
+            <h2>Documento vinculado</h2>
+            <div id="documentSummary" class="document-summary empty">
+                <p>Escanea un pallet para generar o cargar su documento automaticamente.</p>
+            </div>
+            <a id="documentLink" href="#" class="btn-secondary document-link disabled" aria-disabled="true">Ver documento completo</a>
+        </section>
+    </div>
+</div>
+
+<script id="locations-data" type="application/json">{{ locations_data|safe }}</script>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/html5-qrcode" defer></script>
+<script src="{% static 'recepcion/reception.js' %}" defer></script>
+{% endblock %}

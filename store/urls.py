@@ -1,11 +1,9 @@
-from .views.rack import crear_rack, overview_rack, editar_rack, validate_code
 from django.urls import path
-from .views.warehouse_views import vista_almacenes
-from .views.edit_warehouse import editar_almacen
-from .views.disable_warehouse import deshabilitar_almacen
 from .views.create_warehouse import crear_almacen
-
-from .views.rack import crear_rack, overview_rack
+from .views.disable_warehouse import deshabilitar_almacen
+from .views.edit_warehouse import editar_almacen
+from .views.rack import crear_rack, editar_rack, overview_rack, validate_code
+from .views.warehouse_views import vista_almacenes
 
 urlpatterns = [
     path('warehouses/', vista_almacenes, name='warehouses_list'),

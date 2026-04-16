@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig", 
     "django_cleanup.apps.CleanupConfig",
     'store',
+    'recepcion',
+    'documentos',
     
     
     

@@ -1,10 +1,9 @@
 {% load static %}
 
 <nav class="erp-bottom-nav">
-    <!-- Izquierda: icono casa y notificaciones -->
     <div class="bottom-item bottom-left-group">
         <div class="nav-item">
-            <a href="{% url 'companies:overview' 1 %}" class="nav-btn" aria-label="Inicio">
+            <a href="{% if active_company %}{% url 'companies:overview' active_company.id %}{% else %}{% url 'core:welcome' %}{% endif %}" class="nav-btn" aria-label="Inicio">
                 <i class="fas fa-home"></i>
             </a>
             <span class="nav-label">Inicio</span>
@@ -17,18 +16,15 @@
         </div>
     </div>
 
-    <!-- Centro: botón módulos -->
-    <div class="bottom-item bottom-center" id="openDrawer" role="button" tabindex="0" aria-label="Menú principal">
+    <div class="bottom-item bottom-center" id="openDrawer" role="button" tabindex="0" aria-label="Menu principal">
         <div class="logo-wrap">
-            <img src="{% static 'erp/img/logo_movil.svg' %}" alt="Logo app móvil" class="bottom-logo" draggable="false" />
+            <img src="{% static 'erp/img/logo_movil.svg' %}" alt="Logo app movil" class="bottom-logo" draggable="false" />
         </div>
     </div>
 
-    <!-- Derecha: icono SVG y avatar usuario -->
     <div class="bottom-item bottom-right-group">
         <div class="nav-item">
-            <button type="button" class="nav-btn" aria-label="Pallet">
-                <!-- Inlined SVG so its fill/color can be controlled via CSS -->
+            <a href="{% url 'recepcion:dashboard' %}" class="nav-btn" aria-label="Pallet">
                 <svg class="icono-derecha-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455.21 471.68" aria-hidden="true" focusable="false">
                     <defs><style>.cls-1{fill:currentColor;}</style></defs>
                     <path class="cls-1" d="M595.6,585.22,745.38,431.69a118,118,0,0,0,14-21.79c12.27-24.78,13-48.33,12.26-62L566.93,554.24,361,347.94a115.6,115.6,0,0,0,11.24,58.56,111.24,111.24,0,0,0,17,25.19L539.43,585.22a112.28,112.28,0,0,1,27.5,47.32,125.35,125.35,0,0,1,28.67-47.32Z" transform="translate(-339.95 -331.07)"/>
@@ -38,7 +34,7 @@
                     <path class="cls-1" d="M763.77,446.24l-18.38,20.94c5.38,10.17,47.22,92.6,7.49,180.51-32,70.8-104.34,117.32-185.49,119.49-7.74,0-112-2.58-169.91-92.43-40-62-42.58-141.82-6.9-207.57l-19.4-20.94c-42.24,73.59-41.62,164.22,1.78,236.17,64.43,106.81,186.45,111.65,194.43,111.83,15.76-.11,110.29-2.28,174.77-77.11C803.56,645.88,812.74,537.68,763.77,446.24Z" transform="translate(-339.95 -331.07)"/>
                     <polyline class="cls-1" points="39.35 361.25 12.58 471.68 118.27 432.29"/>
                 </svg>
-            </button>
+            </a>
             <span class="nav-label">Pallet</span>
         </div>
         <div class="nav-item">
@@ -54,7 +50,6 @@
     </div>
 </nav>
 
-<!-- Menú desplegable para el avatar (ribbon) -->
 <div class="user-menu-ribbon" id="userMenuRibbon" aria-hidden="true">
     <a href="{% url 'accounts:profile' %}" class="user-menu-item">Perfil</a>
     <a href="{% url 'core:welcome' %}" class="user-menu-item">Empresas</a>
@@ -64,7 +59,7 @@
     <div class="drawer-handle"></div>
 
     <div class="drawer-header">
-        <span>Módulos</span>
+        <span>Modulos</span>
     </div>
 
     <div class="drawer-grid">
@@ -75,15 +70,21 @@
                 <a href="{% url 'warehouses_list' %}" class="drawer-card">
                     <i class="fas fa-warehouse"></i><span>Almacenes</span>
                 </a>
+                <a href="{% url 'recepcion:dashboard' %}" class="drawer-card">
+                    <i class="fas fa-dolly"></i><span>Recepcion pallets</span>
+                </a>
+                <a href="{% url 'documentos:list' %}" class="drawer-card">
+                    <i class="fas fa-file-alt"></i><span>Documentos pallets</span>
+                </a>
             </div>
         </div>
-        {#PARA OCULTAR MÓDULOS ADMINISTRATIVOS SI EL USUARIO NO ES ADMINISTRADOR DE LA EMPRESA ACTIVA#}
+
         {% if active_company and is_company_admin %}
         <div class="drawer-group">
-            <h5 class="drawer-subtitle">Administración</h5>
+            <h5 class="drawer-subtitle">Administracion</h5>
             <div class="drawer-cards">
                 <a href="{% url 'companies:list_roles' %}" class="drawer-card">
-                    <i class="fas fa-user-shield"></i><span>Gestión de Roles</span>
+                    <i class="fas fa-user-shield"></i><span>Gestion de Roles</span>
                 </a>
                 <a href="{% url 'companies:list_company_users' %}" class="drawer-card">
                     <i class="fas fa-users"></i><span>Usuarios</span>
@@ -93,7 +94,6 @@
                 </a>
             </div>
         </div>
-        {# Agrega aquí cualquier otro módulo administrativo futuro #}
         {% endif %}
     </div>
 </div>

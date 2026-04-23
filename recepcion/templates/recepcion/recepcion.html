@@ -9,6 +9,7 @@
 <div class="reception-page"
      data-scan-url="{{ scan_url }}"
      data-assign-url="{{ assign_url }}"
+     data-suggest-url="{{ suggest_url }}"
      data-document-base-url="{{ document_detail_base_url }}">
     <header class="page-header-card">
         <h1>Recepcion digital de pallets</h1>
@@ -68,6 +69,10 @@
                 </select>
 
                 <p id="capacityInfo" class="capacity-info">Capacidad: -</p>
+                <div class="ai-assist-panel">
+                    <button id="analyzeWithAi" type="button" class="btn-ai" disabled>Analizar con IA</button>
+                    <p id="aiSuggestion" class="ai-suggestion">Escanea un pallet y selecciona un almacen para recibir una sugerencia inteligente.</p>
+                </div>
                 <button id="assignButton" type="submit" class="btn-primary" disabled>Asignar pallet</button>
             </form>
         </section>

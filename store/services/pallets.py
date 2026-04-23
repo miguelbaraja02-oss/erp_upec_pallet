@@ -181,7 +181,7 @@ def build_locations_payload(company: Company) -> list[dict]:
 
     for sec in secciones:
         ocupacion = occupancy_map.get(sec.id, 0)
-        capacidad = sec.capacidad or 0
+        capacidad = sec.capacidad or 1
         if sec.nivel_id not in niveles_by_rack[sec.nivel.rack_id]:
             niveles_by_rack[sec.nivel.rack_id][sec.nivel_id] = {
                 'id': sec.nivel_id,
@@ -198,7 +198,7 @@ def build_locations_payload(company: Company) -> list[dict]:
                 'nivel_id': sec.nivel_id,
                 'capacidad': capacidad,
                 'ocupacion': ocupacion,
-                'disponible': capacidad == 0 or ocupacion < capacidad,
+                'disponible': ocupacion == 0,
                 'descripcion': sec.descripcion or '',
             }
         )
@@ -214,6 +214,7 @@ def build_locations_payload(company: Company) -> list[dict]:
                 'id': rack.id,
                 'nombre': rack.nombre,
                 'codigo': rack.codigo,
+                'descripcion': rack.descripcion or '',
                 'niveles': niveles,
             }
         )
@@ -232,15 +233,14 @@ def build_locations_payload(company: Company) -> list[dict]:
 
 
 def assign_pallet_to_section(*, pallet: Pallet, seccion: Seccion, user=None) -> Pallet:
-    capacidad = seccion.capacidad or 0
     ocupacion = Pallet.objects.filter(
         company=pallet.company,
         estado=Pallet.ESTADO_ALMACENADO,
         seccion=seccion,
     ).exclude(pk=pallet.pk).count()
 
-    if capacidad > 0 and ocupacion >= capacidad:
-        raise ValueError('La seccion seleccionada no tiene capacidad disponible.')
+    if ocupacion > 0:
+        raise ValueError('La seccion seleccionada ya esta ocupada por otro pallet.')
 
     with transaction.atomic():
         previous_estado = pallet.estado

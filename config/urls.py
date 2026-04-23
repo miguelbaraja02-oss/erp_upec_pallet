@@ -17,6 +17,7 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('recepcion/', include(('recepcion.urls', 'recepcion'), namespace='recepcion')),
     path('documentos/', include(('documentos.urls', 'documentos'), namespace='documentos')),
+    path('ia/', include(('ia.urls', 'ia'), namespace='ia')),
 ]
 
 if settings.DEBUG:

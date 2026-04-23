@@ -1,6 +1,6 @@
-
 from django import forms
-from store.models import Almacen, Rack, Nivel, Seccion
+
+from store.models import Almacen, Nivel, Rack, Seccion
 
 
 class AlmacenForm(forms.ModelForm):
@@ -20,12 +20,22 @@ class RackForm(forms.ModelForm):
             self.fields['almacen'].widget = forms.HiddenInput()
 
     def validate_unique(self):
-        # Sobrescribe para omitir la validación única de 'codigo' (solo AJAX)
+        # AJAX gives instant feedback; clean_codigo keeps server-side safety.
         pass
 
     def clean_codigo(self):
-        # Validación deshabilitada para permitir que el JS maneje el error de código duplicado
-        return self.cleaned_data.get('codigo')
+        codigo = self.cleaned_data.get('codigo')
+        if not codigo:
+            return codigo
+
+        queryset = Rack.objects.filter(codigo=codigo)
+        if self.instance and self.instance.pk:
+            queryset = queryset.exclude(pk=self.instance.pk)
+
+        if queryset.exists():
+            raise forms.ValidationError('Ya existe un rack con este codigo.')
+
+        return codigo
 
 
 class NivelForm(forms.ModelForm):
@@ -38,11 +48,10 @@ class NivelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Se asigna en backend para evitar fallas al clonar formularios dinámicos.
+        # The backend assigns this value so dynamic cloned forms do not fail.
         self.fields['posicion'].required = False
 
     def clean_codigo(self):
-        # Validación deshabilitada para permitir que el JS maneje el error de código duplicado
         return self.cleaned_data.get('codigo')
 
 
@@ -61,5 +70,4 @@ class SeccionForm(forms.ModelForm):
         self.fields['capacidad'].initial = 0
 
     def clean_codigo(self):
-        # Validación deshabilitada para permitir que el JS maneje el error de código duplicado
         return self.cleaned_data.get('codigo')

@@ -6,6 +6,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_GET, require_POST
 
+from ia.exceptions import IAError
+from ia.services.reception import suggest_pallet_location
 from store.models import Pallet, Seccion
 from store.services.pallets import (
     assign_pallet_to_section,
@@ -33,6 +35,7 @@ def recepcion_pallets(request):
             'locations_data': json.dumps(build_locations_payload(company)),
             'scan_url': reverse('recepcion:api_scan_pallet'),
             'assign_url': reverse('recepcion:api_assign_pallet'),
+            'suggest_url': reverse('recepcion:api_suggest_location'),
             'document_detail_base_url': reverse('documentos:list'),
         },
     )
@@ -70,6 +73,61 @@ def api_locations(request):
         return JsonResponse({'ok': False, 'message': 'No hay empresa activa.'}, status=400)
 
     return JsonResponse({'ok': True, 'locations': build_locations_payload(company)})
+
+
+@login_required
+@require_POST
+def api_suggest_location(request):
+    company = get_active_company_from_request(request)
+    if not company:
+        return JsonResponse({'ok': False, 'message': 'No hay empresa activa.'}, status=400)
+
+    try:
+        payload = json.loads(request.body or '{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'ok': False, 'message': 'Formato JSON invalido.'}, status=400)
+
+    code = str(payload.get('pallet_code', '')).strip()
+    warehouse_id = payload.get('warehouse_id')
+    if not code:
+        return JsonResponse({'ok': False, 'message': 'Primero escanea un pallet.'}, status=400)
+    if not warehouse_id:
+        return JsonResponse({'ok': False, 'message': 'Selecciona un almacen antes de analizar con IA.'}, status=400)
+
+    pallet = Pallet.objects.filter(company=company, codigo=code).first()
+    if not pallet:
+        return JsonResponse({'ok': False, 'message': 'Pallet no encontrado.'}, status=404)
+
+    documento = ensure_documento(pallet)
+    locations = [
+        warehouse
+        for warehouse in build_locations_payload(company)
+        if int(warehouse.get('id')) == int(warehouse_id)
+    ]
+    if not locations:
+        return JsonResponse({'ok': False, 'message': 'El almacen seleccionado no es valido.'}, status=404)
+
+    try:
+        suggestion = suggest_pallet_location(
+            pallet=pallet,
+            documento=documento,
+            locations=locations,
+            user=request.user,
+            company=company,
+        )
+    except IAError as exc:
+        return JsonResponse(
+            {
+                'ok': False,
+                'message': 'No fue posible analizar el pallet con IA.',
+                'detail': str(exc),
+            },
+            status=503,
+        )
+    except ValueError as exc:
+        return JsonResponse({'ok': False, 'message': str(exc)}, status=400)
+
+    return JsonResponse({'ok': True, 'suggestion': suggestion})
 
 
 @login_required

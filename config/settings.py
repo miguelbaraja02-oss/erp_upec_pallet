@@ -17,16 +17,46 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def _load_local_env():
+    env_path = BASE_DIR / ".env"
+    if not env_path.exists():
+        return
+
+    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def _env_bool(name, default=False):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_list(name, default=None):
+    value = os.environ.get(name)
+    if value is None:
+        return default or []
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+_load_local_env()
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r+jp030orp(e&&@k$^#fs#nvsp&uoi(m2jyjr*@p2+ghsfpbk_'
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-local-dev-only-change-me")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = _env_bool("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = _env_list("ALLOWED_HOSTS", ["localhost", "127.0.0.1"])
 
 
 # Application definition
@@ -49,6 +79,7 @@ INSTALLED_APPS = [
     'store',
     'recepcion',
     'documentos',
+    'ia',
     
     
     
@@ -103,6 +134,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CHANNEL_LAYERS = {
     "default": {
@@ -203,7 +236,19 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 ## LOGING GOOGLE #####
 
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
+
+
+## IA LOCAL / PROVIDERS #####
+
+IA_PROVIDER = os.environ.get("IA_PROVIDER", "jan")
+IA_LOCAL_ONLY = _env_bool("IA_LOCAL_ONLY", True)
+IA_JAN_BASE_URL = os.environ.get("IA_JAN_BASE_URL", "http://127.0.0.1:1337/v1")
+IA_JAN_MODEL = os.environ.get("IA_JAN_MODEL", "Qwen_Qwen3_5-9B-IQ4_XSla")
+IA_JAN_API_KEY = os.environ.get("IA_JAN_API_KEY", "")
+IA_REQUEST_TIMEOUT = float(os.environ.get("IA_REQUEST_TIMEOUT", "60"))
+IA_MAX_TOKENS = int(os.environ.get("IA_MAX_TOKENS", "450"))
+IA_ENABLE_THINKING = _env_bool("IA_ENABLE_THINKING", False)

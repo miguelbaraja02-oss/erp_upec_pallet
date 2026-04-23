@@ -1,0 +1,30 @@
+{% load static %}
+
+<section class="ia-chatbot" id="iaChatbot" data-chat-url="{% url 'ia:chat' %}" data-stream-url="{% url 'ia:chat_stream' %}">
+    <button type="button" class="ia-chatbot-toggle" id="iaChatbotToggle" aria-label="Abrir Pallet" aria-expanded="false" aria-controls="iaChatbotPanel">
+        <span class="ia-chatbot-logo" aria-hidden="true"></span>
+    </button>
+
+    <div class="ia-chatbot-panel" id="iaChatbotPanel" aria-hidden="true">
+        <div class="ia-chatbot-header">
+            <div>
+                <span class="ia-chatbot-title">Pallet</span>
+            </div>
+            <button type="button" class="ia-chatbot-close" id="iaChatbotClose" aria-label="Cerrar Pallet">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="ia-chatbot-messages" id="iaChatbotMessages" aria-live="polite">
+            <div class="ia-message ia-message-assistant">&#128075; Hola, soy Pallet. Soy tu asistente virtual.</div>
+        </div>
+
+        <form class="ia-chatbot-form" id="iaChatbotForm">
+            {% csrf_token %}
+            <textarea id="iaChatbotInput" class="ia-chatbot-input" rows="1" placeholder="Escribe tu consulta..." aria-label="Mensaje para Pallet"></textarea>
+            <button type="submit" class="ia-chatbot-send" aria-label="Enviar mensaje">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</section>

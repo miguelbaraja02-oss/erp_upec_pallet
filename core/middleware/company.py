@@ -10,6 +10,7 @@ EXCLUDED_PATHS = [
     "/static/",
     "/media/",
     "/admin/",
+    "/ia/",
     # Rutas de companies que NO necesitan empresa activa
     "/companies/create/",
     "/companies/invitations/",

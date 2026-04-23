@@ -18,11 +18,14 @@
     const capacityInfo = document.getElementById('capacityInfo');
     const assignForm = document.getElementById('assignForm');
     const assignButton = document.getElementById('assignButton');
+    const analyzeWithAiBtn = document.getElementById('analyzeWithAi');
+    const aiSuggestion = document.getElementById('aiSuggestion');
 
     const documentSummary = document.getElementById('documentSummary');
     const documentLink = document.getElementById('documentLink');
     const scanUrl = pageEl ? pageEl.dataset.scanUrl : '';
     const assignUrl = pageEl ? pageEl.dataset.assignUrl : '';
+    const suggestUrl = pageEl ? pageEl.dataset.suggestUrl : '';
     const documentBaseUrl = pageEl ? pageEl.dataset.documentBaseUrl : '/documentos/';
 
     const locationsScript = document.getElementById('locations-data');
@@ -67,6 +70,13 @@
             dd.textContent = entries[idx] || '-';
         });
         selectedPalletCode.value = pallet.codigo || '';
+        updateAiButtonState();
+        if (aiSuggestion) {
+            aiSuggestion.textContent = warehouseSelect.value
+                ? 'Pallet listo. Puedes analizar la mejor ubicacion dentro del almacen seleccionado.'
+                : 'Selecciona un almacen para habilitar el analisis con IA.';
+            aiSuggestion.classList.remove('error', 'success');
+        }
     }
 
     function updateDocumentCard(documento, pallet) {
@@ -201,7 +211,7 @@
             return;
         }
         (level.secciones || []).forEach((section) => {
-            const occupancyText = section.capacidad > 0 ? `${section.ocupacion}/${section.capacidad}` : `${section.ocupacion}/inf`;
+            const occupancyText = section.disponible ? 'Libre' : 'Ocupada';
             const el = option(`${section.codigo} (${occupancyText})`, String(section.id));
             el.disabled = !section.disponible;
             sectionSelect.appendChild(el);
@@ -215,12 +225,78 @@
             capacityInfo.textContent = 'Capacidad: -';
             return;
         }
-        const cap = section.capacidad > 0 ? section.capacidad : 'Ilimitada';
-        capacityInfo.textContent = `Capacidad: ${section.ocupacion}/${cap}`;
+        capacityInfo.textContent = section.disponible ? 'Estado: seccion libre' : 'Estado: seccion ocupada';
     }
 
     function updateAssignButtonState() {
         assignButton.disabled = !(selectedPalletCode.value && sectionSelect.value);
+    }
+
+    function updateAiButtonState() {
+        if (!analyzeWithAiBtn) return;
+        analyzeWithAiBtn.disabled = !(selectedPalletCode.value && warehouseSelect.value);
+    }
+
+    function getCsrfToken() {
+        const csrfInput = assignForm.querySelector('input[name="csrfmiddlewaretoken"]');
+        return csrfInput ? csrfInput.value : '';
+    }
+
+    function selectAiSuggestion(suggestion) {
+        warehouseSelect.value = String(suggestion.warehouse_id || '');
+        populateRacks(Number(warehouseSelect.value));
+
+        rackSelect.value = String(suggestion.rack_id || '');
+        populateLevels(Number(rackSelect.value));
+
+        levelSelect.value = String(suggestion.level_id || '');
+        populateSections(Number(levelSelect.value));
+
+        sectionSelect.value = String(suggestion.section_id || '');
+        updateCapacityInfo(Number(sectionSelect.value));
+        updateAssignButtonState();
+    }
+
+    async function analyzeWithAi() {
+        if (!selectedPalletCode.value) {
+            setStatus('Primero escanea un pallet.', true);
+            return;
+        }
+        if (!warehouseSelect.value) {
+            setStatus('Selecciona un almacen antes de analizar con IA.', true);
+            return;
+        }
+
+        analyzeWithAiBtn.disabled = true;
+        aiSuggestion.textContent = 'Analizando pallet con IA...';
+        aiSuggestion.classList.remove('error', 'success');
+
+        const response = await fetch(suggestUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken(),
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify({
+                pallet_code: selectedPalletCode.value,
+                warehouse_id: Number(warehouseSelect.value),
+            }),
+        });
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.message || 'No fue posible analizar con IA.');
+
+        const suggestion = data.suggestion;
+        selectAiSuggestion(suggestion);
+        aiSuggestion.classList.add('success');
+        aiSuggestion.textContent = [
+            `Sugerencia: ${suggestion.location_label}.`,
+            suggestion.rack_description ? `Descripcion del rack: ${suggestion.rack_description}.` : '',
+            suggestion.level_description ? `Descripcion del nivel: ${suggestion.level_description}.` : '',
+            `Capacidad: ${suggestion.capacity_label}.`,
+            suggestion.reason ? `Motivo: ${suggestion.reason}` : '',
+        ].filter(Boolean).join(' ');
+        setStatus('La IA sugirio una ubicacion. Revisa y confirma la asignacion.', false);
     }
 
     async function fetchScan(code) {
@@ -238,12 +314,11 @@
     }
 
     async function assignPallet() {
-        const csrfInput = assignForm.querySelector('input[name="csrfmiddlewaretoken"]');
         const response = await fetch(assignUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': csrfInput ? csrfInput.value : '',
+                'X-CSRFToken': getCsrfToken(),
                 'X-Requested-With': 'XMLHttpRequest',
             },
             body: JSON.stringify({
@@ -265,6 +340,11 @@
         setStatus(data.message || 'Asignacion completada.', false);
 
         warehouseSelect.value = '';
+        updateAiButtonState();
+        if (aiSuggestion) {
+            aiSuggestion.textContent = 'Escanea un pallet para recibir una sugerencia inteligente.';
+            aiSuggestion.classList.remove('error', 'success');
+        }
         resetRackAndBelow();
     }
 
@@ -351,6 +431,13 @@
 
     warehouseSelect.addEventListener('change', function () {
         populateRacks(Number(warehouseSelect.value));
+        updateAiButtonState();
+        if (selectedPalletCode.value && aiSuggestion) {
+            aiSuggestion.textContent = warehouseSelect.value
+                ? 'Almacen seleccionado. Puedes analizar la mejor ubicacion con IA.'
+                : 'Selecciona un almacen para habilitar el analisis con IA.';
+            aiSuggestion.classList.remove('error', 'success');
+        }
         updateAssignButtonState();
     });
 
@@ -382,7 +469,20 @@
         assignPallet().catch((err) => setStatus(err.message, true));
     });
 
+    if (analyzeWithAiBtn) {
+        analyzeWithAiBtn.addEventListener('click', function () {
+            analyzeWithAi().catch((err) => {
+                aiSuggestion.textContent = err.message;
+                aiSuggestion.classList.add('error');
+                setStatus(err.message, true);
+            }).finally(() => {
+                updateAiButtonState();
+            });
+        });
+    }
+
     rebuildIndex();
     populateWarehouses();
     resetRackAndBelow();
+    updateAiButtonState();
 })();

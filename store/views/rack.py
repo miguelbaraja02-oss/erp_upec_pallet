@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # --- VALIDACIÓN AJAX DE CÓDIGOS ---
 from store.models import Rack, Nivel, Seccion
 
+@login_required
 def validate_code(request):
     code_type = request.GET.get('type')
     code = request.GET.get('code', '').strip()
@@ -20,6 +22,7 @@ from django.views.decorators.cache import never_cache
 
 from store.forms import NivelForm, RackForm, SeccionForm
 from store.models import Almacen, Nivel, Rack, Seccion
+from store.services.pallets import get_active_company_from_request
 
 
 def _build_niveles_y_secciones(SeccionFormSet, nivel_formset, post_data=None):
@@ -74,14 +77,19 @@ def _save_niveles_y_secciones(rack, nivel_formset, niveles_y_secciones):
             seccion.save()
 
 @never_cache
+@login_required
 def crear_rack(request):
+    active_company = get_active_company_from_request(request)
+    if not active_company:
+        return redirect("core:welcome")
+
     NivelFormSet = inlineformset_factory(Rack, Nivel, form=NivelForm, extra=1, can_delete=True)
     SeccionFormSet = inlineformset_factory(Nivel, Seccion, form=SeccionForm, extra=1, can_delete=True)
 
     almacen_id = request.GET.get('almacen') or request.POST.get('almacen')
     almacen = None
     if almacen_id:
-        almacen = Almacen.objects.filter(pk=almacen_id).first()
+        almacen = Almacen.objects.filter(pk=almacen_id, company=active_company, is_active=True).first()
 
     if request.method == 'POST':
         rack_form = RackForm(request.POST)
@@ -128,8 +136,13 @@ def crear_rack(request):
 
 # Vista para editar un rack existente, sus niveles y secciones
 @never_cache
+@login_required
 def editar_rack(request, rack_id):
-    rack = get_object_or_404(Rack, pk=rack_id)
+    active_company = get_active_company_from_request(request)
+    if not active_company:
+        return redirect("core:welcome")
+
+    rack = get_object_or_404(Rack, pk=rack_id, almacen__company=active_company)
     NivelFormSet = inlineformset_factory(Rack, Nivel, form=NivelForm, extra=1, can_delete=True)
     SeccionFormSet = inlineformset_factory(Nivel, Seccion, form=SeccionForm, extra=1, can_delete=True)
 
@@ -164,7 +177,12 @@ def editar_rack(request, rack_id):
     })
 
 @never_cache
+@login_required
 def overview_rack(request, warehouse_id):
-    almacen = get_object_or_404(Almacen, pk=warehouse_id)
+    active_company = get_active_company_from_request(request)
+    if not active_company:
+        return redirect("core:welcome")
+
+    almacen = get_object_or_404(Almacen, pk=warehouse_id, company=active_company)
     racks = Rack.objects.filter(almacen=almacen)
     return render(request, 'rack/overview_rack.html', {'racks': racks, 'almacen': almacen, 'active_module': 'warehouses'})

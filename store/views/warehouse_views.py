@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
 from store.forms import AlmacenForm
 from store.models import Almacen
-from store.services.pallets import get_active_company_from_request
+from store.services.pallets import build_warehouse_visualization_payload, get_active_company_from_request
 
 
 @login_required
@@ -32,3 +32,22 @@ def vista_almacenes(request):
         "mostrar_formulario": mostrar_formulario,
         "active_module": "warehouses",
     })
+
+
+@login_required
+def visualizar_almacen_3d(request, warehouse_id):
+    active_company = get_active_company_from_request(request)
+    if not active_company:
+        return redirect("core:welcome")
+
+    almacen = get_object_or_404(Almacen, id=warehouse_id, company=active_company, is_active=True)
+
+    return render(
+        request,
+        "warehouse/visualizar_3d.html",
+        {
+            "almacen": almacen,
+            "visualization_data": build_warehouse_visualization_payload(almacen),
+            "active_module": "warehouses",
+        },
+    )

@@ -232,6 +232,68 @@ def build_locations_payload(company: Company) -> list[dict]:
     return payload
 
 
+def build_warehouse_visualization_payload(warehouse: Almacen) -> dict:
+    racks = (
+        Rack.objects.filter(almacen=warehouse)
+        .prefetch_related('niveles__secciones')
+        .order_by('nombre')
+    )
+    pallets = (
+        Pallet.objects.filter(
+            company=warehouse.company,
+            almacen=warehouse,
+            estado=Pallet.ESTADO_ALMACENADO,
+        )
+        .select_related('rack', 'nivel', 'seccion')
+    )
+    pallets_by_section = {pallet.seccion_id: pallet for pallet in pallets if pallet.seccion_id}
+
+    racks_payload = []
+    for rack in racks:
+        niveles_payload = []
+        for nivel in rack.niveles.all().order_by('posicion'):
+            secciones_payload = []
+            for seccion in nivel.secciones.all().order_by('codigo'):
+                pallet = pallets_by_section.get(seccion.id)
+                secciones_payload.append(
+                    {
+                        'id': seccion.id,
+                        'codigo': seccion.codigo,
+                        'capacidad': seccion.capacidad or 1,
+                        'ocupado': pallet is not None,
+                        'pallet_codigo': pallet.codigo if pallet else '',
+                    }
+                )
+
+            niveles_payload.append(
+                {
+                    'id': nivel.id,
+                    'codigo': nivel.codigo,
+                    'posicion': nivel.posicion,
+                    'secciones': secciones_payload,
+                }
+            )
+
+        racks_payload.append(
+            {
+                'id': rack.id,
+                'nombre': rack.nombre,
+                'codigo': rack.codigo,
+                'descripcion': rack.descripcion or '',
+                'niveles': niveles_payload,
+            }
+        )
+
+    return {
+        'warehouse': {
+            'id': warehouse.id,
+            'nombre': warehouse.nombre,
+            'codigo': warehouse.codigo,
+        },
+        'racks': racks_payload,
+    }
+
+
 def assign_pallet_to_section(*, pallet: Pallet, seccion: Seccion, user=None) -> Pallet:
     ocupacion = Pallet.objects.filter(
         company=pallet.company,

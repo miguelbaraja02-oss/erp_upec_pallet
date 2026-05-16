@@ -72,9 +72,7 @@
         selectedPalletCode.value = pallet.codigo || '';
         updateAiButtonState();
         if (aiSuggestion) {
-            aiSuggestion.textContent = warehouseSelect.value
-                ? 'Pallet listo. Puedes analizar la mejor ubicacion dentro del almacen seleccionado.'
-                : 'Selecciona un almacen para habilitar el analisis con IA.';
+            aiSuggestion.textContent = 'Pallet listo. Presiona Analizar con IA para sugerir una ubicacion.';
             aiSuggestion.classList.remove('error', 'success');
         }
     }
@@ -232,9 +230,16 @@
         assignButton.disabled = !(selectedPalletCode.value && sectionSelect.value);
     }
 
+    function getCurrentPalletCode() {
+        return (selectedPalletCode.value || manualCodeInput.value || '').trim();
+    }
+
     function updateAiButtonState() {
         if (!analyzeWithAiBtn) return;
-        analyzeWithAiBtn.disabled = !(selectedPalletCode.value && warehouseSelect.value);
+        analyzeWithAiBtn.disabled = !getCurrentPalletCode();
+        analyzeWithAiBtn.title = analyzeWithAiBtn.disabled
+            ? 'Escanea o consulta un pallet.'
+            : 'Analizar la mejor ubicacion con IA.';
     }
 
     function getCsrfToken() {
@@ -258,18 +263,19 @@
     }
 
     async function analyzeWithAi() {
-        if (!selectedPalletCode.value) {
+        const palletCode = getCurrentPalletCode();
+        if (!palletCode) {
             setStatus('Primero escanea un pallet.', true);
-            return;
-        }
-        if (!warehouseSelect.value) {
-            setStatus('Selecciona un almacen antes de analizar con IA.', true);
             return;
         }
 
         analyzeWithAiBtn.disabled = true;
         aiSuggestion.textContent = 'Analizando pallet con IA...';
         aiSuggestion.classList.remove('error', 'success');
+
+        if (!selectedPalletCode.value.trim()) {
+            await fetchScan(palletCode);
+        }
 
         const response = await fetch(suggestUrl, {
             method: 'POST',
@@ -279,8 +285,7 @@
                 'X-Requested-With': 'XMLHttpRequest',
             },
             body: JSON.stringify({
-                pallet_code: selectedPalletCode.value,
-                warehouse_id: Number(warehouseSelect.value),
+                pallet_code: palletCode,
             }),
         });
         const data = await response.json();
@@ -301,6 +306,8 @@
 
     async function fetchScan(code) {
         setStatus('Consultando pallet...', false);
+        selectedPalletCode.value = '';
+        updateAiButtonState();
         const response = await fetch(`${scanUrl}?code=${encodeURIComponent(code)}`, {
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
         });
@@ -429,13 +436,22 @@
         }
     });
 
+    manualCodeInput.addEventListener('input', function () {
+        selectedPalletCode.value = '';
+        updateAiButtonState();
+        if (aiSuggestion) {
+            aiSuggestion.textContent = manualCodeInput.value.trim()
+                ? 'Presiona Analizar con IA para consultar el pallet y sugerir una ubicacion.'
+                : 'Escanea o consulta un pallet para recibir una sugerencia inteligente.';
+            aiSuggestion.classList.remove('error', 'success');
+        }
+    });
+
     warehouseSelect.addEventListener('change', function () {
         populateRacks(Number(warehouseSelect.value));
         updateAiButtonState();
         if (selectedPalletCode.value && aiSuggestion) {
-            aiSuggestion.textContent = warehouseSelect.value
-                ? 'Almacen seleccionado. Puedes analizar la mejor ubicacion con IA.'
-                : 'Selecciona un almacen para habilitar el analisis con IA.';
+            aiSuggestion.textContent = 'Puedes elegir una ubicacion manualmente o presionar Analizar con IA.';
             aiSuggestion.classList.remove('error', 'success');
         }
         updateAssignButtonState();
@@ -485,4 +501,5 @@
     populateWarehouses();
     resetRackAndBelow();
     updateAiButtonState();
+    window.addEventListener('pageshow', updateAiButtonState);
 })();

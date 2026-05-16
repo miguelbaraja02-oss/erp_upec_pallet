@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
@@ -16,6 +17,7 @@ class IASettings:
     jan_base_url: str
     jan_model: str
     jan_api_key: str
+    jan_extra_body: str
     request_timeout: float
     max_tokens: int
     enable_thinking: bool
@@ -28,6 +30,7 @@ def get_ia_settings() -> IASettings:
         jan_base_url=getattr(settings, "IA_JAN_BASE_URL", ""),
         jan_model=getattr(settings, "IA_JAN_MODEL", ""),
         jan_api_key=getattr(settings, "IA_JAN_API_KEY", ""),
+        jan_extra_body=getattr(settings, "IA_JAN_EXTRA_BODY", "{}"),
         request_timeout=getattr(settings, "IA_REQUEST_TIMEOUT", 60),
         max_tokens=getattr(settings, "IA_MAX_TOKENS", 450),
         enable_thinking=getattr(settings, "IA_ENABLE_THINKING", False),
@@ -58,3 +61,11 @@ def validate_ia_settings(config: IASettings) -> None:
 
     if config.max_tokens <= 0:
         raise IAConfigurationError("IA_MAX_TOKENS debe ser mayor que cero.")
+
+    try:
+        extra_body = json.loads(config.jan_extra_body or "{}")
+    except json.JSONDecodeError as exc:
+        raise IAConfigurationError("IA_JAN_EXTRA_BODY debe ser JSON valido.") from exc
+
+    if not isinstance(extra_body, dict):
+        raise IAConfigurationError("IA_JAN_EXTRA_BODY debe ser un objeto JSON.")

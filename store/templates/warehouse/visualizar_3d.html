@@ -1,0 +1,72 @@
+{% extends "erp/layout.html" %}
+{% load static %}
+
+{% block title %}Visualizacion 3D - {{ almacen.nombre }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'warehouse/visualizar_3d.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="warehouse-3d-page">
+    <header class="warehouse-3d-header">
+        <div>
+            <p class="warehouse-3d-eyebrow">Almacen {{ almacen.codigo }}</p>
+            <h1>{{ almacen.nombre }}</h1>
+        </div>
+        <div class="warehouse-3d-actions">
+            <a href="{% url 'warehouses_list' %}" class="btn-3d-secondary">Volver</a>
+            <a href="{% url 'overview_rack' warehouse_id=almacen.id %}" class="btn-3d-primary">Ver racks</a>
+        </div>
+    </header>
+
+    <section class="warehouse-3d-toolbar" aria-label="Resumen de visualizacion">
+        <div>
+            <span class="metric-label">Racks</span>
+            <strong id="rackCount">0</strong>
+        </div>
+        <div>
+            <span class="metric-label">Secciones</span>
+            <strong id="sectionCount">0</strong>
+        </div>
+        <div>
+            <span class="metric-label">Pallets</span>
+            <strong id="palletCount">0</strong>
+        </div>
+        <div class="legend">
+            <span><i class="legend-rack"></i>Rack</span>
+            <span><i class="legend-pallet"></i>Producto</span>
+            <span><i class="legend-base"></i>Pallet vacio</span>
+        </div>
+    </section>
+
+    <section class="warehouse-3d-stage">
+        <div
+            id="warehouse3dCanvas"
+            class="warehouse-3d-canvas"
+            role="img"
+            aria-label="Vista 3D del almacen"
+            data-ws-url="/ws/store/warehouses/{{ almacen.id }}/3d/"
+        ></div>
+        <aside id="warehouse3dInfo" class="warehouse-3d-info">
+            <h2>Vista general</h2>
+            <p>Arrastra para rotar, usa la rueda para acercar o alejar.</p>
+            <dl>
+                <div><dt>Seleccion</dt><dd id="selectedItem">Ninguna</dd></div>
+                <div><dt>Ubicacion</dt><dd id="selectedLocation">-</dd></div>
+                <div><dt>Pallet</dt><dd id="selectedPallet">-</dd></div>
+            </dl>
+        </aside>
+    </section>
+
+    <div id="warehouse3dEmpty" class="warehouse-3d-empty" hidden>
+        Este almacen todavia no tiene racks configurados.
+    </div>
+</div>
+
+{{ visualization_data|json_script:"warehouse-3d-data" }}
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{% static 'warehouse/visualizar_3d.js' %}"></script>
+{% endblock %}

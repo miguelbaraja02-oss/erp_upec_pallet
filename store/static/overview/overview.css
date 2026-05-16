@@ -21,12 +21,23 @@ html, body {
      box-shadow: 0 2px 8px rgba(0,0,0,0.20);
 }
 
+.btn-outline-info.btn-visualizar-3d {
+    background: #006633 !important;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.20);
+}
+
 .btn-outline-info.btn-editar-almacen:hover {
     background: #222 !important; /* Un gris oscuro, más claro que el negro */
     color: #fff !important;
     filter: brightness(1.15); /* Un poco más brillante */
     transition: background 0.2s, filter 0.2s;
 }
+
+.btn-outline-info.btn-visualizar-3d:hover {
+    background: #004d26 !important;
+    color: #fff !important;
 }
 /* ==============================
    CONTENEDOR

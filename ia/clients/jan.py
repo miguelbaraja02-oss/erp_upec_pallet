@@ -19,19 +19,11 @@ class JanClient(BaseIAClient):
         self.session = requests.Session()
 
     def chat(self, messages, **options):
-        payload = {
-            "model": options.pop("model", self.model),
-            "messages": messages,
-            "max_tokens": options.pop("max_tokens", self.config.max_tokens),
-            "chat_template_kwargs": {
-                "enable_thinking": options.pop("enable_thinking", self.config.enable_thinking),
-            },
-            **options,
-        }
+        payload = self._build_chat_payload(messages, stream=False, **options)
         data = self._post("/chat/completions", payload)
 
         try:
-            return data["choices"][0]["message"]["content"]
+            return self._message_content(data["choices"][0]["message"])
         except (KeyError, IndexError, TypeError) as exc:
             raise IAProviderError("Jan devolvio una respuesta inesperada.") from exc
 
@@ -40,16 +32,7 @@ class JanClient(BaseIAClient):
         return self.chat(messages, **options)
 
     def stream_chat(self, messages, **options):
-        payload = {
-            "model": options.pop("model", self.model),
-            "messages": messages,
-            "max_tokens": options.pop("max_tokens", self.config.max_tokens),
-            "stream": True,
-            "chat_template_kwargs": {
-                "enable_thinking": options.pop("enable_thinking", self.config.enable_thinking),
-            },
-            **options,
-        }
+        payload = self._build_chat_payload(messages, stream=True, **options)
 
         try:
             with self.session.post(
@@ -91,6 +74,26 @@ class JanClient(BaseIAClient):
 
         return True
 
+    def _build_chat_payload(self, messages, stream=False, **options):
+        payload = {
+            "model": options.pop("model", self.model),
+            "messages": messages,
+            "max_tokens": options.pop("max_tokens", self.config.max_tokens),
+        }
+
+        if stream:
+            payload["stream"] = True
+
+        payload.update(self._extra_body())
+
+        enable_thinking = options.pop("enable_thinking", self.config.enable_thinking)
+        if enable_thinking:
+            template_kwargs = payload.setdefault("chat_template_kwargs", {})
+            template_kwargs["enable_thinking"] = True
+
+        payload.update(options)
+        return payload
+
     def _post(self, path, payload):
         try:
             response = self.session.post(
@@ -129,8 +132,37 @@ class JanClient(BaseIAClient):
         except ValueError:
             return response.text[:300]
 
-        message = data.get("message") or data.get("error") or data
+        error = data.get("error")
+        if isinstance(error, dict):
+            message = error.get("message") or error
+        else:
+            message = data.get("message") or error or data
         return str(message)[:300]
+
+    def _extra_body(self):
+        try:
+            extra_body = json.loads(self.config.jan_extra_body or "{}")
+        except ValueError as exc:
+            raise IAProviderError("IA_JAN_EXTRA_BODY debe ser JSON valido.") from exc
+
+        if not isinstance(extra_body, dict):
+            raise IAProviderError("IA_JAN_EXTRA_BODY debe ser un objeto JSON.")
+
+        return extra_body.copy()
+
+    def _message_content(self, message):
+        content = message.get("content", "")
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts = []
+            for item in content:
+                if isinstance(item, dict) and item.get("type") == "text":
+                    parts.append(str(item.get("text", "")))
+                elif isinstance(item, str):
+                    parts.append(item)
+            return "".join(parts)
+        return str(content)
 
     def _loads_stream_chunk(self, raw_data):
         try:

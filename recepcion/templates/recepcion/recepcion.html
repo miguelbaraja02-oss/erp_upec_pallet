@@ -71,7 +71,7 @@
                 <p id="capacityInfo" class="capacity-info">Capacidad: -</p>
                 <div class="ai-assist-panel">
                     <button id="analyzeWithAi" type="button" class="btn-ai" disabled>Analizar con IA</button>
-                    <p id="aiSuggestion" class="ai-suggestion">Escanea un pallet y selecciona un almacen para recibir una sugerencia inteligente.</p>
+                    <p id="aiSuggestion" class="ai-suggestion">Escanea o consulta un pallet para recibir una sugerencia inteligente.</p>
                 </div>
                 <button id="assignButton" type="submit" class="btn-primary" disabled>Asignar pallet</button>
             </form>
@@ -92,5 +92,5 @@
 
 {% block extra_js %}
 <script src="https://unpkg.com/html5-qrcode" defer></script>
-<script src="{% static 'recepcion/reception.js' %}" defer></script>
+<script src="{% static 'recepcion/reception.js' %}?v=2" defer></script>
 {% endblock %}

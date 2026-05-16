@@ -3,10 +3,11 @@ from .views.create_warehouse import crear_almacen
 from .views.disable_warehouse import deshabilitar_almacen
 from .views.edit_warehouse import editar_almacen
 from .views.rack import crear_rack, editar_rack, overview_rack, validate_code
-from .views.warehouse_views import vista_almacenes
+from .views.warehouse_views import vista_almacenes, visualizar_almacen_3d
 
 urlpatterns = [
     path('warehouses/', vista_almacenes, name='warehouses_list'),
+    path('warehouses/<int:warehouse_id>/visualizar-3d/', visualizar_almacen_3d, name='warehouse_3d'),
     path('warehouses/edit/<int:warehouse_id>/', editar_almacen, name='edit_warehouse'),
     path('warehouses/disable/<int:warehouse_id>/', deshabilitar_almacen, name='disable_warehouse'),
     path('warehouses/create/', crear_almacen, name='create_warehouse'),

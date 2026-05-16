@@ -33,6 +33,7 @@
         <div class="almacen-actions">
           <button class="btn btn-outline-info btn-ver-almacen" onclick="window.location.href='{% url 'overview_rack' warehouse_id=almacen.id %}'">Ver almacén</button>
           <button class="btn btn-outline-info btn-editar-almacen" onclick="window.location.href='{% url 'edit_warehouse' warehouse_id=almacen.id %}'">Editar</button>
+          <button class="btn btn-outline-info btn-visualizar-3d" onclick="window.location.href='{% url 'warehouse_3d' warehouse_id=almacen.id %}'">Visualizar 3D</button>
         </div>
 
       </li>

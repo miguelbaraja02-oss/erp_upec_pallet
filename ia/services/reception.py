@@ -13,7 +13,7 @@ SYSTEM_PROMPT = (
     "Primero evalua si las ubicaciones tematicamente compatibles tienen disponibilidad real. "
     "Si una tematica compatible esta ocupada, dilo en el motivo y elige una alternativa disponible. "
     "Nunca elijas una seccion no disponible. "
-    "Responde solo JSON valido, sin markdown."
+    "Responde solamente un objeto JSON valido. No uses markdown, explicaciones, texto antes ni texto despues."
 )
 
 
@@ -56,17 +56,20 @@ def suggest_pallet_location(*, pallet, documento, locations, user=None, company=
     ]
 
     service = get_ia_service(user=user, company=company)
-    raw_answer = service.chat(messages, temperature=0.15, max_tokens=260)
-    parsed = _parse_json_object(raw_answer)
-    section_id = int(parsed.get("section_id") or 0)
+    raw_answer = service.chat(messages, temperature=0.05, max_tokens=500)
+    parsed = _parse_json_object(raw_answer) if raw_answer.strip() else None
+    section_id = int(parsed.get("section_id") or 0) if parsed else 0
 
     selected = next((item for item in options if item["section_id"] == section_id), None)
     if not selected:
-        selected = _fallback_option(options)
+        selected = _fallback_option(options, pallet=pallet)
         parsed = {
             "section_id": selected["section_id"],
             "confidence": 55,
-            "reason": "La IA no devolvio una seccion valida; se eligio la primera ubicacion con disponibilidad.",
+            "reason": (
+                "Jan no devolvio una seleccion valida en JSON; se eligio la mejor ubicacion disponible "
+                "segun contenido, proveedor y descripciones del almacen."
+            ),
         }
 
     return {
@@ -134,8 +137,43 @@ def _unavailable_theme_summary(sections):
     return unavailable
 
 
-def _fallback_option(options):
-    return options[0]
+def _fallback_option(options, pallet=None):
+    if not pallet:
+        return options[0]
+
+    query = _normalize_tokens(
+        " ".join(
+            [
+                getattr(pallet, "contenido", "") or "",
+                getattr(pallet, "proveedor", "") or "",
+            ]
+        )
+    )
+    if not query:
+        return options[0]
+
+    def score(option):
+        target = _normalize_tokens(
+            " ".join(
+                [
+                    option.get("rack", ""),
+                    option.get("rack_description", ""),
+                    option.get("level_description", ""),
+                    option.get("section", ""),
+                ]
+            )
+        )
+        return len(query.intersection(target))
+
+    return max(options, key=lambda item: (score(item), item.get("capacity", 0), -item.get("occupancy", 0)))
+
+
+def _normalize_tokens(value):
+    return {
+        token
+        for token in re.findall(r"[a-záéíóúñ0-9]+", str(value).lower())
+        if len(token) > 2
+    }
 
 
 def _parse_json_object(raw_answer):
@@ -144,5 +182,8 @@ def _parse_json_object(raw_answer):
     except json.JSONDecodeError:
         match = re.search(r"\{.*\}", raw_answer, flags=re.DOTALL)
         if not match:
-            raise IAProviderError("La IA no devolvio JSON valido.")
-        return json.loads(match.group(0))
+            return None
+        try:
+            return json.loads(match.group(0))
+        except json.JSONDecodeError:
+            return None

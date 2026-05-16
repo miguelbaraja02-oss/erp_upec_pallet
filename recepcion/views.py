@@ -9,6 +9,7 @@ from django.views.decorators.http import require_GET, require_POST
 from ia.exceptions import IAError
 from ia.services.reception import suggest_pallet_location
 from store.models import Pallet, Seccion
+from store.realtime import broadcast_warehouse_3d_update
 from store.services.pallets import (
     assign_pallet_to_section,
     build_locations_payload,
@@ -88,24 +89,17 @@ def api_suggest_location(request):
         return JsonResponse({'ok': False, 'message': 'Formato JSON invalido.'}, status=400)
 
     code = str(payload.get('pallet_code', '')).strip()
-    warehouse_id = payload.get('warehouse_id')
     if not code:
         return JsonResponse({'ok': False, 'message': 'Primero escanea un pallet.'}, status=400)
-    if not warehouse_id:
-        return JsonResponse({'ok': False, 'message': 'Selecciona un almacen antes de analizar con IA.'}, status=400)
 
     pallet = Pallet.objects.filter(company=company, codigo=code).first()
     if not pallet:
         return JsonResponse({'ok': False, 'message': 'Pallet no encontrado.'}, status=404)
 
     documento = ensure_documento(pallet)
-    locations = [
-        warehouse
-        for warehouse in build_locations_payload(company)
-        if int(warehouse.get('id')) == int(warehouse_id)
-    ]
+    locations = build_locations_payload(company)
     if not locations:
-        return JsonResponse({'ok': False, 'message': 'El almacen seleccionado no es valido.'}, status=404)
+        return JsonResponse({'ok': False, 'message': 'No hay almacenes configurados para analizar.'}, status=404)
 
     try:
         suggestion = suggest_pallet_location(
@@ -161,10 +155,16 @@ def api_assign_pallet(request):
     if not seccion:
         return JsonResponse({'ok': False, 'message': 'La ubicacion seleccionada no es valida.'}, status=404)
 
+    previous_warehouse_id = pallet.almacen_id
+
     try:
         assign_pallet_to_section(pallet=pallet, seccion=seccion, user=request.user)
     except ValueError as exc:
         return JsonResponse({'ok': False, 'message': str(exc)}, status=400)
+
+    broadcast_warehouse_3d_update(seccion.nivel.rack.almacen_id)
+    if previous_warehouse_id and previous_warehouse_id != seccion.nivel.rack.almacen_id:
+        broadcast_warehouse_3d_update(previous_warehouse_id)
 
     documento = ensure_documento(pallet)
     return JsonResponse(

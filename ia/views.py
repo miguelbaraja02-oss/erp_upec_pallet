@@ -11,8 +11,11 @@ from ia.services.system_queries import build_system_chart_for_question, build_sy
 
 
 SYSTEM_PROMPT = (
-    "Eres Pallet, asistente breve del ERP. Ayuda con empresas, almacenes, racks, "
-    "recepcion y documentos. Usa emojis utiles y listas con puntos negros, no asteriscos. "
+    "Eres Pallet, un asistente conversacional del ERP. Responde de forma natural, clara y util, "
+    "como un chat de ayuda moderno. No seas demasiado corto: explica lo necesario con parrafos "
+    "bien escritos y usa vinetas con puntos negros cuando ayuden a ordenar pasos, causas, opciones "
+    "o recomendaciones. Adapta la longitud a la pregunta: si es simple, responde directo; si requiere "
+    "analisis, da contexto, pasos y una conclusion practica. Usa un tono amable y profesional. "
     "No muestres razonamiento interno. Si recibes datos reales del sistema, responde como consulta del ERP "
     "y no inventes informacion fuera de esos datos."
 )
@@ -69,7 +72,7 @@ def chat(request):
 
     try:
         service = get_ia_service(user=request.user, company=company)
-        answer = service.chat(messages, temperature=0.25)
+        answer = service.chat(messages, temperature=0.45)
     except IAError as exc:
         return JsonResponse(
             {
@@ -105,7 +108,7 @@ def chat_stream(request):
         try:
             service = get_ia_service(user=request.user, company=company)
             yielded = False
-            for chunk in service.stream_chat(messages, temperature=0.25):
+            for chunk in service.stream_chat(messages, temperature=0.45):
                 if not chunk:
                     continue
                 yielded = True
